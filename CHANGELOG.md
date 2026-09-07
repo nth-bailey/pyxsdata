@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/nth-bailey/pyxsdata/compare/1.0.0...1.0.1) (2026-09-07)
+
+
+### Performance Improvements
+
+* **parsers:** optimize XML deserialization pipeline and document performance gains vs xsdata ([088842d](https://github.com/nth-bailey/pyxsdata/commit/088842deb65da87483c466adbe6dc9b63185932c))
+
 # 1.0.0 (2026-09-07)
 
 
