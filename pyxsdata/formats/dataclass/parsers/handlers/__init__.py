@@ -15,8 +15,17 @@ except ImportError:  # pragma: no cover
         return XmlEventHandler
 
 
+try:
+    from pyxsdata.formats.dataclass.parsers.handlers.pugixml import (
+        PugixmlEventHandler,
+    )
+except ImportError:  # pragma: no cover
+    PugixmlEventHandler = None  # type: ignore[assignment,misc]
+
+
 __all__ = [
     "LxmlEventHandler",
+    "PugixmlEventHandler",
     "XmlEventHandler",
     "default_handler",
 ]

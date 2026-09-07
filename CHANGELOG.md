@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added `PugixmlEventHandler` powered by `pygixml` (Cython streaming wrapper around pugixml + yxml) for ultra-fast, constant-memory XML pull-parsing.
+- Added `pugixml` optional dependency extra (`pip install "pyxsdata[pugixml]"`).
+- Integrated `PugixmlEventHandler` into performance benchmark suite.
+
 ## [0.0.0] - 2026-03-07
 
 ### Added

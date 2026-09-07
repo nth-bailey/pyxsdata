@@ -8,9 +8,9 @@ The pycode serializer will render an object tree into python representation code
 ...
 >>> serializer = PycodeSerializer()
 >>> print(serializer.render(books, var_name="books"))
+from pyxsdata.models.datatype import XmlDate
 from tests.fixtures.books.books import BookForm
 from tests.fixtures.books.books import Books
-from pyxsdata.models.datatype import XmlDate
 <BLANKLINE>
 <BLANKLINE>
 books = Books(
@@ -35,5 +35,6 @@ books = Books(
         ),
     ]
 )
+<BLANKLINE>
 
 ```

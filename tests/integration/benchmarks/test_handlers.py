@@ -5,6 +5,7 @@ import pytest
 from pyxsdata.formats.dataclass.context import XmlContext
 from pyxsdata.formats.dataclass.parsers.handlers import (
     LxmlEventHandler,
+    PugixmlEventHandler,
     XmlEventHandler,
 )
 from pyxsdata.formats.dataclass.serializers.writers import (
@@ -19,6 +20,8 @@ readers_list = [
     LxmlEventHandler,
     XmlEventHandler,
 ]
+if PugixmlEventHandler is not None:
+    readers_list.append(PugixmlEventHandler)
 writers_list = [
     XmlEventWriter,
     LxmlEventWriter,

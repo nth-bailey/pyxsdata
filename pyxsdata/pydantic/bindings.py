@@ -2,6 +2,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from pyxsdata.formats.dataclass import context, parsers, serializers
+from pyxsdata.pydantic import compat as _compat  # noqa: F401
 from pyxsdata.utils.constants import return_input
 
 

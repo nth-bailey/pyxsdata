@@ -134,7 +134,7 @@ all the imported modules to find a matching dataclass.
 ## Alternative handlers
 
 XmlHandlers read the xml source and push build events to create the target class. pyxsdata
-ships with two handlers based on lxml and native python that vary in performance and
+ships with handlers based on pugixml, lxml, and native python that vary in performance and
 features.
 
 !!! Hint
@@ -142,6 +142,24 @@ features.
     If you installed pyxsdata with lxml the default handler is set to
     [LxmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.LxmlEventHandler] otherwise
     [XmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.XmlEventHandler] will be used.
+
+### pugixml (pygixml)
+
+Using [`pugixml`](https://pugixml.org/) via [`pygixml`](https://github.com/vovcacik/pygixml) with
+[`PugixmlEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.PugixmlEventHandler] for ultra-fast,
+constant-memory C++ pull-parsing:
+
+```python
+>>> from pyxsdata.formats.dataclass.parsers.handlers import PugixmlEventHandler
+...
+>>> parser = XmlParser(handler=PugixmlEventHandler)
+>>> order = parser.parse("tests/fixtures/primer/sample.xml")
+>>> order.bill_to.street
+'8 Oak Avenue'
+
+```
+
+### native xml
 
 ```python
 >>> from pyxsdata.formats.dataclass.parsers.handlers import XmlEventHandler
@@ -155,8 +173,9 @@ features.
 
 !!! Hint
 
-    It's recommended to give all of them a try, based on your use case you
-    might get different results.
+    It's recommended to give all of them a try; based on your use case you
+    might get different results. Pugixml excels at raw parsing throughput
+    with minimal memory overhead.
 
     You can also extend one of them if you want to do any optimizations or
     customize the default behaviour.
