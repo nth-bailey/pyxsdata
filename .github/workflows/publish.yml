@@ -53,8 +53,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build distribution packages
+        if: steps.semantic.outputs.new_release_published == 'true' || github.event_name == 'workflow_dispatch'
+        run: uv build
+
       - name: Publish distribution packages to PyPI
-        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true' || github.event_name == 'workflow_dispatch'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           attestations: false
