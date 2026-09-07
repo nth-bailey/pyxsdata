@@ -96,6 +96,13 @@ class XmlValTests(TestCase):
         self.assertIsNone(var.find_value_choice([], False))
         self.assertEqual(var.elements["qname"], var.find_value_choice("foo", False))
         self.assertEqual(var.elements["int"], var.find_value_choice(1, False))
+
+        class CustomInt(int):
+            pass
+
+        self.assertEqual(
+            var.elements["int"], var.find_value_choice(CustomInt(42), False)
+        )
         self.assertEqual(var.elements["a"], var.find_value_choice(TypeA(1), True))
         der = make_dataclass("Der", fields=[], bases=(TypeA,))
         self.assertEqual(var.elements["a"], var.find_value_choice(der(1), True))

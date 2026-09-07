@@ -314,6 +314,7 @@ class XmlVar(MetaMixin):
             The choice xml var instance or None if there are no matches.
         """
         tp = type(value) if not is_tokens else type(value[0])
+        derived = None
         for element in self.elements.values():
             if (element.any_type or element.clazz) or element.tokens != is_tokens:
                 continue
@@ -321,13 +322,16 @@ class XmlVar(MetaMixin):
             if tp in element.types:
                 return element
 
+            if derived is None and any(issubclass(tp, t) for t in element.types):
+                derived = element
+
             if is_tokens and all(converter.test(val, element.types) for val in value):
                 return element
 
             if converter.test(value, element.types):
                 return element
 
-        return None
+        return derived
 
     def is_optional(self, value: Any) -> bool:
         """Verify this var is optional and the value matches the default one.

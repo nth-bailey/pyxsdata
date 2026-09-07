@@ -447,3 +447,40 @@ class XmlVarBuilderTests(TestCase):
 
         actual = func(XmlType.WILDCARD, "##targetNamespace   foo", "p")
         self.assertEqual(("foo", "p"), tuple(sorted(actual)))
+
+    def test_build_with_newtype(self) -> None:
+        from typing import NewType
+
+        UserId = NewType("UserId", int)
+        Speed = NewType("Speed", float)
+
+        @dataclass
+        class Car:
+            id: UserId = field(metadata={"type": "Attribute"})
+            speed: Speed = field(metadata={"type": "Element"})
+
+        var_id = self.builder.build(
+            Car,
+            "id",
+            UserId,
+            {"type": XmlType.ATTRIBUTE},
+            True,
+            None,
+            None,
+            {},
+        )
+        self.assertIsNotNone(var_id)
+        self.assertEqual((int,), var_id.types)
+
+        var_speed = self.builder.build(
+            Car,
+            "speed",
+            Speed,
+            {"type": XmlType.ELEMENT},
+            True,
+            None,
+            None,
+            {},
+        )
+        self.assertIsNotNone(var_speed)
+        self.assertEqual((float,), var_speed.types)

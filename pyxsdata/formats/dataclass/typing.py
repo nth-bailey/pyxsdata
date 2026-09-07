@@ -19,6 +19,13 @@ ITERABLE_TYPES = (list, tuple, Iterable, Sequence)
 LIST_CONTAINERS = (Iterable, Sequence)
 
 
+def unwrap_type(tp: Any) -> Any:
+    """Unwrap typing.NewType or other wrappers with __supertype__."""
+    while hasattr(tp, "__supertype__"):
+        tp = tp.__supertype__
+    return tp
+
+
 def evaluate(tp: Any, globalns: Any, localns: Any = None) -> Any:
     """Analyze/Validate the typing annotation."""
     result = _eval_type(tp, globalns, localns)
@@ -30,9 +37,9 @@ def evaluate(tp: Any, globalns: Any, localns: Any = None) -> Any:
         if len(args) != 1:
             raise TypeError
 
-        return args[0]
+        return unwrap_type(args[0])
 
-    return result
+    return unwrap_type(result)
 
 
 class Result(NamedTuple):
@@ -141,6 +148,8 @@ def evaluate_attribute(annotation: Any, tokens: bool = False) -> Result:
     else:
         raise TypeError
 
+    types = tuple(unwrap_type(tp) for tp in types)
+
     if any(get_origin(tp) for tp in types):
         raise TypeError
 
@@ -212,6 +221,8 @@ def evaluate_element(annotation: Any, tokens: bool = False) -> Result:
     elif origin:
         raise TypeError
 
+    types = tuple(unwrap_type(tp) for tp in types)
+
     if factory in LIST_CONTAINERS:
         factory = list
 
@@ -257,6 +268,8 @@ def evaluate_wildcard(annotation: Any, **_: Any) -> Result:
         types = (annotation,)
     else:
         raise TypeError
+
+    types = tuple(unwrap_type(tp) for tp in types)
 
     if len(types) != 1 or object not in types:
         raise TypeError

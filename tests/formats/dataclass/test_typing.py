@@ -86,3 +86,44 @@ def test_evaluate_wildcard(case, expected) -> None:
     else:
         with pytest.raises(TypeError):
             evaluate_wildcard(case)
+
+
+def test_unwrap_type() -> None:
+    from typing import NewType
+    from pyxsdata.formats.dataclass.typing import unwrap_type
+
+    UserId = NewType("UserId", int)
+    SpecialUserId = NewType("SpecialUserId", UserId)
+
+    assert unwrap_type(int) is int
+    assert unwrap_type(UserId) is int
+    assert unwrap_type(SpecialUserId) is int
+
+
+def test_evaluate_with_newtype() -> None:
+    from typing import NewType
+
+    UserId = NewType("UserId", int)
+    Speed = NewType("Speed", float)
+    CustomStr = NewType("CustomStr", str)
+
+    assert evaluate(UserId, None) is int
+    assert evaluate(type[UserId], None) is int
+
+    res_attr = evaluate_attribute(CustomStr, tokens=False)
+    assert res_attr.types == (str,)
+
+    res_elem = evaluate_element(Speed, tokens=False)
+    assert res_elem.types == (float,)
+
+    res_elem_opt = evaluate_element(Speed | None, tokens=False)
+    assert res_elem_opt.types == (float,)
+    assert res_elem_opt.optional is True
+
+    res_elem_list = evaluate_element(list[Speed], tokens=False)
+    assert res_elem_list.types == (float,)
+    assert res_elem_list.factory is list
+
+    ObjType = NewType("ObjType", object)
+    res_wc = evaluate_wildcard(ObjType)
+    assert res_wc.types == (object,)

@@ -27,7 +27,14 @@ class LxmlEventHandler(XmlHandler):
         if isinstance(source, (etree._ElementTree, etree._Element)):
             ctx = etree.iterwalk(source, EVENTS)
         elif self.parser.config.process_xinclude:
-            tree = etree.parse(source, base_url=self.parser.config.base_url)  # nosec
+            parser = etree.XMLParser(
+                resolve_entities=False,
+                load_dtd=self.parser.config.load_dtd,
+                remove_comments=True,
+            )
+            tree = etree.parse(
+                source, parser=parser, base_url=self.parser.config.base_url
+            )  # nosec
             tree.xinclude()
             ctx = etree.iterwalk(tree, EVENTS)
         else:
@@ -36,6 +43,7 @@ class LxmlEventHandler(XmlHandler):
                 EVENTS,
                 recover=True,
                 remove_comments=True,
+                resolve_entities=False,
                 load_dtd=self.parser.config.load_dtd,
             )
 

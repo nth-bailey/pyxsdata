@@ -155,7 +155,10 @@ class Client:
         """
         result = headers.copy()
         if self.config.transport == TransportTypes.SOAP:
-            result["content-type"] = "text/xml"
+            content_type = "text/xml"
+            if self.config.encoding:
+                content_type = f"{content_type}; charset={self.config.encoding}"
+            result["content-type"] = content_type
             if self.config.soap_action:
                 result["SOAPAction"] = self.config.soap_action
         else:

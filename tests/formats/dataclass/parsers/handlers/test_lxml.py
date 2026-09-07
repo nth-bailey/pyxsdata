@@ -65,3 +65,22 @@ class LxmlEventHandlerTests(TestCase):
     def test_parse_with_xml_syntax_error(self) -> None:
         with self.assertRaises(ParserError):
             self.parser.from_string("<", Books)
+
+    def test_parse_blocks_xxe_external_entity(self) -> None:
+        xml = b"""<?xml version="1.0"?>
+        <!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/hostname">]>
+        <Books>
+            <book id="1">
+                <author>&xxe;</author>
+                <title>Title</title>
+                <genre>Genre</genre>
+                <price>10.0</price>
+                <pub_date>2020-01-01</pub_date>
+                <review>Review</review>
+            </book>
+        </Books>"""
+
+        result = self.parser.from_bytes(xml, Books)
+        # Verify that the external entity is empty/None and not resolved to file content
+        self.assertNotEqual(result.book[0].author, "localhost")
+        self.assertFalse(result.book[0].author)
