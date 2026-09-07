@@ -1,22 +1,36 @@
 [build-system]
-requires = ["setuptools>=77.0.0"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-include = ["pyxsdata*"]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
 
 [project]
 name = "pyxsdata"
+version = "0.0.0"
 description = "Modern Python XML & JSON Data Binding with Pydantic & Dataclasses support"
-authors = [
-    {name = "nth-bailey"},
-]
-maintainers = [
-    {name = "nth-bailey"},
-]
+readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [
+    { name = "nth-bailey" },
+]
+maintainers = [
+    { name = "nth-bailey" },
+]
+keywords = [
+    "binding",
+    "cli",
+    "dataclasses",
+    "dtd",
+    "generator",
+    "json",
+    "pydantic",
+    "schema",
+    "wsdl",
+    "xml",
+    "xsd",
+]
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
@@ -29,21 +43,19 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Software Development :: Code Generators",
     "Topic :: Text Processing :: Markup :: XML",
+    "Typing :: Typed",
 ]
-keywords = ["xsd", "wsdl", "schema", "dtd", "binding", "xml", "json", "dataclasses", "generator", "cli", "pydantic"]
-requires-python = ">=3.12"
 dependencies = []
-dynamic = ["version"]
-
-[project.readme]
-file = "README.md"
-content-type = "text/markdown"
 
 [project.urls]
 Homepage = "https://github.com/nth-bailey/pyxsdata"
-Source = "https://github.com/nth-bailey/pyxsdata"
 Documentation = "https://nth-bailey.github.io/pyxsdata/"
+Repository = "https://github.com/nth-bailey/pyxsdata"
 Changelog = "https://nth-bailey.github.io/pyxsdata/changelog/"
+Issues = "https://github.com/nth-bailey/pyxsdata/issues"
+
+[project.scripts]
+pyxsdata = "pyxsdata.__main__:main"
 
 [project.optional-dependencies]
 cli = [
@@ -55,12 +67,18 @@ cli = [
 pydantic = [
     "pydantic>=2.10.0",
 ]
+pugixml = [
+    "pygixml>=0.12.0",
+]
+lxml = [
+    "lxml>=5.3.0",
+]
+soap = [
+    "requests>=2.32.3",
+]
 docs = [
     "zensical>=0.0.59",
 ]
-lxml = ["lxml>=5.3.0"]
-pugixml = ["pygixml>=0.12.0"]
-soap = ["requests>=2.32.3"]
 test = [
     "pre-commit>=4.1.0",
     "pytest>=8.3.0",
@@ -71,23 +89,44 @@ all = [
     "pyxsdata[cli,lxml,soap,pydantic,pugixml]",
 ]
 
-[project.scripts]
-pyxsdata = "pyxsdata.__main__:main"
+[dependency-groups]
+dev = [
+    "pyxsdata[all,test,docs]",
+    "ty>=0.0.78",
+    "types-lxml>=2026.2.16",
+    "pre-commit>=4.1.0",
+    "twine>=7.0.0",
+    "build>=1.6.0",
+]
 
-[tool.setuptools]
-include-package-data = true
+[tool.uv]
+package = true
 
-[tool.setuptools.dynamic]
-version = {attr = "pyxsdata.__version__"}
+[tool.uv.build-backend]
+module-root = ""
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--color=yes --benchmark-skip"
 doctest_optionflags = "NORMALIZE_WHITESPACE"
 
-
 [tool.coverage.run]
+branch = true
+source = ["pyxsdata"]
 omit = [
     "pyxsdata/__main__.py",
     "pyxsdata/utils/debug.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 98
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
 ]

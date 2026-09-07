@@ -110,12 +110,12 @@ When contributing or refactoring, strictly maintain the following invariants:
 
 ### Packaging & Release
 
-- Versioning is declared via `dynamic = ["version"]` in `pyproject.toml` and defined in
-  `pyxsdata/__init__.py` as `__version__`.
+- Versioning is declared in `pyproject.toml` and in `pyxsdata/__init__.py` as
+  `__version__`.
 - Build command:
   ```bash
-  .venv/bin/python -m build
-  .venv/bin/twine check dist/*
+  uv build
+  uv run twine check dist/*
   ```
 
 ---
