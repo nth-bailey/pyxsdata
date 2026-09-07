@@ -117,3 +117,4 @@ docs/api/*
 mise.toml
 generated/
 .ty_cache/
+.ruff_cache/

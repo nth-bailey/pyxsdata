@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Astral `ty` static type checker integration with zero diagnostics.
 - Modern documentation website powered by Zensical static site generator.
 
+### Fixed
+- Fixed Pydantic `model_json_schema()` generation failing on models containing internal XML data types (`XmlDate`, `XmlDateTime`, `XmlTime`, `XmlDuration`, `XmlPeriod`, `QName`).
+
 ### Changed
 - Forked and rebranded library strictly to `pyxsdata`.
 - Raised minimum required Python version to `>= 3.12`.

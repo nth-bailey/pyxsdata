@@ -128,7 +128,10 @@ def set_validator(data_type: Any) -> None:
     ) -> core_schema.CoreSchema:
         conv = converter.type_converter(data_type)
         return core_schema.json_or_python_schema(
-            json_schema=core_schema.no_info_plain_validator_function(conv.deserialize),
+            json_schema=core_schema.no_info_plain_validator_function(
+                conv.deserialize,
+                json_schema_input_schema=core_schema.str_schema(),
+            ),
             python_schema=core_schema.is_instance_schema(data_type),
             serialization=core_schema.plain_serializer_function_ser_schema(
                 conv.serialize
