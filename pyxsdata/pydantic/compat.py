@@ -98,7 +98,8 @@ class Pydantic(Dataclasses):
 
     def get_fields(self, obj: Any) -> Iterator[FieldInfo]:
         """Yield field information for a Pydantic model in declaration order."""
-        for name, info in obj.model_fields.items():
+        clazz = obj if isinstance(obj, type) else type(obj)
+        for name, info in clazz.model_fields.items():
             raw_meta = getattr(info, "xsdata_metadata", None) or EMPTY_DICT
             metadata = MappingProxyType(raw_meta)
 

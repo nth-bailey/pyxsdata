@@ -1,4 +1,5 @@
-from typing import Any
+from collections.abc import Callable
+from typing import Any, overload
 
 from pydantic import fields
 from pydantic_core import PydanticUndefined
@@ -13,6 +14,31 @@ class FieldInfo(fields.FieldInfo):  # ty: ignore[subclass-of-final-class]
         """Initialize FieldInfo with metadata."""
         super().__init__(**kwargs)
         self.xsdata_metadata = metadata
+
+
+@overload
+def field[T](
+    metadata: dict[str, Any] | None = ...,
+    *,
+    default: T,
+    **kwargs: Any,
+) -> T: ...
+
+
+@overload
+def field[T](
+    metadata: dict[str, Any] | None = ...,
+    *,
+    default_factory: Callable[[], T],
+    **kwargs: Any,
+) -> T: ...
+
+
+@overload
+def field(
+    metadata: dict[str, Any] | None = ...,
+    **kwargs: Any,
+) -> Any: ...
 
 
 def field(

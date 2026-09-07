@@ -46,7 +46,10 @@ class PydanticFilters(Filters):
         result = super().field_definition(obj, attr, parent_namespace)
 
         if attr.is_prohibited:
-            result = result.replace("init=False", "exclude=True, default=None")
+            if attr.is_optional and attr.default is None:
+                result = result.replace("init=False", "exclude=True")
+            else:
+                result = result.replace("init=False", "exclude=True, default=None")
         elif attr.fixed:
             result = result.replace("init=False", "const=True")
 

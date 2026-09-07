@@ -60,5 +60,17 @@ class PydanticGeneratorTests(FactoryTestCase):
         res_prohibited = filters.field_definition(obj, attr_prohibited, None)
         self.assertIn("exclude=True, default=None", res_prohibited)
 
+        attr_prohibited_optional = AttrFactory.create(
+            name="prohibited_optional_attr",
+            types=[AttrType(qname="str")],
+        )
+        attr_prohibited_optional.restrictions.min_occurs = 0
+        attr_prohibited_optional.restrictions.max_occurs = 0
+        res_prohibited_optional = filters.field_definition(
+            obj, attr_prohibited_optional, None
+        )
+        self.assertIn("exclude=True", res_prohibited_optional)
+        self.assertEqual(res_prohibited_optional.count("default="), 1)
+
         res_fixed = filters.field_definition(obj, attr_fixed, None)
         self.assertIn("const=True", res_fixed)
