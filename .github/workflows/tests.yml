@@ -30,12 +30,12 @@ jobs:
           uv pip install --system ".[all,test]"
       - name: Test
         run: |
-          pytest --cov=./pyxsdata --cov-report=xml --cov-branch --doctest-glob="docs/*.md"
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: false
+          pytest --cov=./pyxsdata --cov-report=term-missing:skip-covered --cov-branch --doctest-glob="docs/*.md"
+      - name: Generate Coverage Summary
+        if: matrix.python == '3.12'
+        run: |
+          echo "### 📊 Test Coverage Summary" >> $GITHUB_STEP_SUMMARY
+          coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
 
   type-check:
     name: Type Check (ty)
