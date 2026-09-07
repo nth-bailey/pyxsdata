@@ -2,38 +2,51 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
+this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
 ### Added
-- Added `PugixmlEventHandler` powered by `pygixml` (Cython streaming wrapper around pugixml + yxml) for ultra-fast, constant-memory XML pull-parsing.
+
+- Added `PugixmlEventHandler` powered by `pygixml` (Cython streaming wrapper around
+  pugixml + yxml) for ultra-fast, constant-memory XML pull-parsing.
 - Added `pugixml` optional dependency extra (`pip install "pyxsdata[pugixml]"`).
 - Integrated `PugixmlEventHandler` into performance benchmark suite.
 
 ## [0.0.0] - 2026-03-07
 
 ### Added
-- Native Pydantic v2 support (`pyxsdata.pydantic`) with drop-in parsers and serializers (`XmlParser`, `XmlSerializer`, `JsonParser`, etc.).
-- Dedicated Pydantic v2 code generation backend (`pyxsdata generate ... --output pydantic`).
+
+- Native Pydantic v2 support (`pyxsdata.pydantic`) with drop-in parsers and serializers
+  (`XmlParser`, `XmlSerializer`, `JsonParser`, etc.).
+- Dedicated Pydantic v2 code generation backend
+  (`pyxsdata generate ... --output pydantic`).
 - Astral `ty` static type checker integration with zero diagnostics.
 - Modern documentation website powered by Zensical static site generator.
 - Automated GitHub Pages documentation deployment workflow using Zensical.
 
 ### Fixed
-- Fixed Pydantic `model_json_schema()` generation failing on models containing internal XML data types (`XmlDate`, `XmlDateTime`, `XmlTime`, `XmlDuration`, `XmlPeriod`, `QName`).
+
+- Fixed Pydantic `model_json_schema()` generation failing on models containing internal
+  XML data types (`XmlDate`, `XmlDateTime`, `XmlTime`, `XmlDuration`, `XmlPeriod`,
+  `QName`).
 
 ### Changed
+
 - Forked and rebranded library strictly to `pyxsdata`.
 - Raised minimum required Python version to `>= 3.12`.
-- Modernized codebase to PEP 695 generics, modern type unions, and structural pattern matching.
+- Modernized codebase to PEP 695 generics, modern type unions, and structural pattern
+  matching.
 - Upgraded all core and optional dependencies to latest releases.
-- Migrated linter and type checker configurations to standalone `ruff.toml` and `ty.toml`, enforcing Google Python Style Guide conventions.
+- Migrated linter and type checker configurations to standalone `ruff.toml` and
+  `ty.toml`, enforcing Google Python Style Guide conventions.
 
 ### Removed
+
 - Dropped legacy `xsdata` CLI command and backward-compatibility aliases.
-- Removed `mypy` and `mkdocs` toolchains, hooks, and legacy documentation configurations.
+- Removed `mypy` and `mkdocs` toolchains, hooks, and legacy documentation
+  configurations.
 
 ---
 

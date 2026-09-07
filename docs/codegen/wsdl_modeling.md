@@ -38,8 +38,8 @@ static classes to describe all the unique operations and the binding procedure.
 
 The [Client][pyxsdata.formats.dataclass.client.Client] is a proxy for consuming web
 services. The client needs a web service
-[Config][pyxsdata.formats.dataclass.client.Config] with the directives to process requests
-and responses.
+[Config][pyxsdata.formats.dataclass.client.Config] with the directives to process
+requests and responses.
 
 **You can also optionally provide and override:**
 

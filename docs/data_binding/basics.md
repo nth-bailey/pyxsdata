@@ -3,8 +3,8 @@
 ## Context
 
 All binding metadata is generated and cached in a
-[XmlContext][pyxsdata.formats.dataclass.context.XmlContext] instance. It's recommended to
-either reuse the same parser/serializer instance or reuse the context instance.
+[XmlContext][pyxsdata.formats.dataclass.context.XmlContext] instance. It's recommended
+to either reuse the same parser/serializer instance or reuse the context instance.
 
 ```python
 >>> from pyxsdata.formats.dataclass.context import XmlContext

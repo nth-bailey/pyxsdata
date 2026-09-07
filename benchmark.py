@@ -2,6 +2,8 @@ import argparse
 import statistics
 from timeit import Timer
 
+from pyxsdata.formats.dataclass.parsers import JsonParser, handlers
+from pyxsdata.formats.dataclass.serializers import JsonSerializer, writers
 from tests import xsdata_temp_dir
 from tests.integration.benchmarks.utils import (
     make_books,
@@ -10,8 +12,6 @@ from tests.integration.benchmarks.utils import (
     write,
     write_json,
 )
-from pyxsdata.formats.dataclass.parsers import JsonParser, handlers
-from pyxsdata.formats.dataclass.serializers import JsonSerializer, writers
 
 if __name__ == "__main__":
     components = [

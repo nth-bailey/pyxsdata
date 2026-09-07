@@ -131,9 +131,9 @@ Generate relative instead of absolute imports.
 
 ### CompoundFields
 
-pyxsdata relies on the field ordering for serialization. This process fails for repeating
-choice or complex sequence elements. When you enable compound fields, these elements are
-grouped into a single field.
+pyxsdata relies on the field ordering for serialization. This process fails for
+repeating choice or complex sequence elements. When you enable compound fields, these
+elements are grouped into a single field.
 
 ```xml
 --8<-- "tests/fixtures/compound/schema.xsd:2:10"

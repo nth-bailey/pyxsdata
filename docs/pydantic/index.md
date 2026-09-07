@@ -1,6 +1,8 @@
 # Pydantic v2 Integration
 
-`pyxsdata` natively supports [Pydantic](https://docs.pydantic.dev/) v2 as a first-class citizen! You can generate Pydantic models directly from XML schemas, WSDLs, and JSON schemas, and serialize/deserialize them seamlessly.
+`pyxsdata` natively supports [Pydantic](https://docs.pydantic.dev/) v2 as a first-class
+citizen! You can generate Pydantic models directly from XML schemas, WSDLs, and JSON
+schemas, and serialize/deserialize them seamlessly.
 
 ## Installation
 
@@ -12,7 +14,8 @@ $ pip install "pyxsdata[cli,pydantic]"
 
 ## Code Generation
 
-To generate Pydantic models instead of standard standard library dataclasses, specify `--output pydantic` in the CLI:
+To generate Pydantic models instead of standard standard library dataclasses, specify
+`--output pydantic` in the CLI:
 
 ```console
 $ pyxsdata schema.xsd --output pydantic --package myapp.models
@@ -31,16 +34,20 @@ Or configure it in `.pyxsdata.xml`:
 ### Generated Model Features
 
 - Models inherit from `pydantic.BaseModel`.
-- Fields use `pydantic.Field` with validation constraints (e.g. `ge`, `le`, `pattern`, `max_length`).
+- Fields use `pydantic.Field` with validation constraints (e.g. `ge`, `le`, `pattern`,
+  `max_length`).
 - XML metadata is mapped into field metadata.
 
 ## Data Binding
 
-All `pyxsdata` parsers and serializers support Pydantic models. You can either use the pre-configured shortcuts from `pyxsdata.pydantic.bindings` or specify `class_type="pydantic"` in `XmlContext`.
+All `pyxsdata` parsers and serializers support Pydantic models. You can either use the
+pre-configured shortcuts from `pyxsdata.pydantic.bindings` or specify
+`class_type="pydantic"` in `XmlContext`.
 
 ### Convenient Binding Shortcuts
 
-`pyxsdata.pydantic.bindings` provides drop-in subclasses with the Pydantic context automatically configured:
+`pyxsdata.pydantic.bindings` provides drop-in subclasses with the Pydantic context
+automatically configured:
 
 ```python
 from pyxsdata.pydantic.bindings import (
@@ -71,7 +78,8 @@ output_xml = serializer.render(order)
 
 ### Manual Context Configuration
 
-If you prefer using the standard `pyxsdata.formats.dataclass` classes, configure `XmlContext` with `class_type="pydantic"`:
+If you prefer using the standard `pyxsdata.formats.dataclass` classes, configure
+`XmlContext` with `class_type="pydantic"`:
 
 ```python
 from pyxsdata.formats.dataclass.context import XmlContext

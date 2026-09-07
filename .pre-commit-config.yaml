@@ -12,7 +12,9 @@ repos:
     hooks:
       - id: ruff-check
         args: [ --fix, --show-fixes]
+        files: ^pyxsdata/
       - id: ruff-format
+        files: ^pyxsdata/
   - repo: local
     hooks:
       - id: ty

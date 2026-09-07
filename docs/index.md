@@ -8,7 +8,14 @@
 
 ---
 
-**pyxsdata** is a modern, high-performance data binding and code generation library for Python 3.12+. It allows developers to seamlessly convert XML and JSON documents into native Python objects (**Standard Dataclasses** or **Pydantic v2** models) rather than dealing directly with the DOM.
+**pyxsdata** is a modern, high-performance data binding and code generation library for
+Python 3.12+. It allows developers to seamlessly convert XML and JSON documents into
+native Python objects (**Standard Dataclasses** or **Pydantic v2** models) rather than
+dealing directly with the DOM.
+
+!!! info "A Modern Successor to xsdata"
+
+    **pyxsdata** is an actively maintained, modernized fork of [`xsdata`](https://github.com/tefra/xsdata) designed exclusively for Python 3.12+. It consolidates ecosystem extensions like `xsdata-pydantic` directly into the unified core, introduces ultra-fast C++ **pugixml** pull-parsing support, leverages modern PEP 695 generics, and is built with modern tooling ([uv](https://github.com/astral-sh/uv), [ty](https://docs.astral.sh/ty/), and [ruff](https://docs.astral.sh/ruff/)).
 
 ---
 
@@ -82,17 +89,22 @@
 
 ## 🌟 Key Features
 
-- **Unified Schema Support**: Generate models from W3C XML Schema (XSD 1.0 & 1.1), WSDL 1.1, DTD definitions, and raw XML or JSON documents.
-- **Native Pydantic v2**: Built-in first-class Pydantic v2 code generator and binding layer (`pyxsdata.pydantic`). No external plugins required.
-- **Blazing Fast Performance**: Optimized streaming parsers and serializers with support for both `lxml` and Python's native `xml.etree`.
-- **Modern Python 3.12+**: Strictly built for Python 3.12+. Fully type-annotated, PEP 695 generics, and verified with Astral `ty` with zero diagnostics.
+- **Unified Schema Support**: Generate models from W3C XML Schema (XSD 1.0 & 1.1), WSDL
+  1.1, DTD definitions, and raw XML or JSON documents.
+- **Native Pydantic v2**: Built-in first-class Pydantic v2 code generator and binding
+  layer (`pyxsdata.pydantic`). No external plugins required.
+- **Blazing Fast Performance**: Optimized streaming parsers and serializers with support
+  for both `lxml` and Python's native `xml.etree`.
+- **Modern Python 3.12+**: Strictly built for Python 3.12+. Fully type-annotated, PEP
+  695 generics, and verified with Astral `ty` with zero diagnostics.
 
 ---
 
 ## 💡 The Philosophy
 
-!!! note "Why naive?"
-    The W3C XML Schema specification is notoriously complex because it was designed to accommodate every conceivable document layout. When consuming schemas in application code, developers simply need clean, intuitive data structures.
+!!! note "Why naive?" The W3C XML Schema specification is notoriously complex because it
+was designed to accommodate every conceivable document layout. When consuming schemas in
+application code, developers simply need clean, intuitive data structures.
 
     `pyxsdata` simplifies XML binding through an elegant core assumption:
 
@@ -102,9 +114,13 @@
 
 ## 📚 Explore the Documentation
 
-- [Installation Guide](installation.md) - Learn about optional dependencies and verification.
-- [Code Generator Guide](codegen/intro.md) - Explore CLI options, configurations, and docstring styles.
-- [Pydantic v2 Integration](pydantic/index.md) - Deep dive into native Pydantic v2 models and JSON schema support.
-- [Data Binding Guide](data_binding/basics.md) - Learn XML/JSON parsing, serialization, and tree manipulation.
+- [Installation Guide](installation.md) - Learn about optional dependencies and
+  verification.
+- [Code Generator Guide](codegen/intro.md) - Explore CLI options, configurations, and
+  docstring styles.
+- [Pydantic v2 Integration](pydantic/index.md) - Deep dive into native Pydantic v2
+  models and JSON schema support.
+- [Data Binding Guide](data_binding/basics.md) - Learn XML/JSON parsing, serialization,
+  and tree manipulation.
 - [Sample Projects](samples.md) - Real-world schemas and models in action.
 - [Changelog](changelog.md) - Release notes and version history.

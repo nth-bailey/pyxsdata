@@ -1,7 +1,7 @@
 # Classes
 
-pyxsdata uses Python's [dataclasses][] (and Pydantic models) as representation models for document entities.
-Built-in support includes standard dataclasses and Pydantic v2.
+pyxsdata uses Python's [dataclasses][] (and Pydantic models) as representation models
+for document entities. Built-in support includes standard dataclasses and Pydantic v2.
 
 ## Basic Example
 

@@ -133,9 +133,9 @@ all the imported modules to find a matching dataclass.
 
 ## Alternative handlers
 
-XmlHandlers read the xml source and push build events to create the target class. pyxsdata
-ships with handlers based on pugixml, lxml, and native python that vary in performance and
-features.
+XmlHandlers read the xml source and push build events to create the target class.
+pyxsdata ships with handlers based on pugixml, lxml, and native python that vary in
+performance and features.
 
 !!! Hint
 
@@ -145,9 +145,10 @@ features.
 
 ### pugixml (pygixml)
 
-Using [`pugixml`](https://pugixml.org/) via [`pygixml`](https://github.com/vovcacik/pygixml) with
-[`PugixmlEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.PugixmlEventHandler] for ultra-fast,
-constant-memory C++ pull-parsing:
+Using [`pugixml`](https://pugixml.org/) via
+[`pygixml`](https://github.com/vovcacik/pygixml) with
+[`PugixmlEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.PugixmlEventHandler]
+for ultra-fast, constant-memory C++ pull-parsing:
 
 ```python
 >>> from pyxsdata.formats.dataclass.parsers.handlers import PugixmlEventHandler

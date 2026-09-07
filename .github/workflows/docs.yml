@@ -34,8 +34,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
       - name: Install Zensical
-        run: pip install zensical
+        run: uv pip install --system zensical
 
       - name: Build Docs
         run: zensical build --clean

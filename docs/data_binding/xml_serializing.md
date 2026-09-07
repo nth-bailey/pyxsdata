@@ -204,8 +204,8 @@ The generator will roughly create this class for you.
 pyxsdata comes with two generic models that are used during parsing and you can also use
 to generate any custom xml element.
 
-- [`AnyElement`][pyxsdata.formats.dataclass.models.generics.AnyElement]: Used to represent
-  any xml structure, resembles a DOM Element
+- [`AnyElement`][pyxsdata.formats.dataclass.models.generics.AnyElement]: Used to
+  represent any xml structure, resembles a DOM Element
 - [`DerivedElement`][pyxsdata.formats.dataclass.models.generics.DerivedElement]: Wrapper
   for type substitution elements eg `<b xsi:type="a">...</b>`
 
@@ -245,7 +245,8 @@ to generate any custom xml element.
 ### Mixed content
 
 For mixed content with known choices you can skip wrapping your instances with a generic
-model. During data binding pyxsdata will try first to match one of the qualified choices.
+model. During data binding pyxsdata will try first to match one of the qualified
+choices.
 
 ```python
 >>> @dataclass

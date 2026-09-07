@@ -1,7 +1,7 @@
 from unittest.case import TestCase
 from xml.etree import ElementTree as etree
 
-import pygixml
+import pytest
 
 from pyxsdata.exceptions import ParserError, XmlHandlerError
 from pyxsdata.formats.dataclass.parsers.bases import RecordParser
@@ -10,9 +10,16 @@ from tests import fixtures_dir
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.books.fixtures import books, events, events_default_ns
 
+try:
+    import pygixml
+except ImportError:
+    pygixml = None
+
 
 class PugixmlEventHandlerTests(TestCase):
     def setUp(self) -> None:
+        if pygixml is None:
+            raise pytest.skip("pygixml is not installed")
         self.parser = RecordParser(handler=PugixmlEventHandler)
 
     def test_parse(self) -> None:

@@ -1,8 +1,8 @@
 # Fields
 
 The [dataclasses][] fields come with a useful metadata mapping that is provided as a
-third-party extension mechanism. This mechanism is used by pyxsdata to support advance xml
-features.
+third-party extension mechanism. This mechanism is used by pyxsdata to support advance
+xml features.
 
 ## Metadata
 

@@ -8,14 +8,36 @@
 
 ---
 
-pyxsdata is a complete, modern data binding library for Python 3.12+ allowing developers to access and
-use XML and JSON documents as simple objects rather than using DOM.
+pyxsdata is a complete, modern data binding library for Python 3.12+ allowing developers
+to access and use XML and JSON documents as simple objects rather than using DOM.
 
 The code generator supports XML schemas, DTD, WSDL definitions, XML & JSON documents. It
 produces simple dataclasses or Pydantic v2 models with type hints and binding metadata.
 
 The included XML and JSON parser/serializer are highly optimized and adaptable, with
 multiple handlers and configuration properties.
+
+## About `pyxsdata` (Modern Fork of `xsdata`)
+
+`pyxsdata` is a modernized successor and fork of
+[`xsdata`](https://github.com/tefra/xsdata) designed exclusively for Python 3.12+ and
+actively maintained with modern tooling.
+
+### Key Enhancements over Legacy xsdata
+
+- **Unified Native Pydantic v2**: Consolidates `xsdata-pydantic` directly into the core
+  library under `pyxsdata.pydantic` with dedicated `--output pydantic` generation and
+  drop-in parsers/serializers.
+- **Python 3.12+ Architecture**: Exclusively leverages PEP 695 generics
+  (`class Foo[T]: ...`), type union syntax (`X | Y`), pattern matching, and `kw_only`
+  dataclasses.
+- **Ultra-Fast C++ pugixml Support**: First-class support for constant-memory
+  pull-parsing via [pugixml](https://pugixml.org/) (`pip install "pyxsdata[pugixml]"`).
+- **Modern Packaging & Tooling**: Managed and built with Astral
+  [`uv`](https://github.com/astral-sh/uv), statically type checked with Astral `ty` with
+  zero diagnostics, and formatted with `ruff`.
+- **Active & Responsive Maintenance**: Regular dependency updates, modern CI packaging,
+  and active community maintenance.
 
 ## Getting started
 

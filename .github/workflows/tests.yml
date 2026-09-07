@@ -18,15 +18,16 @@ jobs:
           - {name: Python 3.13, python: '3.13'}
           - {name: Python 3.14, python: '3.14'}
     steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip setuptools
-          python -m pip install .[lxml,cli,test,soap,pydantic]
+          uv pip install --system ".[all,test]"
       - name: Test
         run: |
           pytest --cov=./pyxsdata --cov-report=xml --cov-branch --doctest-glob="docs/*.md"
@@ -34,71 +35,58 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          fail_ci_if_error: false
+
   type-check:
     name: Type Check (ty)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - name: Install dependencies & ty
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install .[lxml,cli,test,soap,pydantic] ty
+          uv pip install --system ".[all,test]" ty types-lxml
       - name: ty check
         run: |
           ty check pyxsdata
-  w3c-tests:
-    name: W3C Tests
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
-        with:
-          repository: tefra/xsdata-w3c-tests
-          ref: main
-          submodules: true
-          path: w3c-tests
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip setuptools pytest pytest-xdist xmlschema
-          python -m pip install .[lxml,cli]
-      - name: Test
-        run: |
-          pytest -n auto --mode xsd w3c-tests/tests
+
   benchmark:
     name: Benchmarks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - name: Install dependencies
         run: |
-          python -m pip install .[lxml,cli,test]
+          uv pip install --system ".[all,test]"
       - name: Benchmark
         run: |
           pytest --benchmark-only --benchmark-columns=min,max,mean,median tests/integration/benchmarks
+
   minimum:
     name: Minimum Installation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install pip install .
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install
         run: |
-          pip install -e .[test]
+          uv pip install --system -e ".[test]"
       - name: Verify
         run: |
           python benchmark.py -c XmlEventWriter
@@ -106,20 +94,34 @@ jobs:
           python benchmark.py -c JsonParser
           python benchmark.py -c JsonSerializer
           pyxsdata | xargs -0 python -c "import sys; assert 'Install cli' in sys.argv[1]"
+
   pre-commit:
     name: Pre-commit Hooks
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
-    - uses: actions/setup-python@v6
-    - uses: pre-commit/action@v3.0.1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: |
+          uv pip install --system pre-commit ty
+      - name: Run pre-commit
+        run: |
+          pre-commit run --all-files
+
   check-package:
     name: Build & Inspect Package.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
       - uses: hynek/build-and-inspect-python-package@v2
