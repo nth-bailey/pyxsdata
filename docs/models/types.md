@@ -180,20 +180,20 @@ The fields must provide the `format` metadata property.
 
 ### XmlDate
 
-**Python Type**: [xsdata.models.datatype.XmlDate][]
+**Python Type**: [pyxsdata.models.datatype.XmlDate][]
 
 **XML Type:** [date](https://www.w3.org/TR/xmlschema11-2/#date)
 
 ### XmlDateTime
 
-**Python Type**: [xsdata.models.datatype.XmlDateTime][]
+**Python Type**: [pyxsdata.models.datatype.XmlDateTime][]
 
 **XML Types:** [dateTime](https://www.w3.org/TR/xmlschema11-2/#dateTime),
 [dateTimeStamp](https://www.w3.org/TR/xmlschema11-2/#dateTimeStamp)
 
 ### XmlDuration
 
-**Python Type**: [xsdata.models.datatype.XmlDuration][]
+**Python Type**: [pyxsdata.models.datatype.XmlDuration][]
 
 **XML Types:**
 
@@ -203,7 +203,7 @@ The fields must provide the `format` metadata property.
 
 ### XmlPeriod
 
-**Python Type**: [xsdata.models.datatype.XmlPeriod][]
+**Python Type**: [pyxsdata.models.datatype.XmlPeriod][]
 
 **XML Types:**
 
@@ -215,7 +215,7 @@ The fields must provide the `format` metadata property.
 
 ### XmlTime
 
-**Python Type**: [xsdata.models.datatype.XmlTime][]
+**Python Type**: [pyxsdata.models.datatype.XmlTime][]
 
 **XML Type:**: [time](https://www.w3.org/TR/xmlschema11-2/#time)
 
@@ -231,9 +231,9 @@ You can register your own custom types as well as long as they are not dataclass
 
 ```python
 >>> from dataclasses import dataclass, field
->>> from xsdata.formats.converter import Converter, converter
->>> from xsdata.formats.dataclass.parsers import XmlParser
->>> from xsdata.formats.dataclass.serializers import XmlSerializer
+>>> from pyxsdata.formats.converter import Converter, converter
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer
 ...
 >>> serializer = XmlSerializer()
 >>> serializer.config.indent = "  "
@@ -277,11 +277,11 @@ example, we can override the standard serialize function for `XmlDateTime`.
 >>> from dataclasses import dataclass
 >>> from typing import Any, Optional
 >>>
->>> from xsdata.formats.converter import Converter, converter
->>> from xsdata.formats.dataclass.parsers import XmlParser
->>> from xsdata.formats.dataclass.serializers import XmlSerializer
->>> from xsdata.formats.dataclass.serializers.config import SerializerConfig
->>> from xsdata.models.datatype import XmlDateTime
+>>> from pyxsdata.formats.converter import Converter, converter
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer
+>>> from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+>>> from pyxsdata.models.datatype import XmlDateTime
 ...
 >>> serializer = XmlSerializer(config=SerializerConfig(xml_declaration=False))
 ...

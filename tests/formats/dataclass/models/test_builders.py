@@ -6,6 +6,15 @@ from typing import get_type_hints
 from unittest import TestCase, mock
 from xml.etree.ElementTree import QName
 
+from pyxsdata.exceptions import XmlContextError
+from pyxsdata.formats.dataclass.compat import class_types
+from pyxsdata.formats.dataclass.models.builders import XmlMetaBuilder, XmlVarBuilder
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.models.datatype import XmlDate
+from pyxsdata.utils import text
+from pyxsdata.utils.constants import return_input
+from pyxsdata.utils.namespaces import build_qname
+from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 from tests.fixtures.artists import Artist
 from tests.fixtures.books import BookForm
 from tests.fixtures.models import (
@@ -19,15 +28,6 @@ from tests.fixtures.models import (
 )
 from tests.fixtures.series import Country
 from tests.fixtures.submodels import ChoiceTypeChild
-from xsdata.exceptions import XmlContextError
-from xsdata.formats.dataclass.compat import class_types
-from xsdata.formats.dataclass.models.builders import XmlMetaBuilder, XmlVarBuilder
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.models.datatype import XmlDate
-from xsdata.utils import text
-from xsdata.utils.constants import return_input
-from xsdata.utils.namespaces import build_qname
-from xsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 
 
 class XmlMetaBuilderTests(FactoryTestCase):

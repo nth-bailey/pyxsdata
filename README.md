@@ -1,43 +1,39 @@
-[![image](https://github.com/tefra/xsdata/raw/main/docs/logo.svg)](https://xsdata.readthedocs.io/)
+[![image](https://github.com/nth-bailey/pyxsdata/raw/main/docs/logo.svg)](https://pyxsdata.readthedocs.io/)
 
-# Naive XML Bindings for python
+# Modern XML & JSON Bindings for Python 3.12+
 
-[![image](https://github.com/tefra/xsdata/workflows/tests/badge.svg)](https://github.com/tefra/xsdata/actions)
-[![image](https://readthedocs.org/projects/xsdata/badge)](https://xsdata.readthedocs.io/)
-[![image](https://codecov.io/gh/tefra/xsdata/branch/main/graph/badge.svg)](https://codecov.io/gh/tefra/xsdata)
-[![image](https://www.codefactor.io/repository/github/tefra/xsdata/badge)](https://www.codefactor.io/repository/github/tefra/xsdata)
-[![image](https://img.shields.io/pypi/pyversions/xsdata.svg)](https://pypi.org/pypi/xsdata/)
-[![image](https://img.shields.io/pypi/v/xsdata.svg)](https://pypi.org/pypi/xsdata/)
+[![image](https://github.com/nth-bailey/pyxsdata/workflows/tests/badge.svg)](https://github.com/nth-bailey/pyxsdata/actions)
+[![image](https://readthedocs.org/projects/pyxsdata/badge)](https://pyxsdata.readthedocs.io/)
+[![image](https://codecov.io/gh/nth-bailey/pyxsdata/branch/main/graph/badge.svg)](https://codecov.io/gh/nth-bailey/pyxsdata)
+[![image](https://img.shields.io/pypi/pyversions/pyxsdata.svg)](https://pypi.org/pypi/pyxsdata/)
+[![image](https://img.shields.io/pypi/v/pyxsdata.svg)](https://pypi.org/pypi/pyxsdata/)
 
 ---
 
-xsData is a complete data binding library for python allowing developers to access and
+pyxsdata is a complete, modern data binding library for Python 3.12+ allowing developers to access and
 use XML and JSON documents as simple objects rather than using DOM.
 
 The code generator supports XML schemas, DTD, WSDL definitions, XML & JSON documents. It
-produces simple dataclasses with type hints and simple binding metadata.
+produces simple dataclasses or Pydantic v2 models with type hints and binding metadata.
 
 The included XML and JSON parser/serializer are highly optimized and adaptable, with
 multiple handlers and configuration properties.
 
-xsData is constantly tested against the
-[W3C XML Schema 1.1 test suite](https://github.com/tefra/xsdata-w3c-tests).
-
 ## Getting started
 
 ```console
-$ # Install all dependencies
-$ pip install xsdata[cli,lxml,soap]
+$ # Install all dependencies including CLI, LXML, SOAP, and Pydantic
+$ pip install "pyxsdata[cli,lxml,soap,pydantic]"
 ```
 
 ```console
 $ # Generate models
-$ xsdata generate tests/fixtures/primer/order.xsd --package tests.fixtures.primer
+$ pyxsdata generate tests/fixtures/primer/order.xsd --package tests.fixtures.primer
 ```
 
 ```python
 >>> from tests.fixtures.primer import PurchaseOrder
->>> from xsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
 >>>
 >>> parser = XmlParser()
 >>> order = parser.parse("tests/fixtures/primer/sample.xml", PurchaseOrder)
@@ -45,7 +41,22 @@ $ xsdata generate tests/fixtures/primer/order.xsd --package tests.fixtures.prime
 Usaddress(name='Robert Smith', street='8 Oak Avenue', city='Old Town', state='PA', zip=Decimal('95819'), country='US')
 ```
 
-Check the [documentation](https://xsdata.readthedocs.io) for more ✨✨✨
+### Pydantic Support
+
+Generate Pydantic v2 models directly with `--output pydantic`:
+
+```console
+$ pyxsdata generate tests/fixtures/primer/order.xsd --output pydantic --package myapp.models
+```
+
+```python
+>>> from pyxsdata.pydantic.bindings import XmlParser
+>>> parser = XmlParser()
+>>> order = parser.from_string(xml_text, PurchaseOrder)
+>>> order.model_dump()
+```
+
+Check the [documentation](https://pyxsdata.readthedocs.io) for more ✨✨✨
 
 ## Features
 
@@ -56,12 +67,12 @@ Check the [documentation](https://xsdata.readthedocs.io) for more ✨✨✨
 - DTD external definitions
 - Directly from XML and JSON Documents
 - Extensive configuration to customize output
-- Pluggable code writer for custom output formats
+- Pluggable code writer for custom output formats (Standard Dataclasses, Pydantic v2)
 
 **Default Output**
 
-- Pure python dataclasses with metadata
-- Type hints with support for forward references and unions
+- Pure Python 3.12+ dataclasses or Pydantic models with metadata
+- Modern type hints with support for forward references and unions
 - Enumerations and inner classes
 - Support namespace qualified elements and attributes
 
@@ -72,18 +83,13 @@ Check the [documentation](https://xsdata.readthedocs.io) for more ✨✨✨
 - Handlers and Writers based on lxml and native xml python
 - Support wildcard elements and attributes
 - Support xinclude statements and unknown properties
-- Customize behaviour through config
+- Native Pydantic v2 support (`pyxsdata.pydantic`)
+- Fully type-checked with Astral `ty`
 
-## Changelog: 26.2 (2026-02-15)
+## Changelog: 26.3.0
 
-**Fixes**
-
-- Fix elements in same choice different branches incorrectly merged as list
-  ([#1206](https://github.com/tefra/xsdata/pull/1206))
-
-**Features**
-
-- Infer XML required property from typing annotations
-  ([#1208](https://github.com/tefra/xsdata/pull/1208))
-- Generate required metadata only for attributes without default values
-  ([#1208](https://github.com/tefra/xsdata/pull/1208))
+- Modernized for Python 3.12+ minimum.
+- Consolidated `xsdata-pydantic` into core library as `pyxsdata.pydantic`.
+- Replaced mypy with Astral's static type checker `ty`.
+- Standardized CLI tool to `pyxsdata`.
+- Documentation powered by Zensical.

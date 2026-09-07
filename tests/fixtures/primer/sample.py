@@ -1,9 +1,9 @@
 from decimal import Decimal
+from pyxsdata.models.datatype import XmlDate
 from tests.fixtures.primer.order import Comment
 from tests.fixtures.primer.order import Items
 from tests.fixtures.primer.order import PurchaseOrder
 from tests.fixtures.primer.order import Usaddress
-from xsdata.models.datatype import XmlDate
 
 
 obj = PurchaseOrder(

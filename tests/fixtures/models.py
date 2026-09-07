@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import Any, Union, Optional
+from typing import Any
 from xml.etree.ElementTree import QName
 
-__NAMESPACE__ = "xsdata"
+__NAMESPACE__ = "pyxsdata"
 
 
 @dataclass
@@ -15,7 +15,7 @@ class TypeA:
 class TypeB:
     x: int
     y: str
-    skip: Optional[str] = field(default=None, metadata={"type": "Ignore"})
+    skip: str | None = field(default=None, metadata={"type": "Ignore"})
 
 
 @dataclass
@@ -31,7 +31,7 @@ class TypeC:
 class TypeD:
     x: int
     y: str
-    z: Optional[bool]
+    z: bool | None
 
 
 @dataclass
@@ -60,7 +60,7 @@ class NillableType:
     class Meta:
         nillable = True
 
-    value: Optional[str] = field(default="abc")
+    value: str | None = field(default="abc")
 
 
 @dataclass
@@ -70,9 +70,9 @@ class FixedType:
 
 @dataclass
 class ExtendedType:
-    a: Optional[TypeA] = field(default=None)
-    any: Optional[object] = field(default=None)
-    wildcard: Optional[object] = field(default=None, metadata={"type": "Wildcard"})
+    a: TypeA | None = field(default=None)
+    any: object | None = field(default=None)
+    wildcard: object | None = field(default=None, metadata={"type": "Wildcard"})
 
 
 @dataclass
@@ -92,7 +92,12 @@ class ChoiceType:
                 {"name": "float", "type": float},
                 {"name": "qname", "type": QName},
                 {"name": "union", "type": type["UnionType"], "namespace": "foo"},
-                {"name": "tokens", "type": list[Decimal], "tokens": True, "default_factory": list},
+                {
+                    "name": "tokens",
+                    "type": list[Decimal],
+                    "tokens": True,
+                    "default_factory": list,
+                },
                 {
                     "wildcard": True,
                     "type": object,
@@ -102,9 +107,10 @@ class ChoiceType:
         }
     )
 
+
 @dataclass
 class OptionalChoiceType:
-    a_or_b: Optional[object] = field(
+    a_or_b: object | None = field(
         metadata={
             "type": "Elements",
             "choices": (
@@ -130,7 +136,7 @@ class AmbiguousChoiceType:
 
 @dataclass
 class UnionType:
-    element: Union[TypeA, TypeB, TypeC, TypeD]
+    element: TypeA | TypeB | TypeC | TypeD
 
 
 @dataclass
@@ -147,12 +153,12 @@ class AttrsType:
 
 @dataclass
 class SequentialType:
-    a0: Optional[str] = field(default=None, metadata={"type": "Attribute"})
+    a0: str | None = field(default=None, metadata={"type": "Attribute"})
     a1: dict[str, str] = field(default_factory=dict, metadata={"type": "Attributes"})
     a2: list[str] = field(
         default_factory=list, metadata={"type": "Attribute", "tokens": True}
     )
-    x0: Optional[int] = field(default=None)
+    x0: int | None = field(default=None)
     x1: list[int] = field(
         default_factory=list, metadata={"type": "Element", "sequence": 1}
     )
@@ -162,10 +168,8 @@ class SequentialType:
     x3: list[int] = field(
         default_factory=list, metadata={"type": "Element", "sequence": 2}
     )
-    x4: Optional[int] = field(
-        default=None, metadata={"type": "Element", "sequence": 2}
-    )
-    x5: Optional[str] = field(default=None, metadata={"type": "Element", "nillable": True})
+    x4: int | None = field(default=None, metadata={"type": "Element", "sequence": 2})
+    x5: str | None = field(default=None, metadata={"type": "Element", "nillable": True})
 
 
 @dataclass
@@ -187,10 +191,8 @@ class Paragraph:
             "type": "Wildcard",
             "namespace": "##any",
             "mixed": True,
-            "choices": (
-                {"name": "span", "type": Span},
-            ),
-        }
+            "choices": ({"name": "span", "type": Span},),
+        },
     )
 
 
@@ -206,15 +208,14 @@ class Parent:
 
 @dataclass
 class TypeNS2:
-
     class Meta:
         namespace = "ns2"
 
     x1: int = field(metadata={"type": "Element"})
 
+
 @dataclass
 class TypeNS1(TypeNS2):
-
     class Meta:
         namespace = "ns1"
 

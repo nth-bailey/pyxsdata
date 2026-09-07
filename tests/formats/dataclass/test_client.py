@@ -1,6 +1,11 @@
 from dataclasses import asdict, replace
 from unittest import TestCase, mock
 
+from pyxsdata.exceptions import ClientValueError
+from pyxsdata.formats.dataclass.client import Client, Config, TransportTypes
+from pyxsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.serializers import XmlSerializer
+from pyxsdata.formats.dataclass.transports import DefaultTransport
 from tests.fixtures.calculator import (
     Add,
     CalculatorSoapAdd,
@@ -8,11 +13,6 @@ from tests.fixtures.calculator import (
     CalculatorSoapAddOutput,
 )
 from tests.fixtures.hello import HelloGetHelloAsString
-from xsdata.exceptions import ClientValueError
-from xsdata.formats.dataclass.client import Client, Config, TransportTypes
-from xsdata.formats.dataclass.parsers import XmlParser
-from xsdata.formats.dataclass.serializers import XmlSerializer
-from xsdata.formats.dataclass.transports import DefaultTransport
 
 response = """
 <?xml version="1.0" encoding="utf-8"?>
@@ -64,7 +64,7 @@ class ClientTests(TestCase):
         client = Client.from_service(CalculatorSoapAdd)
         params = {"Body": {"Add": {"intA": 3, "intB": 4}}}
 
-        result = client.send(params, headers={"User-Agent": "xsdata"})
+        result = client.send(params, headers={"User-Agent": "pyxsdata"})
 
         self.assertIsInstance(result, CalculatorSoapAddOutput)
         self.assertEqual(7, result.body.add_response.add_result)
@@ -78,7 +78,7 @@ class ClientTests(TestCase):
             "http://www.dneonline.com/calculator.asmx",
             data=request,
             headers={
-                "User-Agent": "xsdata",
+                "User-Agent": "pyxsdata",
                 "content-type": "text/xml",
                 "SOAPAction": "http://tempuri.org/Add",
             },

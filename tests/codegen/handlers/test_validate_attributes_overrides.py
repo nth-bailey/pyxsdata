@@ -1,12 +1,12 @@
 import sys
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.handlers import ValidateAttributesOverrides
-from xsdata.codegen.models import Status
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import DataType, Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.handlers import ValidateAttributesOverrides
+from pyxsdata.codegen.models import Status
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import DataType, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     ClassFactory,
     ExtensionFactory,

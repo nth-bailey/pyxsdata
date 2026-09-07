@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from xsdata.utils.dates import parse_date_args, validate_date, validate_time
+from pyxsdata.utils.dates import parse_date_args, validate_date, validate_time
 
 
 class DatesUtilsTests(TestCase):

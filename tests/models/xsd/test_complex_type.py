@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from xsdata.models.xsd import ComplexContent, ComplexType
+from pyxsdata.models.xsd import ComplexContent, ComplexType
 
 
 class ComplexTypeTests(TestCase):

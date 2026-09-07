@@ -1,12 +1,12 @@
 from unittest import mock
 
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.parsers.nodes import PrimitiveNode, SkipNode
+from pyxsdata.formats.dataclass.parsers.xml import UserXmlParser
+from pyxsdata.models.enums import EventType
+from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 from tests.fixtures.artists import Artist
 from tests.fixtures.books import Books
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.parsers.nodes import PrimitiveNode, SkipNode
-from xsdata.formats.dataclass.parsers.xml import UserXmlParser
-from xsdata.models.enums import EventType
-from xsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 
 
 class UserXmlParserTests(FactoryTestCase):

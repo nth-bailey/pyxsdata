@@ -4,6 +4,9 @@ from unittest import mock
 from unittest.case import TestCase
 from xml.etree.ElementTree import QName
 
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.models.elements import XmlType, XmlVar
+from pyxsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 from tests.fixtures.models import (
     ChoiceType,
     ExtendedType,
@@ -15,9 +18,6 @@ from tests.fixtures.models import (
     TypeDuplicate,
     UnionType,
 )
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.models.elements import XmlType, XmlVar
-from xsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 
 
 class XmlValTests(TestCase):

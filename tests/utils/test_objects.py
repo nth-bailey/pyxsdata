@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 from unittest import TestCase
 
-from xsdata.utils import objects
+from pyxsdata.utils import objects
 
 
 class ObjectsTests(TestCase):

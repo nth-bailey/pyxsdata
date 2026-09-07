@@ -1,9 +1,9 @@
 import sys
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.models.enums import DataType, Namespace, Tag
-from xsdata.utils.namespaces import build_qname
-from xsdata.utils.testing import (
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.models.enums import DataType, Namespace, Tag
+from pyxsdata.utils.namespaces import build_qname
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -65,9 +65,9 @@ class ClassTests(FactoryTestCase):
                     attrs=AttrFactory.list(
                         2,
                         types=[
-                            AttrTypeFactory.create(qname="{xsdata}foo"),
+                            AttrTypeFactory.create(qname="{pyxsdata}foo"),
                             AttrTypeFactory.create(
-                                qname="{xsdata}circular", circular=True
+                                qname="{pyxsdata}circular", circular=True
                             ),
                         ],
                     )
@@ -82,12 +82,12 @@ class ClassTests(FactoryTestCase):
             "{http://www.w3.org/2001/XMLSchema}openAttrs",
             "{http://www.w3.org/2001/XMLSchema}localAttribute",
             "{http://www.w3.org/2001/XMLSchema}foobar",
-            "{xsdata}foo",
+            "{pyxsdata}foo",
         ]
 
         self.assertCountEqual(expected, list(obj.dependencies()))
         self.assertIn("circular", list(obj.dependencies(allow_circular=True)))
-        self.assertIn("{xsdata}circular", list(obj.dependencies(allow_circular=True)))
+        self.assertIn("{pyxsdata}circular", list(obj.dependencies(allow_circular=True)))
 
     def test_property_has_suffix_attr(self) -> None:
         obj = ClassFactory.create()

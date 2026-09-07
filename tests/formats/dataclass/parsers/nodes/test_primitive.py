@@ -1,12 +1,12 @@
 from unittest import TestCase, mock
 
+from pyxsdata.exceptions import XmlContextError
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+from pyxsdata.formats.dataclass.parsers.nodes import PrimitiveNode
+from pyxsdata.formats.dataclass.parsers.utils import ParserUtils
+from pyxsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 from tests.fixtures.artists import Artist
-from xsdata.exceptions import XmlContextError
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.nodes import PrimitiveNode
-from xsdata.formats.dataclass.parsers.utils import ParserUtils
-from xsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 
 
 class PrimitiveNodeTests(TestCase):

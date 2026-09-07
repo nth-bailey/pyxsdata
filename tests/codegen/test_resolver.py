@@ -1,11 +1,11 @@
 from unittest import mock
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.models import Class
-from xsdata.codegen.resolver import DependenciesResolver
-from xsdata.models.enums import DataType
-from xsdata.utils.namespaces import build_qname
-from xsdata.utils.testing import (
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.models import Class
+from pyxsdata.codegen.resolver import DependenciesResolver
+from pyxsdata.models.enums import DataType
+from pyxsdata.utils.namespaces import build_qname
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -71,13 +71,13 @@ class DependenciesResolverTest(FactoryTestCase):
 
     def test_apply_aliases(self) -> None:
         self.resolver.aliases = {
-            build_qname("xsdata", "d"): "IamD",
-            build_qname("xsdata", "a"): "IamA",
+            build_qname("pyxsdata", "d"): "IamD",
+            build_qname("pyxsdata", "a"): "IamA",
         }
-        type_a = AttrTypeFactory.create(qname="{xsdata}a")
-        type_b = AttrTypeFactory.create(qname="{xsdata}b")
-        type_c = AttrTypeFactory.create(qname="{xsdata}c")
-        type_d = AttrTypeFactory.create(qname="{xsdata}d")
+        type_a = AttrTypeFactory.create(qname="{pyxsdata}a")
+        type_b = AttrTypeFactory.create(qname="{pyxsdata}b")
+        type_c = AttrTypeFactory.create(qname="{pyxsdata}c")
+        type_d = AttrTypeFactory.create(qname="{pyxsdata}d")
 
         obj = ClassFactory.create(
             qname="a",
@@ -216,7 +216,7 @@ class DependenciesResolverTest(FactoryTestCase):
     def test_create_class_list(self, mock_dependencies) -> None:
         classes = ClassFactory.list(3)
         mock_dependencies.side_effect = [
-            {build_qname("xsdata", "class_C"), "b"},
+            {build_qname("pyxsdata", "class_C"), "b"},
             {"c", "d"},
             {"e", "d"},
         ]
@@ -227,8 +227,8 @@ class DependenciesResolverTest(FactoryTestCase):
             "c",
             "d",
             "e",
-            "{xsdata}class_C",
-            "{xsdata}class_D",
-            "{xsdata}class_B",
+            "{pyxsdata}class_C",
+            "{pyxsdata}class_D",
+            "{pyxsdata}class_B",
         ]
         self.assertEqual(expected, list(map(str, actual)))

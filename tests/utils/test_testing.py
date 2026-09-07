@@ -1,7 +1,7 @@
 from unittest import TestCase
 
+from pyxsdata.utils.testing import load_class
 from tests.fixtures.books import BooksForm
-from xsdata.utils.testing import load_class
 
 
 class TestingTests(TestCase):

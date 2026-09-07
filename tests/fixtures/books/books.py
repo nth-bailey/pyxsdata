@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from xsdata.models.datatype import XmlDate
+from pyxsdata.models.datatype import XmlDate
 
 __NAMESPACE__ = "urn:books"
 

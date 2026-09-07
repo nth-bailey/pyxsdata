@@ -8,11 +8,11 @@ from xml.etree.ElementTree import QName
 
 import pytest
 
+from pyxsdata.exceptions import ConverterError
+from pyxsdata.formats.converter import Converter, ProxyConverter, converter
+from pyxsdata.models.datatype import XmlDuration, XmlPeriod
+from pyxsdata.models.enums import UseType
 from tests.fixtures.datatypes import Telephone
-from xsdata.exceptions import ConverterError
-from xsdata.formats.converter import Converter, ProxyConverter, converter
-from xsdata.models.datatype import XmlDuration, XmlPeriod
-from xsdata.models.enums import UseType
 
 
 class ConverterFactoryTests(unittest.TestCase):

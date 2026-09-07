@@ -2,12 +2,12 @@ import os
 
 from click.testing import CliRunner
 
+from pyxsdata.cli import cli
+from pyxsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.serializers import XmlSerializer
+from pyxsdata.formats.dataclass.serializers.writers import XmlEventWriter
+from pyxsdata.utils.testing import load_class
 from tests import fixtures_dir, root
-from xsdata.cli import cli
-from xsdata.formats.dataclass.parsers import XmlParser
-from xsdata.formats.dataclass.serializers import XmlSerializer
-from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
-from xsdata.utils.testing import load_class
 
 os.chdir(root)
 

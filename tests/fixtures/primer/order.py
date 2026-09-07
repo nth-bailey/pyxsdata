@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from decimal import Decimal
 
-from xsdata.models.datatype import XmlDate
+from pyxsdata.models.datatype import XmlDate
 
 
 @dataclass(kw_only=True)

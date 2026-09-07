@@ -3,15 +3,15 @@
 ## Context
 
 All binding metadata is generated and cached in a
-[XmlContext][xsdata.formats.dataclass.context.XmlContext] instance. It's recommended to
+[XmlContext][pyxsdata.formats.dataclass.context.XmlContext] instance. It's recommended to
 either reuse the same parser/serializer instance or reuse the context instance.
 
 ```python
->>> from xsdata.formats.dataclass.context import XmlContext
->>> from xsdata.formats.dataclass.parsers import XmlParser
->>> from xsdata.formats.dataclass.parsers import JsonParser
->>> from xsdata.formats.dataclass.serializers import XmlSerializer
->>> from xsdata.formats.dataclass.serializers import JsonSerializer
+>>> from pyxsdata.formats.dataclass.context import XmlContext
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.parsers import JsonParser
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer
+>>> from pyxsdata.formats.dataclass.serializers import JsonSerializer
 
 >>> context = XmlContext()
 >>> xml_parser = XmlParser(context=context)
@@ -23,7 +23,7 @@ either reuse the same parser/serializer instance or reuse the context instance.
 
 ### Global Property Names
 
-Through the [XmlContext][xsdata.formats.dataclass.context.XmlContext] instance you can
+Through the [XmlContext][pyxsdata.formats.dataclass.context.XmlContext] instance you can
 provide callables to apply a naming scheme for all models and their fields. This way you
 can avoid declaring them for every model, but you have to use the same context whenever
 you want to use a parser/serializer.
@@ -31,8 +31,8 @@ you want to use a parser/serializer.
 ```python
 >>> from dataclasses import dataclass, field
 >>> from datetime import date
->>> from xsdata.utils import text
->>> from xsdata.formats.dataclass.context import XmlContext
+>>> from pyxsdata.utils import text
+>>> from pyxsdata.formats.dataclass.context import XmlContext
 ...
 >>> @dataclass
 ... class Person:
@@ -69,7 +69,7 @@ you want to use a parser/serializer.
 
 ## Parser Config
 
-API: [ParserConfig][xsdata.formats.dataclass.parsers.config.ParserConfig]
+API: [ParserConfig][pyxsdata.formats.dataclass.parsers.config.ParserConfig]
 
 ### `base_url`
 
@@ -92,7 +92,7 @@ follow and retrieve the remote documents.
 ### `load_dtd`
 
 Enable loading external dtd with
-[LxmlEventHandler][xsdata.formats.dataclass.parsers.handlers.LxmlEventHandler].
+[LxmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.LxmlEventHandler].
 
 **Type:** `bool`
 
@@ -104,8 +104,8 @@ Override default object instantiation, to apply pre/post-initialization logic.
 
 ```python
 >>> from dataclasses import dataclass
->>> from xsdata.formats.dataclass.parsers import JsonParser
->>> from xsdata.formats.dataclass.parsers.config import ParserConfig
+>>> from pyxsdata.formats.dataclass.parsers import JsonParser
+>>> from pyxsdata.formats.dataclass.parsers.config import ParserConfig
 ...
 >>> def custom_class_factory(clazz, params):
 ...     if clazz.__name__ == "Person":
@@ -160,7 +160,7 @@ Fail if a document value can't be correctly converted to python.
 
 ## Serializer Config
 
-API: [SerializerConfig][xsdata.formats.dataclass.serializers.config.SerializerConfig]
+API: [SerializerConfig][pyxsdata.formats.dataclass.serializers.config.SerializerConfig]
 
 ### `encoding`
 
@@ -266,8 +266,8 @@ types.
     ```
 
 ```python
->>> from xsdata.formats.dataclass.serializers import XmlSerializer
->>> from xsdata.formats.dataclass.serializers.config import SerializerConfig
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer
+>>> from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 >>> from tests.fixtures.typemapping.city import City
 >>> from tests.fixtures.typemapping.house import House
 >>> from tests.fixtures.typemapping.street import Street

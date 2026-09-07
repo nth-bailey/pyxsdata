@@ -2,11 +2,11 @@ from collections.abc import Generator
 from typing import Any
 from unittest import mock
 
-from xsdata.codegen.mappers import DefinitionsMapper
-from xsdata.codegen.models import Attr, Class, Status
-from xsdata.formats.dataclass.models.generics import AnyElement
-from xsdata.models.enums import DataType, Namespace, Tag
-from xsdata.models.wsdl import (
+from pyxsdata.codegen.mappers import DefinitionsMapper
+from pyxsdata.codegen.models import Attr, Class, Status
+from pyxsdata.formats.dataclass.models.generics import AnyElement
+from pyxsdata.models.enums import DataType, Namespace, Tag
+from pyxsdata.models.wsdl import (
     Binding,
     BindingMessage,
     BindingOperation,
@@ -19,8 +19,8 @@ from xsdata.models.wsdl import (
     Service,
     ServicePort,
 )
-from xsdata.utils.namespaces import build_qname
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.utils.namespaces import build_qname
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 def mock_create_inner(target: Class, name: str) -> Class:
@@ -156,7 +156,7 @@ class DefinitionsMapperTests(FactoryTestCase):
     def test_map_binding_operation(
         self, mock_operation_namespace, mock_map_binding_operation_messages
     ) -> None:
-        definitions = Definitions(target_namespace="xsdata")
+        definitions = Definitions(target_namespace="pyxsdata")
         operation = BindingOperation(name="Add", location="foo.wsdl")
         operation.ns_map["foo"] = "bar"
         port_operation = PortTypeOperation()
@@ -167,7 +167,7 @@ class DefinitionsMapperTests(FactoryTestCase):
         second = ClassFactory.create(qname="some_name_second", meta_name="Envelope")
         other = ClassFactory.create()
         service = ClassFactory.create(
-            qname=build_qname("xsdata", "Calc_Add"),
+            qname=build_qname("pyxsdata", "Calc_Add"),
             status=Status.FLATTENED,
             tag=Tag.BINDING_OPERATION,
             location="foo.wsdl",
@@ -330,7 +330,7 @@ class DefinitionsMapperTests(FactoryTestCase):
 
         name = "some_operation_bindings"
         style = "document"
-        namespace = "xsdata"
+        namespace = "pyxsdata"
         definitions = Definitions(target_namespace="bar")
         port_type_message = PortTypeMessage(
             message="some_operation", location="foo.wsdl"
@@ -361,7 +361,7 @@ class DefinitionsMapperTests(FactoryTestCase):
             tag=Tag.BINDING_MESSAGE,
             location="foo.wsdl",
             ns_map={"foo": "bar"},
-            namespace="xsdata",
+            namespace="pyxsdata",
         )
         self.assertEqual(2, len(result.inner))
         self.assertEqual(1, len(result.inner[0].attrs))
@@ -415,7 +415,7 @@ class DefinitionsMapperTests(FactoryTestCase):
 
         name = "some_operation_bindings"
         style = "rpc"
-        namespace = "xsdata"
+        namespace = "pyxsdata"
         definitions = Definitions(target_namespace="bar")
         port_type_message = PortTypeMessage(
             message="some_operation", location="foo.wsdl"
@@ -446,7 +446,7 @@ class DefinitionsMapperTests(FactoryTestCase):
             tag=Tag.BINDING_MESSAGE,
             location="foo.wsdl",
             ns_map={"foo": "bar"},
-            namespace="xsdata",
+            namespace="pyxsdata",
         )
         self.assertEqual(2, len(result.inner))
         self.assertEqual(1, len(result.inner[0].attrs))
@@ -680,7 +680,7 @@ class DefinitionsMapperTests(FactoryTestCase):
         mock_create_message_attributes.assert_called_once_with(message.parts, ns_map)
         mock_find_message.assert_called_once_with("bar")
 
-    @mock.patch("xsdata.codegen.mappers.definitions.logger.warning")
+    @mock.patch("pyxsdata.codegen.mappers.definitions.logger.warning")
     def test_build_parts_attributes(self, mock_warning) -> None:
         p_one = Part(element="a:bar")
         p_one.ns_map["a"] = "great"
@@ -712,7 +712,7 @@ class DefinitionsMapperTests(FactoryTestCase):
     def test_build_message_class(self, mock_create_message_attributes) -> None:
         message = Message(name="bar", parts=[Part()])
         message.ns_map["foo"] = "bar"
-        definitions = Definitions(messages=[message], target_namespace="xsdata")
+        definitions = Definitions(messages=[message], target_namespace="pyxsdata")
         port_type_message = PortTypeMessage(message="foo:bar", location="foo.wsdl")
 
         attrs = AttrFactory.list(2)
@@ -736,7 +736,7 @@ class DefinitionsMapperTests(FactoryTestCase):
 
         actual = DefinitionsMapper.build_inner_class(target, "body")
         expected = ClassFactory.create(
-            qname="{xsdata}body",
+            qname="{pyxsdata}body",
             tag=Tag.BINDING_MESSAGE,
             location=target.location,
             module=None,
@@ -756,7 +756,7 @@ class DefinitionsMapperTests(FactoryTestCase):
     def test_map_port_type_message(self) -> None:
         port_type_message = PortTypeMessage(message="foo:bar")
         port_type_message.ns_map["foo"] = "foobar"
-        target_namespace = "xsdata"
+        target_namespace = "pyxsdata"
 
         actual = DefinitionsMapper.map_port_type_message(
             None, port_type_message, target_namespace

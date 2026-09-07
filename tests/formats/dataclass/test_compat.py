@@ -1,8 +1,8 @@
 from unittest import TestCase
 
+from pyxsdata.exceptions import XmlContextError
+from pyxsdata.formats.dataclass.compat import Dataclasses
 from tests.fixtures.models import TypeA, TypeC
-from xsdata.exceptions import XmlContextError
-from xsdata.formats.dataclass.compat import Dataclasses
 
 
 class ClassTypeTests(TestCase):

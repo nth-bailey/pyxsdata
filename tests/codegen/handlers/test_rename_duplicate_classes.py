@@ -1,10 +1,10 @@
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.handlers import RenameDuplicateClasses
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.handlers import RenameDuplicateClasses
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     ClassFactory,
     FactoryTestCase,
@@ -114,12 +114,12 @@ class RenameDuplicateClassesTests(FactoryTestCase):
         self.assertEqual({target.ref: target.qname}, self.processor.renames)
 
     def test_add_abstract_suffix(self) -> None:
-        target = ClassFactory.create(qname="{xsdata}line", abstract=True)
+        target = ClassFactory.create(qname="{pyxsdata}line", abstract=True)
         self.processor.container.add(target)
 
         self.processor.add_abstract_suffix(target)
 
-        self.assertEqual("{xsdata}line_abstract", target.qname)
+        self.assertEqual("{pyxsdata}line_abstract", target.qname)
         self.assertEqual("line", target.meta_name)
         self.assertEqual({target.ref: target.qname}, self.processor.renames)
 

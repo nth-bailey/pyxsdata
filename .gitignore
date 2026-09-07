@@ -115,3 +115,5 @@ docs/api/*
 
 .DS_STORE
 mise.toml
+generated/
+.ty_cache/

@@ -1,10 +1,10 @@
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.handlers import FlattenAttributeGroups
-from xsdata.codegen.models import Status
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import Tag
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.handlers import FlattenAttributeGroups
+from pyxsdata.codegen.models import Status
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import Tag
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 class FlattenAttributeGroupsTests(FactoryTestCase):

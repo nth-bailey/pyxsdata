@@ -1,12 +1,12 @@
 from unittest import TestCase
 
+from pyxsdata.exceptions import XmlContextError
+from pyxsdata.formats.dataclass.models.generics import DerivedElement
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+from pyxsdata.formats.dataclass.parsers.nodes import StandardNode
+from pyxsdata.models.enums import DataType
+from pyxsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 from tests.fixtures.artists import Artist
-from xsdata.exceptions import XmlContextError
-from xsdata.formats.dataclass.models.generics import DerivedElement
-from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.nodes import StandardNode
-from xsdata.models.enums import DataType
-from xsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 
 
 class StandardNodeTests(TestCase):

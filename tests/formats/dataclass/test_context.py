@@ -3,12 +3,12 @@ from dataclasses import make_dataclass
 from pathlib import Path
 from unittest import mock
 
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.models.enums import DataType
+from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory
 from tests.fixtures.artists import Artist, BeginArea
 from tests.fixtures.books import BookForm, BooksForm
 from tests.fixtures.models import BaseType, ChoiceType, UnionType
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.models.enums import DataType
-from xsdata.utils.testing import FactoryTestCase, XmlMetaFactory
 
 
 class XmlContextTests(FactoryTestCase):
@@ -107,7 +107,7 @@ class XmlContextTests(FactoryTestCase):
     def is_binding_model(self) -> None:
         self.assertTrue(self.ctx.is_binding_model(ChoiceType))
 
-        self.ctx.models_package = "xsdata.models"
+        self.ctx.models_package = "pyxsdata.models"
         self.assertFalse(self.ctx.is_binding_model(ChoiceType))
 
     def test_is_derived(self) -> None:

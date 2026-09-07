@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from unittest import TestCase
 
-from xsdata.models.xsd import (
+from pyxsdata.models.xsd import (
     Enumeration,
     FractionDigits,
     Length,

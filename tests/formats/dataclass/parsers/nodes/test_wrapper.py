@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from unittest import TestCase
 
-from xsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.parsers import XmlParser
 
 
 class WrapperTests(TestCase):

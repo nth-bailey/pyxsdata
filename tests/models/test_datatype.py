@@ -1,7 +1,13 @@
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import UTC, date, datetime, time, timedelta, timezone
 from unittest import TestCase
 
-from xsdata.models.datatype import XmlDate, XmlDateTime, XmlDuration, XmlPeriod, XmlTime
+from pyxsdata.models.datatype import (
+    XmlDate,
+    XmlDateTime,
+    XmlDuration,
+    XmlPeriod,
+    XmlTime,
+)
 
 
 def filter_none(mapping: dict) -> dict:
@@ -75,7 +81,7 @@ class XmlDateTests(TestCase):
         self.assertEqual(actual, XmlDate.from_date(obj.date()))
         self.assertEqual(obj.date(), actual.to_date())
 
-        obj = datetime(2021, 1, 1, 0, 0, tzinfo=timezone.utc)
+        obj = datetime(2021, 1, 1, 0, 0, tzinfo=UTC)
         actual = XmlDate(2021, 1, 1, 0)
         self.assertEqual(actual, XmlDate.from_datetime(obj))
 
@@ -195,7 +201,7 @@ class XmlDateTimeTests(TestCase):
         self.assertEqual(actual, XmlDateTime.from_datetime(obj))
         self.assertEqual(obj, actual.to_datetime())
 
-        obj = datetime(2002, 1, 1, 12, 1, 1, tzinfo=timezone.utc)
+        obj = datetime(2002, 1, 1, 12, 1, 1, tzinfo=UTC)
         actual = XmlDateTime(2002, 1, 1, 12, 1, 1, 0, 0)
         self.assertEqual(actual, XmlDateTime.from_datetime(obj))
         self.assertEqual(obj, actual.to_datetime())
@@ -211,13 +217,13 @@ class XmlDateTimeTests(TestCase):
             XmlDateTime.now().replace(fractional_second=0, second=0, minute=1),
         )
 
-        now = datetime.now(tz=timezone.utc).replace(microsecond=0, second=0, minute=1)
+        now = datetime.now(tz=UTC).replace(microsecond=0, second=0, minute=1)
         self.assertEqual(
             XmlDateTime.from_datetime(now),
             XmlDateTime.utcnow().replace(fractional_second=0, second=0, minute=1),
         )
 
-        now = datetime.now(timezone.utc).replace(microsecond=0, second=0, minute=1)
+        now = datetime.now(UTC).replace(microsecond=0, second=0, minute=1)
         self.assertEqual(
             XmlDateTime.from_datetime(now),
             XmlDateTime.utcnow().replace(fractional_second=0, second=0, minute=1),
@@ -341,12 +347,12 @@ class XmlTimeTests(TestCase):
         self.assertEqual(actual, XmlTime.from_time(obj))
         self.assertEqual(obj, actual.to_time())
 
-        obj = time(12, 1, 1, 1, tzinfo=timezone.utc)
+        obj = time(12, 1, 1, 1, tzinfo=UTC)
         actual = XmlTime(12, 1, 1, 1000, 0)
         self.assertEqual(actual, XmlTime.from_time(obj))
         self.assertEqual(obj, actual.to_time())
 
-        obj = time(12, 1, 1, 1, tzinfo=timezone.utc)
+        obj = time(12, 1, 1, 1, tzinfo=UTC)
         actual = XmlTime(12, 1, 1, 1000, 0)
         self.assertEqual(actual, XmlTime.from_time(obj))
         self.assertEqual(obj, actual.to_time())
@@ -357,13 +363,13 @@ class XmlTimeTests(TestCase):
             XmlTime.now().replace(fractional_second=0, second=0, minute=1),
         )
 
-        now = datetime.now(tz=timezone.utc).replace(microsecond=0, second=0, minute=1)
+        now = datetime.now(tz=UTC).replace(microsecond=0, second=0, minute=1)
         self.assertEqual(
             XmlTime.from_time(now.time()),
             XmlTime.utcnow().replace(fractional_second=0, second=0, minute=1),
         )
 
-        now = datetime.now(timezone.utc).replace(microsecond=0, second=0, minute=1)
+        now = datetime.now(UTC).replace(microsecond=0, second=0, minute=1)
         self.assertEqual(
             XmlTime.from_time(now.time()),
             XmlTime.utcnow().replace(fractional_second=0, second=0, minute=1),

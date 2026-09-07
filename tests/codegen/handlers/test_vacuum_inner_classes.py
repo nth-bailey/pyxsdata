@@ -1,8 +1,8 @@
 from collections.abc import Generator
 
-from xsdata.codegen.handlers import VacuumInnerClasses
-from xsdata.models.enums import DataType
-from xsdata.utils.testing import (
+from pyxsdata.codegen.handlers import VacuumInnerClasses
+from pyxsdata.models.enums import DataType
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -84,18 +84,18 @@ class VacuumInnerClassesTests(FactoryTestCase):
         self.assertFalse(target.attrs[2].types[0].native)
 
     def test_rename_inner(self) -> None:
-        outer = ClassFactory.create(qname="{xsdata}foo")
-        inner = ClassFactory.elements(1, qname="{xsdata}foo")
+        outer = ClassFactory.create(qname="{pyxsdata}foo")
+        inner = ClassFactory.elements(1, qname="{pyxsdata}foo")
         outer.attrs.append(AttrFactory.reference(inner.qname, forward=True))
         outer.inner.append(inner)
 
-        self.assertEqual("{xsdata}foo", outer.attrs[0].types[0].qname)
-        self.assertEqual("{xsdata}foo", outer.inner[0].qname)
+        self.assertEqual("{pyxsdata}foo", outer.attrs[0].types[0].qname)
+        self.assertEqual("{pyxsdata}foo", outer.inner[0].qname)
 
         self.processor.process(outer)
 
-        self.assertEqual("{xsdata}foo_Inner", outer.attrs[0].types[0].qname)
-        self.assertEqual("{xsdata}foo_Inner", outer.inner[0].qname)
+        self.assertEqual("{pyxsdata}foo_Inner", outer.attrs[0].types[0].qname)
+        self.assertEqual("{pyxsdata}foo_Inner", outer.inner[0].qname)
 
     def test_find_attr_types_with_attr_choices(self) -> None:
         choices = [

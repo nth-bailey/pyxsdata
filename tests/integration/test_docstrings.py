@@ -2,8 +2,8 @@ import os
 
 from click.testing import CliRunner
 
+from pyxsdata.cli import cli
 from tests import fixtures_dir, root
-from xsdata.cli import cli
 
 os.chdir(root)
 schema = fixtures_dir.joinpath("docstrings/schema.xsd")

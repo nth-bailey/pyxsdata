@@ -1,9 +1,9 @@
 from unittest import TestCase
 
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.models.generics import AnyElement
-from xsdata.formats.dataclass.parsers.nodes import WildcardNode
-from xsdata.utils.testing import XmlVarFactory
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.models.generics import AnyElement
+from pyxsdata.formats.dataclass.parsers.nodes import WildcardNode
+from pyxsdata.utils.testing import XmlVarFactory
 
 
 class WildcardNodeTests(TestCase):
@@ -11,7 +11,7 @@ class WildcardNodeTests(TestCase):
         text = "\n "
         tail = "bar"
         attrs = {"id": "1"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
 
         generic = AnyElement(
             qname="foo",
@@ -48,7 +48,7 @@ class WildcardNodeTests(TestCase):
 
     def test_child(self) -> None:
         attrs = {"id": "1"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="foo")
         node = WildcardNode(
             position=0, var=var, attrs={}, ns_map={}, factory=AnyElement

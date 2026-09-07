@@ -1,8 +1,8 @@
 from unittest import TestCase
 
+from pyxsdata.formats.dataclass.models.generics import AnyElement
+from pyxsdata.formats.dataclass.parsers.tree import TreeParser
 from tests import fixtures_dir
-from xsdata.formats.dataclass.models.generics import AnyElement
-from xsdata.formats.dataclass.parsers.tree import TreeParser
 
 
 class TreeParserTests(TestCase):

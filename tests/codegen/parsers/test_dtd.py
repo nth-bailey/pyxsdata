@@ -1,17 +1,17 @@
 from dataclasses import asdict
 from unittest import TestCase, mock
 
-from tests import fixtures_dir
-from xsdata.codegen.parsers import DtdParser
-from xsdata.exceptions import ParserError
-from xsdata.models.dtd import (
+from pyxsdata.codegen.parsers import DtdParser
+from pyxsdata.exceptions import ParserError
+from pyxsdata.models.dtd import (
     DtdAttributeDefault,
     DtdAttributeType,
     DtdContentOccur,
     DtdContentType,
     DtdElementType,
 )
-from xsdata.models.enums import Namespace
+from pyxsdata.models.enums import Namespace
+from tests import fixtures_dir
 
 
 class DtdParserTests(TestCase):

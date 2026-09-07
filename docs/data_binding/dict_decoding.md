@@ -1,16 +1,16 @@
 # Dict Decoding
 
-The [DictDecoder][xsdata.formats.dataclass.parsers.DictDecoder] can be used to bind a
+The [DictDecoder][pyxsdata.formats.dataclass.parsers.DictDecoder] can be used to bind a
 dictionary or a list of dictionaries to data models. It's the backbone of the
-[JsonParser][xsdata.formats.dataclass.parsers.JsonParser] without the loading
+[JsonParser][pyxsdata.formats.dataclass.parsers.JsonParser] without the loading
 entrypoints.
 
 ## Single object
 
 ```python
->>> from xsdata.formats.dataclass.context import XmlContext
->>> from xsdata.formats.dataclass.parsers import DictDecoder
->>> from xsdata.formats.dataclass.parsers.config import ParserConfig
+>>> from pyxsdata.formats.dataclass.context import XmlContext
+>>> from pyxsdata.formats.dataclass.parsers import DictDecoder
+>>> from pyxsdata.formats.dataclass.parsers.config import ParserConfig
 >>> from tests.fixtures.books.books import BookForm
 >>>
 >>> config = ParserConfig()

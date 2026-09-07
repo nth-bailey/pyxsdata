@@ -2,9 +2,9 @@ import sys
 from pathlib import Path
 from unittest import TestCase, mock
 
-from xsdata.codegen.parsers.schema import SchemaParser
-from xsdata.models.enums import FormType, Mode, Namespace
-from xsdata.models.xsd import (
+from pyxsdata.codegen.parsers.schema import SchemaParser
+from pyxsdata.models.enums import FormType, Mode, Namespace
+from pyxsdata.models.xsd import (
     All,
     Any,
     AnyAttribute,

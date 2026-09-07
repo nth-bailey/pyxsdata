@@ -5,7 +5,7 @@ download schemas and wsdl locally. The command will download any included schema
 recursively.
 
 ```console exec="1" source="console"
-$ xsdata download --help
+$ pyxsdata download --help
 ```
 
 **Example**

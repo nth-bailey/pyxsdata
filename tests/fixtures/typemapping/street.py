@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, List, Optional
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from tests.fixtures.typemapping.city import City
@@ -13,4 +13,4 @@ class Street:
 
     name: str
     city: Optional["City"] = None
-    houses: List["House"] = field(default_factory=list)
+    houses: list["House"] = field(default_factory=list)

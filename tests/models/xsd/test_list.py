@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from xsdata.models.xsd import List
+from pyxsdata.models.xsd import List
 
 
 class ListTests(TestCase):

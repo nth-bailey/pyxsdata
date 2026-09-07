@@ -1,8 +1,8 @@
 import sys
 from unittest import TestCase
 
-from xsdata.models.enums import Namespace, NamespaceType
-from xsdata.models.xsd import Any
+from pyxsdata.models.enums import Namespace, NamespaceType
+from pyxsdata.models.xsd import Any
 
 
 class AnyTests(TestCase):
@@ -40,8 +40,8 @@ class AnyTests(TestCase):
         obj.namespace = "foo"
         self.assertEqual("@foo_element", obj.real_name)
 
-        obj.namespace = "http://www.xsdata.com/somewhere.xsd"
-        self.assertEqual("@xsdata_com/somewhere_element", obj.real_name)
+        obj.namespace = "http://www.pyxsdata.com/somewhere.xsd"
+        self.assertEqual("@pyxsdata_com/somewhere_element", obj.real_name)
 
         obj.namespace = "http://foo http://bar"
         self.assertEqual("@foo_bar_element", obj.real_name)

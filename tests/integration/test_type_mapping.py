@@ -1,14 +1,14 @@
 from unittest import TestCase
 
-from tests.fixtures.typemapping.city import City
-from tests.fixtures.typemapping.house import House
-from tests.fixtures.typemapping.street import Street
-from xsdata.formats.dataclass.serializers import (
+from pyxsdata.formats.dataclass.serializers import (
     JsonSerializer,
     PycodeSerializer,
     XmlSerializer,
 )
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+from tests.fixtures.typemapping.city import City
+from tests.fixtures.typemapping.house import House
+from tests.fixtures.typemapping.street import Street
 
 
 class TypeMappingTests(TestCase):

@@ -3,10 +3,10 @@ import warnings
 from pathlib import Path
 from unittest import TestCase
 
-from xsdata import __version__
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.exceptions import ParserError
-from xsdata.models.config import (
+from pyxsdata import __version__
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.exceptions import ParserError
+from pyxsdata.models.config import (
     ExtensionType,
     GeneratorConfig,
     GeneratorExtension,

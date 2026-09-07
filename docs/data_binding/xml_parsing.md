@@ -1,9 +1,9 @@
 # XML Parsing
 
 ```python
->>> from xsdata.formats.dataclass.context import XmlContext
->>> from xsdata.formats.dataclass.parsers import XmlParser
->>> from xsdata.formats.dataclass.parsers.config import ParserConfig
+>>> from pyxsdata.formats.dataclass.context import XmlContext
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.parsers.config import ParserConfig
 
 >>> config = ParserConfig()
 >>> context = XmlContext()
@@ -71,11 +71,11 @@ For selective parsing you can use an Element or ElementTree as source. This way 
 modify the dom or pick from which node to start binding data.
 
 Using [`lxml`][] with
-[`LxmlEventHandler`][xsdata.formats.dataclass.parsers.handlers.LxmlEventHandler]
+[`LxmlEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.LxmlEventHandler]
 
 ```python
 >>> import lxml
->>> from xsdata.formats.dataclass.parsers.handlers import LxmlEventHandler
+>>> from pyxsdata.formats.dataclass.parsers.handlers import LxmlEventHandler
 >>> from tests.fixtures.primer import Usaddress
 ...
 >>> parser = XmlParser(handler=LxmlEventHandler)
@@ -89,11 +89,11 @@ Usaddress(name='Robert Smith', street='8 Oak Avenue', city='Old Town', state='PA
 ## xml.etree.ElementTree
 
 Using the [`xml`][] module with
-[`XmlEventHandler`][xsdata.formats.dataclass.parsers.handlers.XmlEventHandler]
+[`XmlEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.XmlEventHandler]
 
 ```python
 >>> from xml.etree import ElementTree
->>> from xsdata.formats.dataclass.parsers.handlers import XmlEventHandler
+>>> from pyxsdata.formats.dataclass.parsers.handlers import XmlEventHandler
 ...
 >>> parser = XmlParser(handler=XmlEventHandler)
 >>> tree = ElementTree.parse("tests/fixtures/primer/sample.xml")
@@ -140,11 +140,11 @@ features.
 !!! Hint
 
     If you installed xsdata with lxml the default handler is set to
-    [LxmlEventHandler][xsdata.formats.dataclass.parsers.handlers.LxmlEventHandler] otherwise
-    [XmlEventHandler][xsdata.formats.dataclass.parsers.handlers.XmlEventHandler] will be used.
+    [LxmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.LxmlEventHandler] otherwise
+    [XmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.XmlEventHandler] will be used.
 
 ```python
->>> from xsdata.formats.dataclass.parsers.handlers import XmlEventHandler
+>>> from pyxsdata.formats.dataclass.parsers.handlers import XmlEventHandler
 ...
 >>> parser = XmlParser(handler=XmlEventHandler)
 >>> order = parser.parse("tests/fixtures/primer/sample.xml")

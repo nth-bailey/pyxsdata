@@ -8,7 +8,7 @@ merge and flatten duplicate classes, fields and field types.
 ## XML Documents
 
 ```console
-$ xsdata generate --package tests.fixtures.artists tests/fixtures/artists
+$ pyxsdata generate --package tests.fixtures.artists tests/fixtures/artists
 ```
 
 === "Sample #1"
@@ -38,7 +38,7 @@ $ xsdata generate --package tests.fixtures.artists tests/fixtures/artists
 ## JSON Documents
 
 ```console
-$ xsdata generate --package tests.fixtures.series tests/fixtures/series/samples
+$ pyxsdata generate --package tests.fixtures.series tests/fixtures/series/samples
 ```
 
 === "Sample #1"

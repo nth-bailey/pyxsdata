@@ -6,21 +6,21 @@ from xml.etree.ElementTree import QName
 from xml.sax import ContentHandler
 from xml.sax.saxutils import XMLGenerator
 
-from tests.fixtures.books import BookForm
-from tests.fixtures.datatypes import Telephone
-from tests.fixtures.models import Paragraph, SequentialType, Span, TypeA
-from xsdata.exceptions import SerializerError, XmlContextError, XmlWriterError
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
-from xsdata.formats.dataclass.serializers import XmlSerializer
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
-from xsdata.formats.dataclass.serializers.mixins import (
+from pyxsdata.exceptions import SerializerError, XmlContextError, XmlWriterError
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.serializers import XmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+from pyxsdata.formats.dataclass.serializers.mixins import (
     EventGenerator,
     XmlWriter,
 )
-from xsdata.models.datatype import XmlDate
-from xsdata.models.enums import DataType, QNames
-from xsdata.utils.testing import XmlVarFactory
+from pyxsdata.models.datatype import XmlDate
+from pyxsdata.models.enums import DataType, QNames
+from pyxsdata.utils.testing import XmlVarFactory
+from tests.fixtures.books import BookForm
+from tests.fixtures.datatypes import Telephone
+from tests.fixtures.models import Paragraph, SequentialType, Span, TypeA
 
 # Default values for BookForm required fields
 BOOK_DEFAULTS = {
@@ -423,7 +423,7 @@ class EventGeneratorTests(TestCase):
             id="123",
         )
         result = self.generator.convert_dataclass(
-            book, "xsdata", "book", True, "foo:book"
+            book, "pyxsdata", "book", True, "foo:book"
         )
         expected = [
             ("start", "book"),
@@ -464,13 +464,13 @@ class EventGeneratorTests(TestCase):
         book = BookForm(**BOOK_DEFAULTS, id="123")
         ebook = DerivedElement("ebook", BookForm(**BOOK_DEFAULTS, id="123"))
         value = ["text", AnyElement(qname="br"), book, ebook, "tail"]
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         expected = [
             ("data", "text"),
             ("start", "br"),
             ("data", None),
             ("end", "br"),
-            ("start", "{xsdata}BookForm"),
+            ("start", "{pyxsdata}BookForm"),
             ("attr", "id", "123"),
             ("attr", "lang", "en"),
             ("start", "author"),
@@ -491,7 +491,7 @@ class EventGeneratorTests(TestCase):
             ("start", "review"),
             ("data", "Test review"),
             ("end", "review"),
-            ("end", "{xsdata}BookForm"),
+            ("end", "{pyxsdata}BookForm"),
             ("start", "ebook"),
             ("attr", "id", "123"),
             ("attr", "lang", "en"),
@@ -525,7 +525,7 @@ class EventGeneratorTests(TestCase):
         var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="a")
         expected = [("data", "123")]
 
-        result = self.generator.convert_value("123", var, "xsdata")
+        result = self.generator.convert_value("123", var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -537,11 +537,11 @@ class EventGeneratorTests(TestCase):
             nillable=False,
         )
 
-        result = self.generator.convert_value(None, var, "xsdata")
+        result = self.generator.convert_value(None, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertListEqual([], list(result))
 
-        result = self.generator.convert_value([], var, "xsdata")
+        result = self.generator.convert_value([], var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertListEqual([], list(result))
 
@@ -552,12 +552,12 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
         var.nillable = True
-        result = self.generator.convert_value([], var, "xsdata")
+        result = self.generator.convert_value([], var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertListEqual(expected, list(result))
 
         expected = [("start", "a"), ("data", ["1", QName("{a}b"), "3"]), ("end", "a")]
-        result = self.generator.convert_value([1, QName("{a}b"), 3], var, "xsdata")
+        result = self.generator.convert_value([1, QName("{a}b"), 3], var, "pyxsdata")
         self.assertEqual(expected, list(result))
 
         expected = [
@@ -569,7 +569,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value([[1, 2, 3], [4, 5, 6]], var, "xsdata")
+        result = self.generator.convert_value([[1, 2, 3], [4, 5, 6]], var, "pyxsdata")
         self.assertEqual(expected, list(result))
 
         var = XmlVarFactory.create(
@@ -582,14 +582,14 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value([], var, "xsdata")
+        result = self.generator.convert_value([], var, "pyxsdata")
         self.assertEqual(expected, list(result))
 
     def test_convert_any_type_with_primitive(self) -> None:
         var = XmlVarFactory.create(xml_type=XmlType.WILDCARD, name="a")
         expected = [("data", "str")]
 
-        result = self.generator.convert_value("str", var, "xsdata")
+        result = self.generator.convert_value("str", var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -601,7 +601,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value("str", var, "xsdata")
+        result = self.generator.convert_value("str", var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -625,7 +625,7 @@ class EventGeneratorTests(TestCase):
             ("data", "c"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -639,7 +639,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -682,7 +682,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -718,7 +718,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -756,7 +756,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(ebook, var, "xsdata")
+        result = self.generator.convert_value(ebook, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -768,7 +768,7 @@ class EventGeneratorTests(TestCase):
         )
         value = TypeA(1)
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         with self.assertRaises(SerializerError) as cm:
             list(result)
 
@@ -782,7 +782,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value("123", var, "xsdata")
+        result = self.generator.convert_value("123", var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -795,7 +795,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(None, var, "xsdata")
+        result = self.generator.convert_value(None, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -813,7 +813,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(123, var, "xsdata")
+        result = self.generator.convert_value(123, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -829,7 +829,7 @@ class EventGeneratorTests(TestCase):
             ("data", ""),
             ("end", "a"),
         ]
-        result = self.generator.convert_value("", var, "xsdata")
+        result = self.generator.convert_value("", var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -838,7 +838,7 @@ class EventGeneratorTests(TestCase):
             ("data", "123"),
             ("end", "a"),
         ]
-        result = self.generator.convert_value("123", var, "xsdata")
+        result = self.generator.convert_value("123", var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -859,7 +859,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -877,14 +877,14 @@ class EventGeneratorTests(TestCase):
         expected = [
             ("start", "a"),
             ("attr", "a0", "foo"),
-            ("start", "{xsdata}x5"),
+            ("start", "{pyxsdata}x5"),
             ("attr", "{http://www.w3.org/2001/XMLSchema-instance}nil", "true"),
             ("data", None),
-            ("end", "{xsdata}x5"),
+            ("end", "{pyxsdata}x5"),
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -905,7 +905,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -934,7 +934,7 @@ class EventGeneratorTests(TestCase):
             ("end", "b"),
         ]
 
-        result = self.generator.convert_value([1, [1, 2]], var, "xsdata")
+        result = self.generator.convert_value([1, [1, 2]], var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 
@@ -993,7 +993,7 @@ class EventGeneratorTests(TestCase):
         )
 
         with self.assertRaises(SerializerError) as cm:
-            result = self.generator.convert_value(1, var, "xsdata")
+            result = self.generator.convert_value(1, var, "pyxsdata")
             next(result)
 
         msg = "XmlElements undefined choice: `compound` for `<class 'int'>`"
@@ -1011,7 +1011,7 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value(value, var, "xsdata")
+        result = self.generator.convert_value(value, var, "pyxsdata")
         self.assertIsInstance(result, Generator)
         self.assertEqual(expected, list(result))
 

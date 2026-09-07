@@ -2,11 +2,11 @@ import sys
 from collections.abc import Generator
 from unittest import mock
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.models import Restrictions, Status
-from xsdata.codegen.utils import ClassUtils
-from xsdata.models.enums import DataType, Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.models import Restrictions, Status
+from pyxsdata.codegen.utils import ClassUtils
+from pyxsdata.models.enums import DataType, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -220,7 +220,9 @@ class ClassUtilsTests(FactoryTestCase):
 
     def test_flatten(self) -> None:
         target = ClassFactory.create(
-            qname="{xsdata}root", attrs=AttrFactory.list(3), inner=ClassFactory.list(2)
+            qname="{pyxsdata}root",
+            attrs=AttrFactory.list(3),
+            inner=ClassFactory.list(2),
         )
 
         for attr in target.attrs:
@@ -228,14 +230,14 @@ class ClassUtilsTests(FactoryTestCase):
             for tp in attr.types:
                 tp.forward = True
 
-        result = ClassUtils.flatten(target, "xsdata")
+        result = ClassUtils.flatten(target, "pyxsdata")
         actual = list(result)
 
         self.assertIsInstance(result, Generator)
         self.assertEqual(3, len(actual))
 
         for obj in actual:
-            self.assertEqual("xsdata", obj.location)
+            self.assertEqual("pyxsdata", obj.location)
 
         for attr in target.attrs:
             self.assertEqual(1, len(attr.types))

@@ -4,13 +4,13 @@ The pycode serializer will render an object tree into python representation code
 
 ```python
 >>> from tests.fixtures.books.fixtures import books
->>> from xsdata.formats.dataclass.serializers import PycodeSerializer
+>>> from pyxsdata.formats.dataclass.serializers import PycodeSerializer
 ...
 >>> serializer = PycodeSerializer()
 >>> print(serializer.render(books, var_name="books"))
 from tests.fixtures.books.books import BookForm
 from tests.fixtures.books.books import Books
-from xsdata.models.datatype import XmlDate
+from pyxsdata.models.datatype import XmlDate
 <BLANKLINE>
 <BLANKLINE>
 books = Books(

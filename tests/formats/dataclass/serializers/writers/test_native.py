@@ -1,11 +1,11 @@
 from dataclasses import make_dataclass
 from unittest import TestCase
 
+from pyxsdata.formats.dataclass.serializers import XmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+from pyxsdata.formats.dataclass.serializers.writers import XmlEventWriter
 from tests import fixtures_dir
 from tests.fixtures.books.fixtures import books
-from xsdata.formats.dataclass.serializers import XmlSerializer
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
-from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
 
 
 class XmlEventWriterTests(TestCase):

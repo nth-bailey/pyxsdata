@@ -1,10 +1,10 @@
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer, Steps
-from xsdata.codegen.models import Class, Status
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import Tag
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.codegen.container import ClassContainer, Steps
+from pyxsdata.codegen.models import Class, Status
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import Tag
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 class ClassContainerTests(FactoryTestCase):
@@ -15,9 +15,9 @@ class ClassContainerTests(FactoryTestCase):
 
     def test_initialize(self) -> None:
         classes = [
-            ClassFactory.create(qname="{xsdata}foo", tag=Tag.ELEMENT),
-            ClassFactory.create(qname="{xsdata}foo", tag=Tag.COMPLEX_TYPE),
-            ClassFactory.create(qname="{xsdata}foobar", tag=Tag.COMPLEX_TYPE),
+            ClassFactory.create(qname="{pyxsdata}foo", tag=Tag.ELEMENT),
+            ClassFactory.create(qname="{pyxsdata}foo", tag=Tag.COMPLEX_TYPE),
+            ClassFactory.create(qname="{pyxsdata}foobar", tag=Tag.COMPLEX_TYPE),
         ]
         config = GeneratorConfig()
         container = ClassContainer(config)

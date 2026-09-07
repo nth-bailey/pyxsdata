@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: release
-      url: https://pypi.org/p/xsdata
+      url: https://pypi.org/p/pyxsdata
     permissions:
       id-token: write
     steps:
     - uses: actions/checkout@v6
-    - name: Set up Python 3.11
+    - name: Set up Python 3.12
       uses: actions/setup-python@v6
       with:
-        python-version: 3.11
+        python-version: '3.12'
     - name: Install pypa/build
       run: >-
         python -m
@@ -38,10 +38,6 @@ jobs:
       with:
         name: python-package-distributions
         path: dist
-    - name: Publish distribution 📦 to Test PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:

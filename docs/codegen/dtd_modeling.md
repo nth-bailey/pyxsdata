@@ -4,7 +4,7 @@ The code generator supports processing **external** document type definitions (D
 with `lxml`.
 
 ```console
-$ pip install xsdata[lxml]
+$ pip install pyxsdata[lxml]
 ```
 
 !!! Warning "DTDParseError: error parsing DTD"
@@ -15,7 +15,7 @@ $ pip install xsdata[lxml]
 ## Example
 
 ```console
-$ xsdata generate --package tests.fixtures.dtd.models tests/fixtures/dtd/complete_example.dtd
+$ pyxsdata generate --package tests.fixtures.dtd.models tests/fixtures/dtd/complete_example.dtd
 ```
 
 === "DTD Definition"

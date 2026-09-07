@@ -1,13 +1,13 @@
 # Dict Encoding
 
-The [DictEncoder][xsdata.formats.dataclass.serializers.DictEncoder] converts a data
+The [DictEncoder][pyxsdata.formats.dataclass.serializers.DictEncoder] converts a data
 model instance to a dictionary and encodes all values to make them safe for
 serialization.
 
 ```python
->>> from xsdata.formats.dataclass.context import XmlContext
->>> from xsdata.formats.dataclass.serializers import DictEncoder
->>> from xsdata.formats.dataclass.serializers.config import SerializerConfig
+>>> from pyxsdata.formats.dataclass.context import XmlContext
+>>> from pyxsdata.formats.dataclass.serializers import DictEncoder
+>>> from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 
 >>> config = SerializerConfig(indent="  ")
 >>> context = XmlContext()
@@ -20,7 +20,7 @@ serialization.
 
 ```python
 >>> import pprint
->>> from xsdata.models.datatype import XmlDate
+>>> from pyxsdata.models.datatype import XmlDate
 >>> from tests.fixtures.books import BookForm
 >>>
 >>> book = BookForm(
@@ -71,7 +71,7 @@ By using a custom dict factory you can change the output behaviour, like filter 
 or conveniently
 
 ```python
->>> from xsdata.formats.dataclass.serializers import DictFactory
+>>> from pyxsdata.formats.dataclass.serializers import DictFactory
 >>>
 >>> encoder = DictEncoder(dict_factory=DictFactory.FILTER_NONE)
 

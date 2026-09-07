@@ -1,8 +1,8 @@
 from unittest import TestCase
 
+from pyxsdata.formats.dataclass.serializers import XmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 from tests.fixtures.books.fixtures import books
-from xsdata.formats.dataclass.serializers import XmlSerializer
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
 
 
 class XmlSerializerTests(TestCase):

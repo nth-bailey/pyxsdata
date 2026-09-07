@@ -2,17 +2,17 @@ import sys
 from collections.abc import Iterator
 from unittest import mock
 
-from xsdata.codegen.mappers import DtdMapper
-from xsdata.codegen.models import Class, Restrictions
-from xsdata.models.dtd import (
+from pyxsdata.codegen.mappers import DtdMapper
+from pyxsdata.codegen.models import Class, Restrictions
+from pyxsdata.models.dtd import (
     DtdAttributeDefault,
     DtdAttributeType,
     DtdContentOccur,
     DtdContentType,
     DtdElementType,
 )
-from xsdata.models.enums import DataType, Namespace, Tag
-from xsdata.utils.testing import (
+from pyxsdata.models.enums import DataType, Namespace, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -39,11 +39,11 @@ class DtdMapperTests(FactoryTestCase):
     def test_build_class(self, mock_build_elements, mock_build_attributes) -> None:
         location = "tests.dtd"
         element = DtdElementFactory.create(
-            name="root", prefix="ns", ns_map={"ns": "xsdata"}
+            name="root", prefix="ns", ns_map={"ns": "pyxsdata"}
         )
         actual = DtdMapper.build_class(element, "tests.dtd")
         expected = ClassFactory.create(
-            qname="{xsdata}root",
+            qname="{pyxsdata}root",
             ns_map=element.ns_map,
             tag=Tag.ELEMENT,
             location=location,

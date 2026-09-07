@@ -1,7 +1,7 @@
 import sys
 from unittest import TestCase
 
-from xsdata.models.xsd import Group
+from pyxsdata.models.xsd import Group
 
 
 class GroupTests(TestCase):

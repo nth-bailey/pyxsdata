@@ -2,10 +2,10 @@ from collections.abc import Iterator
 from types import GeneratorType
 from unittest import mock
 
-from xsdata.codegen.mappers import SchemaMapper
-from xsdata.codegen.models import Class, Restrictions
-from xsdata.models.enums import DataType, FormType, Tag
-from xsdata.models.xsd import (
+from pyxsdata.codegen.mappers import SchemaMapper
+from pyxsdata.codegen.models import Class, Restrictions
+from pyxsdata.models.enums import DataType, FormType, Tag
+from pyxsdata.models.xsd import (
     Alternative,
     Annotation,
     Attribute,
@@ -25,8 +25,8 @@ from xsdata.models.xsd import (
     SimpleContent,
     SimpleType,
 )
-from xsdata.utils.namespaces import build_qname
-from xsdata.utils.testing import (
+from pyxsdata.utils.namespaces import build_qname
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -186,7 +186,7 @@ class SchemaMapperTests(FactoryTestCase):
 
         mock_children_extensions.return_value = [bar, double, foo]
         self_ext = ExtensionFactory.reference(
-            qname="{xsdata}something",
+            qname="{pyxsdata}something",
             tag=Tag.ELEMENT,
             restrictions=Restrictions(min_occurs=1, max_occurs=1),
         )

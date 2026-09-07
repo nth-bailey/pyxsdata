@@ -1,6 +1,6 @@
 # Architecture
 
-The [ResourceTransformer][xsdata.codegen.transformer.ResourceTransformer] is the
+The [ResourceTransformer][pyxsdata.codegen.transformer.ResourceTransformer] is the
 orchestrator of the code generation procedure.
 
 ```mermaid
@@ -29,10 +29,10 @@ Additionally, the parsers are responsible for assigning common values required f
 analysis, such as locations, a namespace prefix-URI map, and common namespaces like xsi
 and xlink.
 
-- XSD: [SchemaParser][xsdata.codegen.parsers.SchemaParser]
-- DTD: [DtdParser][xsdata.codegen.parsers.DtdParser]
-- WSDL: [DefinitionsParser][xsdata.codegen.parsers.DefinitionsParser]
-- XML: [TreeParser][xsdata.formats.dataclass.parsers.TreeParser]
+- XSD: [SchemaParser][pyxsdata.codegen.parsers.SchemaParser]
+- DTD: [DtdParser][pyxsdata.codegen.parsers.DtdParser]
+- WSDL: [DefinitionsParser][pyxsdata.codegen.parsers.DefinitionsParser]
+- XML: [TreeParser][pyxsdata.formats.dataclass.parsers.TreeParser]
 - JSON: [json.loads][]
 
 ## Convert to classes
@@ -41,11 +41,11 @@ A resource-specific parser is utilized to convert the transfer objects to codege
 classes. These mappers encapsulate the pertinent logic detailing how the resource types
 should be interpreted.
 
-- XSD: [SchemaMapper][xsdata.codegen.mappers.SchemaMapper]
-- DTD: [DtdMapper][xsdata.codegen.mappers.DtdMapper]
-- WSDL: [DefinitionsMapper][xsdata.codegen.mappers.DefinitionsMapper]
-- XML: [ElementMapper][xsdata.codegen.mappers.ElementMapper]
-- JSON: [DictMapper][xsdata.codegen.mappers.DictMapper]
+- XSD: [SchemaMapper][pyxsdata.codegen.mappers.SchemaMapper]
+- DTD: [DtdMapper][pyxsdata.codegen.mappers.DtdMapper]
+- WSDL: [DefinitionsMapper][pyxsdata.codegen.mappers.DefinitionsMapper]
+- XML: [ElementMapper][pyxsdata.codegen.mappers.ElementMapper]
+- JSON: [DictMapper][pyxsdata.codegen.mappers.DictMapper]
 
 ## Analyze classes
 
@@ -90,11 +90,11 @@ graph LR
 </xs:redefine>
 ```
 
-API: [xsdata.codegen.validator.ClassValidator][]
+API: [pyxsdata.codegen.validator.ClassValidator][]
 
 ### Analyze Classes
 
-The classes are wrapped in a [ClassContainer][xsdata.codegen.container.ClassContainer]
+The classes are wrapped in a [ClassContainer][pyxsdata.codegen.container.ClassContainer]
 instance. It includes some easy finder methods and orchestrates flattening/filtering
 processes.
 
@@ -103,48 +103,48 @@ pass through each step before next one starts. The order of the steps is very im
 
 ### Step: Ungroup
 
-- [FlattenAttributeGroups][xsdata.codegen.handlers.FlattenAttributeGroups]
+- [FlattenAttributeGroups][pyxsdata.codegen.handlers.FlattenAttributeGroups]
 
 ### Step: Flatten
 
-- [CalculateAttributePaths][xsdata.codegen.handlers.CalculateAttributePaths]
-- [FlattenClassExtensions][xsdata.codegen.handlers.FlattenClassExtensions]
-- [SanitizeEnumerationClass][xsdata.codegen.handlers.SanitizeEnumerationClass]
-- [UpdateAttributesEffectiveChoice][xsdata.codegen.handlers.UpdateAttributesEffectiveChoice]
-- [UnnestInnerClasses][xsdata.codegen.handlers.UnnestInnerClasses]
-- [AddAttributeSubstitutions][xsdata.codegen.handlers.AddAttributeSubstitutions]
-- [ProcessAttributeTypes][xsdata.codegen.handlers.ProcessAttributeTypes]
-- [MergeAttributes][xsdata.codegen.handlers.MergeAttributes]
-- [ProcessMixedContentClass][xsdata.codegen.handlers.ProcessMixedContentClass]
+- [CalculateAttributePaths][pyxsdata.codegen.handlers.CalculateAttributePaths]
+- [FlattenClassExtensions][pyxsdata.codegen.handlers.FlattenClassExtensions]
+- [SanitizeEnumerationClass][pyxsdata.codegen.handlers.SanitizeEnumerationClass]
+- [UpdateAttributesEffectiveChoice][pyxsdata.codegen.handlers.UpdateAttributesEffectiveChoice]
+- [UnnestInnerClasses][pyxsdata.codegen.handlers.UnnestInnerClasses]
+- [AddAttributeSubstitutions][pyxsdata.codegen.handlers.AddAttributeSubstitutions]
+- [ProcessAttributeTypes][pyxsdata.codegen.handlers.ProcessAttributeTypes]
+- [MergeAttributes][pyxsdata.codegen.handlers.MergeAttributes]
+- [ProcessMixedContentClass][pyxsdata.codegen.handlers.ProcessMixedContentClass]
 
 ### Step: Filer
 
-- [FilterClasses][xsdata.codegen.handlers.FilterClasses]
+- [FilterClasses][pyxsdata.codegen.handlers.FilterClasses]
 
 ### Step: Sanitize
 
-- [ResetAttributeSequences][xsdata.codegen.handlers.ResetAttributeSequences]
-- [RenameDuplicateAttributes][xsdata.codegen.handlers.RenameDuplicateAttributes]
+- [ResetAttributeSequences][pyxsdata.codegen.handlers.ResetAttributeSequences]
+- [RenameDuplicateAttributes][pyxsdata.codegen.handlers.RenameDuplicateAttributes]
 
 ### Step: Resolve
 
-- [ValidateAttributesOverrides][xsdata.codegen.handlers.ValidateAttributesOverrides]
+- [ValidateAttributesOverrides][pyxsdata.codegen.handlers.ValidateAttributesOverrides]
 
 ### Step: Vacuum
 
-- [VacuumInnerClasses][xsdata.codegen.handlers.VacuumInnerClasses]
+- [VacuumInnerClasses][pyxsdata.codegen.handlers.VacuumInnerClasses]
 
 ### Step: Finalize
 
-- [DetectCircularReferences][xsdata.codegen.handlers.DetectCircularReferences]
-- [CreateCompoundFields][xsdata.codegen.handlers.CreateCompoundFields]
-- [CreateWrapperFields][xsdata.codegen.handlers.CreateWrapperFields]
-- [DisambiguateChoices][xsdata.codegen.handlers.DisambiguateChoices]
-- [SanitizeAttributesDefaultValue][xsdata.codegen.handlers.SanitizeAttributesDefaultValue]
-- [ResetAttributeSequenceNumbers][xsdata.codegen.handlers.ResetAttributeSequenceNumbers]
+- [DetectCircularReferences][pyxsdata.codegen.handlers.DetectCircularReferences]
+- [CreateCompoundFields][pyxsdata.codegen.handlers.CreateCompoundFields]
+- [CreateWrapperFields][pyxsdata.codegen.handlers.CreateWrapperFields]
+- [DisambiguateChoices][pyxsdata.codegen.handlers.DisambiguateChoices]
+- [SanitizeAttributesDefaultValue][pyxsdata.codegen.handlers.SanitizeAttributesDefaultValue]
+- [ResetAttributeSequenceNumbers][pyxsdata.codegen.handlers.ResetAttributeSequenceNumbers]
 
 ### Step: Designate
 
-- [RenameDuplicateClasses][xsdata.codegen.handlers.RenameDuplicateClasses]
-- [ValidateReferences][xsdata.codegen.handlers.ValidateReferences]
-- [DesignateClassPackages][xsdata.codegen.handlers.DesignateClassPackages]
+- [RenameDuplicateClasses][pyxsdata.codegen.handlers.RenameDuplicateClasses]
+- [ValidateReferences][pyxsdata.codegen.handlers.ValidateReferences]
+- [DesignateClassPackages][pyxsdata.codegen.handlers.DesignateClassPackages]

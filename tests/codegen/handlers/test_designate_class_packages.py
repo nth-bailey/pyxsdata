@@ -1,14 +1,14 @@
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.handlers import DesignateClassPackages
-from xsdata.models.config import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.handlers import DesignateClassPackages
+from pyxsdata.models.config import (
     GeneratorConfig,
     GeneratorSubstitution,
     ObjectType,
     StructureStyle,
 )
-from xsdata.models.enums import Namespace
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.models.enums import Namespace
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 class DesignateClassPackagesTests(FactoryTestCase):

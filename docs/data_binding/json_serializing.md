@@ -1,9 +1,9 @@
 # JSON Serializing
 
 ```python
->>> from xsdata.formats.dataclass.context import XmlContext
->>> from xsdata.formats.dataclass.serializers import JsonSerializer
->>> from xsdata.formats.dataclass.serializers.config import SerializerConfig
+>>> from pyxsdata.formats.dataclass.context import XmlContext
+>>> from pyxsdata.formats.dataclass.serializers import JsonSerializer
+>>> from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 
 >>> config = SerializerConfig(indent="  ")
 >>> context = XmlContext()
@@ -15,7 +15,7 @@
 ## Return as string
 
 ```python
->>> from xsdata.models.datatype import XmlDate
+>>> from pyxsdata.models.datatype import XmlDate
 >>> from tests.fixtures.books import Books, BookForm
 >>>
 >>> books = Books(
@@ -136,7 +136,7 @@ By using a custom dict factory you can change the output behaviour, like filter 
 or conveniently
 
 ```python
->>> from xsdata.formats.dataclass.serializers import DictFactory
+>>> from pyxsdata.formats.dataclass.serializers import DictFactory
 >>>
 >>> serializer = JsonSerializer(dict_factory=DictFactory.FILTER_NONE)
 

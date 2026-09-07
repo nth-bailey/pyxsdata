@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.models.wsdl import PortType, PortTypeOperation
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.models.wsdl import PortType, PortTypeOperation
 
 
 class PortTypeTests(TestCase):

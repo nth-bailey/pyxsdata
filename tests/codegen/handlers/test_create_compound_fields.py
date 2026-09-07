@@ -1,11 +1,11 @@
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.handlers import CreateCompoundFields
-from xsdata.codegen.models import Restrictions
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.handlers import CreateCompoundFields
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     ClassFactory,
     ExtensionFactory,
@@ -205,7 +205,7 @@ class CreateCompoundFieldsTests(FactoryTestCase):
 
     def test_build_attr_choice(self) -> None:
         attr = AttrFactory.create(
-            name="a", namespace="xsdata", default="123", help="help", fixed=True
+            name="a", namespace="pyxsdata", default="123", help="help", fixed=True
         )
         attr.local_name = "aaa"
         attr.restrictions = Restrictions(

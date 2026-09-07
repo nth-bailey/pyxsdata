@@ -1,11 +1,11 @@
 from unittest import TestCase
 
+from pyxsdata.formats.dataclass.serializers import PycodeSerializer
+from pyxsdata.models.datatype import XmlDate
+from pyxsdata.models.enums import Namespace
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.books.fixtures import books
 from tests.fixtures.models import Parent
-from xsdata.formats.dataclass.serializers import PycodeSerializer
-from xsdata.models.datatype import XmlDate
-from xsdata.models.enums import Namespace
 
 
 class PycodeSerializerTests(TestCase):
@@ -16,9 +16,9 @@ class PycodeSerializerTests(TestCase):
         result = self.serializer.render(books, var_name="books")
 
         expected = (
+            "from pyxsdata.models.datatype import XmlDate\n"
             "from tests.fixtures.books.books import BookForm\n"
             "from tests.fixtures.books.books import Books\n"
-            "from xsdata.models.datatype import XmlDate\n"
             "\n"
             "\n"
             "books = Books(\n"
@@ -62,9 +62,9 @@ class PycodeSerializerTests(TestCase):
         )
         result = self.serializer.render(books, var_name="books")
         expected = (
+            "from pyxsdata.models.datatype import XmlDate\n"
             "from tests.fixtures.books.books import BookForm\n"
             "from tests.fixtures.books.books import Books\n"
-            "from xsdata.models.datatype import XmlDate\n"
             "\n"
             "\n"
             "books = Books(\n"
@@ -97,9 +97,9 @@ class PycodeSerializerTests(TestCase):
         )
         result = self.serializer.render(books, var_name="books")
         expected = (
+            "from pyxsdata.models.datatype import XmlDate\n"
             "from tests.fixtures.books.books import BookForm\n"
             "from tests.fixtures.books.books import Books\n"
-            "from xsdata.models.datatype import XmlDate\n"
             "\n"
             "\n"
             "books = Books(\n"

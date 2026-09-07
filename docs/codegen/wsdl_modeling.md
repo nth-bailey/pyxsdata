@@ -9,11 +9,11 @@ dataclasses for messages and simple classes to describe the unique operations.
 Make sure you install both the CLI and SOAP requirements.
 
 ```console
-$ pip install xsdata[cli,soap]
+$ pip install pyxsdata[cli,soap]
 ```
 
 ```console
-$ xsdata generate --package calculator http://www.dneonline.com/calculator.asmx?WSDL
+$ pyxsdata generate --package calculator http://www.dneonline.com/calculator.asmx?WSDL
 ```
 
 ## Message Model
@@ -27,7 +27,7 @@ structure of the `Envelope` wrapper.
 
 ## Operation Class
 
-The [DefinitionsMapper][xsdata.codegen.mappers.DefinitionsMapper] will generate simple
+The [DefinitionsMapper][pyxsdata.codegen.mappers.DefinitionsMapper] will generate simple
 static classes to describe all the unique operations and the binding procedure.
 
 ```python
@@ -36,23 +36,23 @@ static classes to describe all the unique operations and the binding procedure.
 
 ## Client
 
-The [Client][xsdata.formats.dataclass.client.Client] is a proxy for consuming web
+The [Client][pyxsdata.formats.dataclass.client.Client] is a proxy for consuming web
 services. The client needs a web service
-[Config][xsdata.formats.dataclass.client.Config] with the directives to process requests
+[Config][pyxsdata.formats.dataclass.client.Config] with the directives to process requests
 and responses.
 
 **You can also optionally provide and override:**
 
-- A [Transport][xsdata.formats.dataclass.transports.Transport] implementation
-- An [XmlParser][xsdata.formats.dataclass.parsers.XmlParser] instance
-- An [XmlSerializer][xsdata.formats.dataclass.serializers.XmlSerializer] instance
+- A [Transport][pyxsdata.formats.dataclass.transports.Transport] implementation
+- An [XmlParser][pyxsdata.formats.dataclass.parsers.XmlParser] instance
+- An [XmlSerializer][pyxsdata.formats.dataclass.serializers.XmlSerializer] instance
 
 ### Creating instances
 
 The client can be initialized from the operation class directly:
 
 ```python
->>> from xsdata.formats.dataclass.client import Client
+>>> from pyxsdata.formats.dataclass.client import Client
 >>> from tests.fixtures.calculator import CalculatorSoapAdd
 >>> client = Client.from_service(CalculatorSoapAdd)
 >>> client.config

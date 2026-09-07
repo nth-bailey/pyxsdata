@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.models.enums import Namespace, UseType
-from xsdata.models.xsd import Attribute, Length, Restriction, SimpleType
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.models.enums import Namespace, UseType
+from pyxsdata.models.xsd import Attribute, Length, Restriction, SimpleType
 
 
 class AttributeTests(TestCase):

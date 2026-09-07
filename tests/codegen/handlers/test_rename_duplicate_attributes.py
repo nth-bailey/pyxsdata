@@ -1,8 +1,8 @@
 from unittest import mock
 
-from xsdata.codegen.handlers import RenameDuplicateAttributes
-from xsdata.codegen.utils import ClassUtils
-from xsdata.utils.testing import ClassFactory, FactoryTestCase
+from pyxsdata.codegen.handlers import RenameDuplicateAttributes
+from pyxsdata.codegen.utils import ClassUtils
+from pyxsdata.utils.testing import ClassFactory, FactoryTestCase
 
 
 class RenameDuplicateAttributesTests(FactoryTestCase):

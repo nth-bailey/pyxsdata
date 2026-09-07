@@ -1,6 +1,6 @@
-from xsdata.codegen.handlers import CalculateAttributePaths
-from xsdata.codegen.models import Restrictions
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.codegen.handlers import CalculateAttributePaths
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 class CalculateAttributePathsTests(FactoryTestCase):

@@ -3,12 +3,12 @@ import os
 
 from click.testing import CliRunner
 
+from pyxsdata.cli import cli
+from pyxsdata.formats.dataclass.parsers import JsonParser
+from pyxsdata.formats.dataclass.serializers import JsonSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+from pyxsdata.utils.testing import filter_none, load_class
 from tests import fixtures_dir, root
-from xsdata.cli import cli
-from xsdata.formats.dataclass.parsers import JsonParser
-from xsdata.formats.dataclass.serializers import JsonSerializer
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
-from xsdata.utils.testing import filter_none, load_class
 
 os.chdir(root)
 
@@ -21,7 +21,7 @@ def test_json_documents() -> None:
         [
             "generate",
             str(filepath.joinpath("samples")),
-            f"--config={filepath.joinpath('.xsdata.xml')!s}",
+            f"--config={filepath.joinpath('.pyxsdata.xml')!s}",
         ],
     )
 

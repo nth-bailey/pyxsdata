@@ -1,14 +1,14 @@
 import warnings
 from unittest import mock
 
+from pyxsdata.exceptions import ParserError
+from pyxsdata.formats.converter import ConverterFactory
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+from pyxsdata.formats.dataclass.parsers.utils import ParserUtils
+from pyxsdata.models.enums import Namespace, ProcessType, QNames
+from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 from tests.fixtures.models import TypeA
-from xsdata.exceptions import ParserError
-from xsdata.formats.converter import ConverterFactory
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.utils import ParserUtils
-from xsdata.models.enums import Namespace, ProcessType, QNames
-from xsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 
 
 class ParserUtilsTests(FactoryTestCase):
@@ -17,7 +17,7 @@ class ParserUtilsTests(FactoryTestCase):
         self.ctx = XmlContext()
 
     def test_xsi_type(self) -> None:
-        ns_map = {"bar": "xsdata"}
+        ns_map = {"bar": "pyxsdata"}
         attrs = {}
         self.assertIsNone(ParserUtils.xsi_type(attrs, ns_map))
 
@@ -25,7 +25,7 @@ class ParserUtilsTests(FactoryTestCase):
         self.assertEqual("foo", ParserUtils.xsi_type(attrs, ns_map))
 
         attrs = {QNames.XSI_TYPE: "bar:foo"}
-        self.assertEqual("{xsdata}foo", ParserUtils.xsi_type(attrs, ns_map))
+        self.assertEqual("{pyxsdata}foo", ParserUtils.xsi_type(attrs, ns_map))
 
     def test_xsi_nil(self) -> None:
         attrs = {}

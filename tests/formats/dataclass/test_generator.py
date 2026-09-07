@@ -3,11 +3,11 @@ import tempfile
 from pathlib import Path
 from unittest import mock
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.resolver import DependenciesResolver
-from xsdata.formats.dataclass.generator import DataclassGenerator
-from xsdata.models.config import GeneratorConfig
-from xsdata.utils.testing import ClassFactory, FactoryTestCase
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.resolver import DependenciesResolver
+from pyxsdata.formats.dataclass.generator import DataclassGenerator
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.utils.testing import ClassFactory, FactoryTestCase
 
 
 class DataclassGeneratorTests(FactoryTestCase):
@@ -108,7 +108,7 @@ class DataclassGeneratorTests(FactoryTestCase):
             "from dataclasses import dataclass, field\n"
             "from enum import Enum\n"
             "\n"
-            '__NAMESPACE__ = "xsdata"\n'
+            '__NAMESPACE__ = "pyxsdata"\n'
             "\n"
             "\n"
             "class ClassB(Enum):\n"
@@ -208,7 +208,7 @@ class DataclassGeneratorTests(FactoryTestCase):
         src_code = (
             "class AlternativeText:\n"
             "    class Meta:\n"
-            '        namespace = "xsdata"\n'
+            '        namespace = "pyxsdata"\n'
             "\n"
             "    foo: Optional[Union[]] = field(\n"
             "           init=False,\n"

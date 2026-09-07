@@ -1,9 +1,9 @@
 import sys
 
-from xsdata.codegen.handlers import ProcessMixedContentClass
-from xsdata.codegen.models import Restrictions
-from xsdata.models.enums import DataType, NamespaceType
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.codegen.handlers import ProcessMixedContentClass
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.models.enums import DataType, NamespaceType
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 class ProcessMixedContentClassTests(FactoryTestCase):

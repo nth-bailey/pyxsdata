@@ -1,11 +1,11 @@
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.utils import ClassUtils
-from xsdata.codegen.validator import ClassValidator
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import DataType, Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.utils import ClassUtils
+from pyxsdata.codegen.validator import ClassValidator
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import DataType, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -61,7 +61,7 @@ class ClassValidatorTests(FactoryTestCase):
         self.validator.remove_invalid_classes(classes)
         self.assertEqual([second, third], classes)
 
-    @mock.patch("xsdata.codegen.mappers.definitions.logger.warning")
+    @mock.patch("pyxsdata.codegen.mappers.definitions.logger.warning")
     def test_handle_duplicate_types(self, mock_warning) -> None:
         one = ClassFactory.create(tag=Tag.ELEMENT)
         two = one.clone()
@@ -73,7 +73,7 @@ class ClassValidatorTests(FactoryTestCase):
         self.assertEqual([three, four], classes)
         mock_warning.assert_called_once_with(
             "Duplicate type %s, will keep the last defined",
-            "{xsdata}class_B",
+            "{pyxsdata}class_B",
         )
 
     @mock.patch.object(ClassValidator, "merge_redefined_type")

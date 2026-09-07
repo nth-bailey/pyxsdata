@@ -3,13 +3,13 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import mock
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.models import Class
-from xsdata.codegen.writer import CodeWriter
-from xsdata.formats.dataclass.generator import DataclassGenerator
-from xsdata.formats.mixins import AbstractGenerator, GeneratorResult
-from xsdata.models.config import GeneratorConfig
-from xsdata.utils.testing import ClassFactory, FactoryTestCase
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.models import Class
+from pyxsdata.codegen.writer import CodeWriter
+from pyxsdata.formats.dataclass.generator import DataclassGenerator
+from pyxsdata.formats.mixins import AbstractGenerator, GeneratorResult
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.utils.testing import ClassFactory, FactoryTestCase
 
 
 class NoneGenerator(AbstractGenerator):

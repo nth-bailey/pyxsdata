@@ -12,7 +12,7 @@ The local name of the XML/JSON field.
 
 ```python
 >>> from dataclasses import dataclass, field
->>> from xsdata.formats.dataclass.serializers import XmlSerializer
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer
 >>>
 >>> serializer = XmlSerializer()
 >>> serializer.config.indent = "  "
@@ -297,7 +297,7 @@ Wildcards can have a normal uri namespace or use one of xml schema generics.
 - `##targetNamespace`: element from the namespace of the parent can be present
 
 ```python
->>> from xsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
 >>>
 >>> @dataclass
 ... class Root:
@@ -414,7 +414,7 @@ Root(content=[AnyElement(qname='p', text='Paragraph', tail=' Tail', children=[],
 Specifies how `Wildcard` fields should behave, when they don't have a predefined list of
 choices. If `strict` is enabled, binding context will try to auto-locate a class that
 matches the qualified name, of the xml element, before trying using the
-[`AnyElement`][xsdata.formats.dataclass.models.generics.AnyElement] generic.
+[`AnyElement`][pyxsdata.formats.dataclass.models.generics.AnyElement] generic.
 
 **Type:** `strict | skip`
 

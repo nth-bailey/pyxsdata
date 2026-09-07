@@ -1,10 +1,10 @@
-site_name: "xsdata"
-site_url: https://xsdata.readthedocs.io/
+site_name: "pyxsdata"
+site_url: https://pyxsdata.readthedocs.io/
 site_description: >-
-  xsData is a complete data binding library for python allowing developers to
-  access and use XML and JSON documents as simple objects rather than using DOM.
-repo_name: tefra/xsdata
-repo_url: https://github.com/tefra/xsdata
+  pyxsdata is a modern, high-performance data binding library for Python 3.12+
+  allowing developers to access and use XML and JSON documents as simple objects rather than using DOM.
+repo_name: nth-bailey/pyxsdata
+repo_url: https://github.com/nth-bailey/pyxsdata
 edit_uri: edit/main/docs/
 exclude_docs: |
   scripts/
@@ -44,7 +44,7 @@ theme:
   favicon: 'favicon.png'
 
 watch:
-  - xsdata
+  - pyxsdata
 
 plugins:
 - search
@@ -87,12 +87,11 @@ markdown_extensions:
 
 nav:
 - Get Started:
-  - Welcome to xsdata: index.md
+  - Welcome to pyxsdata: index.md
   - Installation: installation.md
   - Changelog: changelog.md
   - Samples: samples.md
-  - PyPI: https://pypi.org/project/xsdata/
-  - Conda: https://anaconda.org/conda-forge/xsdata
+  - PyPI: https://pypi.org/project/pyxsdata/
 - Code Generator:
   - Introduction: codegen/intro.md
   - Configuration: codegen/config.md
@@ -116,6 +115,8 @@ nav:
   - Tree Serializing: data_binding/tree_serializing.md
   - Dict Decoding: data_binding/dict_decoding.md
   - Dict Encoding: data_binding/dict_encoding.md
+- Pydantic:
+  - Pydantic Integration: pydantic/index.md
 - FAQ: faq.md
 - API: api/
 - Plugins:

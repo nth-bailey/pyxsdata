@@ -1,12 +1,12 @@
 import sys
 from unittest import mock
 
-from xsdata.codegen.mappers import ElementMapper
-from xsdata.codegen.models import Restrictions
-from xsdata.codegen.utils import ClassUtils
-from xsdata.formats.dataclass.models.generics import AnyElement
-from xsdata.models.enums import DataType, QNames, Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.mappers import ElementMapper
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.codegen.utils import ClassUtils
+from pyxsdata.formats.dataclass.models.generics import AnyElement
+from pyxsdata.models.enums import DataType, QNames, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -18,7 +18,7 @@ class ElementMapperTests(FactoryTestCase):
     @mock.patch.object(ClassUtils, "flatten")
     @mock.patch.object(ElementMapper, "build_class")
     def test_map(self, mock_build_class, mock_flatten) -> None:
-        element = AnyElement(qname="{xsdata}root")
+        element = AnyElement(qname="{pyxsdata}root")
         root_class = ClassFactory.create()
         flat_classes = ClassFactory.list(5)
         iter_flat_classes = iter(flat_classes)
@@ -29,12 +29,12 @@ class ElementMapperTests(FactoryTestCase):
         actual = ElementMapper.map(element, "tests")
 
         self.assertEqual(flat_classes, actual)
-        mock_build_class.assert_called_once_with(element, "xsdata")
+        mock_build_class.assert_called_once_with(element, "pyxsdata")
         mock_flatten.assert_called_once_with(root_class, "tests/root")
 
     def test_build_class_simple_type(self) -> None:
         element = AnyElement(
-            qname="{xsdata}root",
+            qname="{pyxsdata}root",
             attributes={"{foo}bar": "1", "{bar}foo": "2.0"},
             text="true",
         )
@@ -42,8 +42,8 @@ class ElementMapperTests(FactoryTestCase):
         actual = ElementMapper.build_class(element, "target")
         expected = ClassFactory.create(
             tag=Tag.ELEMENT,
-            qname="{xsdata}root",
-            namespace="xsdata",
+            qname="{pyxsdata}root",
+            namespace="pyxsdata",
             location="",
             module=None,
             ns_map={},
@@ -78,9 +78,9 @@ class ElementMapperTests(FactoryTestCase):
 
     def test_build_class_complex_type(self) -> None:
         element = AnyElement(
-            qname="{xsdata}root",
+            qname="{pyxsdata}root",
             children=[
-                AnyElement(qname="{xsdata}child", text="primitive"),
+                AnyElement(qname="{pyxsdata}child", text="primitive"),
                 AnyElement(
                     qname="{inner}child", attributes={"{foo}bar": "1", "{bar}foo": "2"}
                 ),
@@ -90,8 +90,8 @@ class ElementMapperTests(FactoryTestCase):
         actual = ElementMapper.build_class(element, "target")
         expected = ClassFactory.create(
             tag=Tag.ELEMENT,
-            qname="{xsdata}root",
-            namespace="xsdata",
+            qname="{pyxsdata}root",
+            namespace="pyxsdata",
             location="",
             module=None,
             ns_map={},
@@ -100,7 +100,7 @@ class ElementMapperTests(FactoryTestCase):
                     DataType.STRING,
                     tag=Tag.ELEMENT,
                     name="child",
-                    namespace="xsdata",
+                    namespace="pyxsdata",
                     index=0,
                 ),
                 AttrFactory.element(
@@ -202,9 +202,9 @@ class ElementMapperTests(FactoryTestCase):
 
     def test_build_class_mixed_content(self) -> None:
         element = AnyElement(
-            qname="{xsdata}root",
+            qname="{pyxsdata}root",
             children=[
-                AnyElement(qname="{xsdata}child", text="primitive"),
+                AnyElement(qname="{pyxsdata}child", text="primitive"),
                 AnyElement(qname="something", text="foo", tail="bar"),
             ],
         )
@@ -212,8 +212,8 @@ class ElementMapperTests(FactoryTestCase):
         actual = ElementMapper.build_class(element, None)
         expected = ClassFactory.create(
             tag=Tag.ELEMENT,
-            qname="{xsdata}root",
-            namespace="xsdata",
+            qname="{pyxsdata}root",
+            namespace="pyxsdata",
             location="",
             module=None,
             mixed=True,
@@ -222,7 +222,7 @@ class ElementMapperTests(FactoryTestCase):
                 AttrFactory.native(
                     DataType.STRING,
                     name="child",
-                    namespace="xsdata",
+                    namespace="pyxsdata",
                     index=0,
                     restrictions=Restrictions(min_occurs=0, max_occurs=1),
                 ),
@@ -238,17 +238,17 @@ class ElementMapperTests(FactoryTestCase):
         self.assertEqual(expected, actual)
 
         element = AnyElement(
-            qname="{xsdata}root",
+            qname="{pyxsdata}root",
             text="foo",
             children=[
-                AnyElement(qname="{xsdata}child", text="primitive"),
+                AnyElement(qname="{pyxsdata}child", text="primitive"),
             ],
         )
         actual = ElementMapper.build_class(element, None)
         self.assertTrue(actual.mixed)
 
     def test_build_class_nillable(self) -> None:
-        element = AnyElement(qname="{xsdata}root", attributes={QNames.XSI_NIL: "1"})
+        element = AnyElement(qname="{pyxsdata}root", attributes={QNames.XSI_NIL: "1"})
         target = ElementMapper.build_class(element, None)
         self.assertTrue(target.nillable)
 
@@ -258,7 +258,7 @@ class ElementMapperTests(FactoryTestCase):
 
     def test_build_class_ignore_invalid(self) -> None:
         element = AnyElement(
-            qname="{xsdata}root",
+            qname="{pyxsdata}root",
             children=[
                 AnyElement(text="primitive"),
                 "",

@@ -4,7 +4,7 @@
 
     The W3C XML Schema is too complicated but with good reason. It needs to support any
     api design. On the other hand when you consume xml you don't necessarily care about
-    any of that. This is where xsData comes in, to simplify things by making a lot of
+    any of that. This is where pyxsdata comes in, to simplify things by making a lot of
     assumptions like the following one that started everything:
 
 

@@ -2,10 +2,10 @@ import copy
 from collections.abc import Generator
 from unittest import TestCase
 
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.formats.dataclass.models.generics import AnyElement
-from xsdata.models.wsdl import Binding, Definitions, Message, PortType, Service, Types
-from xsdata.models.xsd import Schema
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.formats.dataclass.models.generics import AnyElement
+from pyxsdata.models.wsdl import Binding, Definitions, Message, PortType, Service, Types
+from pyxsdata.models.xsd import Schema
 
 
 class DefinitionsTests(TestCase):

@@ -1,6 +1,6 @@
 import pytest
 
-from xsdata.models.datatype import XmlDate, XmlDateTime, XmlDuration, XmlTime
+from pyxsdata.models.datatype import XmlDate, XmlDateTime, XmlDuration, XmlTime
 
 
 @pytest.mark.benchmark(disable_gc=True, group="converters", min_rounds=100000)

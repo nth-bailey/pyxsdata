@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from xsdata.models.wsdl import Binding, BindingOperation
+from pyxsdata.models.wsdl import Binding, BindingOperation
 
 
 class BindingTests(TestCase):

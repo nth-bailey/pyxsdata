@@ -1,0 +1,122 @@
+[project]
+site_url = "https://pyxsdata.readthedocs.io/"
+site_name = "pyxsdata"
+site_description = "A modern, high-performance data binding library for Python 3.12+ supporting XML and JSON schemas, Pydantic v2, and Astral ty."
+repo_url = "https://github.com/nth-bailey/pyxsdata"
+repo_name = "nth-bailey/pyxsdata"
+edit_uri = "edit/main/docs/"
+
+nav = [
+  { "Get Started" = [
+      { "Welcome to pyxsdata" = "index.md" },
+      { "Installation" = "installation.md" },
+      { "Changelog" = "changelog.md" },
+      { "Samples" = "samples.md" },
+  ]},
+  { "Code Generator" = [
+      { "Introduction" = "codegen/intro.md" },
+      { "Configuration" = "codegen/config.md" },
+      { "Docstring styles" = "codegen/docstrings.md" },
+      { "DTD Modeling" = "codegen/dtd_modeling.md" },
+      { "WSDL Modeling" = "codegen/wsdl_modeling.md" },
+      { "Samples Modeling" = "codegen/samples_modeling.md" },
+      { "Download Schemas" = "codegen/download_schemas.md" },
+      { "Architecture" = "codegen/architecture.md" },
+  ]},
+  { "Data Models" = [
+      { "Classes" = "models/classes.md" },
+      { "Fields" = "models/fields.md" },
+      { "Types" = "models/types.md" },
+  ]},
+  { "Data Binding" = [
+      { "Basics" = "data_binding/basics.md" },
+      { "XML Parsing" = "data_binding/xml_parsing.md" },
+      { "XML Serializing" = "data_binding/xml_serializing.md" },
+      { "JSON Parsing" = "data_binding/json_parsing.md" },
+      { "JSON Serializing" = "data_binding/json_serializing.md" },
+      { "Pycode Serializing" = "data_binding/pycode_serializing.md" },
+      { "Tree Serializing" = "data_binding/tree_serializing.md" },
+      { "Dict Decoding" = "data_binding/dict_decoding.md" },
+      { "Dict Encoding" = "data_binding/dict_encoding.md" },
+  ]},
+  { "Pydantic" = [
+      { "Pydantic v2 Integration" = "pydantic/index.md" },
+  ]},
+  { "FAQ" = "faq.md" },
+  { "Plugins" = [
+      { "How-to" = "plugins/how_to.md" },
+      { "List" = "plugins/list.md" },
+  ]},
+]
+
+[project.theme]
+language = "en"
+features = [
+  "announce.dismiss",
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/nth-bailey/pyxsdata"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.arithmatex.generic = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}

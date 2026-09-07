@@ -2,11 +2,17 @@ import random
 
 import pytest
 
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.parsers.handlers import (
+    LxmlEventHandler,
+    XmlEventHandler,
+)
+from pyxsdata.formats.dataclass.serializers.writers import (
+    LxmlEventWriter,
+    XmlEventWriter,
+)
 from tests import xsdata_temp_dir
 from tests.integration.benchmarks.utils import make_books, parse, write
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.parsers.handlers import LxmlEventHandler, XmlEventHandler
-from xsdata.formats.dataclass.serializers.writers import LxmlEventWriter, XmlEventWriter
 
 context = XmlContext()
 readers_list = [

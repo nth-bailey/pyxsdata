@@ -1,13 +1,13 @@
 from unittest.case import TestCase
 
+from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.serializers import DictEncoder, DictFactory
+from pyxsdata.models.datatype import XmlDate
+from pyxsdata.models.xsd import Attribute
+from pyxsdata.utils.testing import XmlVarFactory
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.datatypes import Telephone
 from tests.fixtures.wrapper import Wrapper
-from xsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
-from xsdata.formats.dataclass.serializers import DictEncoder, DictFactory
-from xsdata.models.datatype import XmlDate
-from xsdata.models.xsd import Attribute
-from xsdata.utils.testing import XmlVarFactory
 
 
 class DictEncoderTests(TestCase):

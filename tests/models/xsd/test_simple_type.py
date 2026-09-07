@@ -1,6 +1,13 @@
 from unittest import TestCase
 
-from xsdata.models.xsd import Enumeration, Length, List, Restriction, SimpleType, Union
+from pyxsdata.models.xsd import (
+    Enumeration,
+    Length,
+    List,
+    Restriction,
+    SimpleType,
+    Union,
+)
 
 
 class SimpleTypeTests(TestCase):

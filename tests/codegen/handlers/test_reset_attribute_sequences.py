@@ -1,6 +1,6 @@
-from xsdata.codegen.handlers import ResetAttributeSequences
-from xsdata.codegen.models import Restrictions
-from xsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
+from pyxsdata.codegen.handlers import ResetAttributeSequences
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.utils.testing import AttrFactory, ClassFactory, FactoryTestCase
 
 
 class ResetAttributeSequencesTests(FactoryTestCase):

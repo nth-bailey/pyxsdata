@@ -2,7 +2,7 @@ from pathlib import Path
 
 import mkdocs_gen_files
 
-src = Path(__file__).parent.parent.parent / "xsdata"
+src = Path(__file__).parent.parent.parent / "pyxsdata"
 nav = mkdocs_gen_files.Nav()
 
 
@@ -21,7 +21,7 @@ for path in sorted(src.rglob("*.py")):
 
     with mkdocs_gen_files.open(full_doc_path, "w") as fd:
         identifier = ".".join(parts)
-        print("::: xsdata." + identifier, file=fd)
+        print("::: pyxsdata." + identifier, file=fd)
 
     mkdocs_gen_files.set_edit_path(full_doc_path, path)
 

@@ -7,7 +7,7 @@ Plugins can extend support for output formats.
 
 ```python exec="true" source="above" result="xml"
 from dataclasses import dataclass # markdown-exec: hide
-from xsdata.formats.dataclass.serializers import XmlSerializer # markdown-exec: hide
+from pyxsdata.formats.dataclass.serializers import XmlSerializer # markdown-exec: hide
 serializer = XmlSerializer() # markdown-exec: hide
 serializer.config.indent = "  " # markdown-exec: hide
 @dataclass
@@ -31,7 +31,7 @@ The local name of the XML/JSON element.
 
 ```python
 >>> from dataclasses import dataclass, field
->>> from xsdata.formats.dataclass.serializers import XmlSerializer
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer
 >>> serializer = XmlSerializer()
 >>> serializer.config.indent = "  "
 >>> serializer.config.xml_declaration = False
@@ -120,7 +120,7 @@ auto-type discovery.
 A callable to convert element names when no explicit names are defined.
 
 ```python
->>> from xsdata.utils.text import camel_case
+>>> from pyxsdata.utils.text import camel_case
 >>>
 >>> @dataclass
 ... class RootType:

@@ -1,8 +1,8 @@
-from xsdata.codegen.container import ClassContainer, Steps
-from xsdata.codegen.handlers import ResetAttributeSequenceNumbers
-from xsdata.codegen.models import Restrictions, Status
-from xsdata.models.config import GeneratorConfig
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer, Steps
+from pyxsdata.codegen.handlers import ResetAttributeSequenceNumbers
+from pyxsdata.codegen.models import Restrictions, Status
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.utils.testing import (
     AttrFactory,
     ClassFactory,
     ExtensionFactory,

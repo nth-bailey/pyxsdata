@@ -1,7 +1,7 @@
 import unittest
 import warnings
 
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 
 
 class SerializerConfigTest(unittest.TestCase):

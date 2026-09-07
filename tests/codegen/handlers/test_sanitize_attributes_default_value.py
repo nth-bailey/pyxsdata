@@ -1,11 +1,11 @@
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.handlers import SanitizeAttributesDefaultValue
-from xsdata.codegen.models import Restrictions
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import DataType, Namespace, Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.handlers import SanitizeAttributesDefaultValue
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import DataType, Namespace, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
@@ -153,7 +153,7 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
         self.assertTrue(self.processor.should_reset_default(attr))
 
     @mock.patch(
-        "xsdata.codegen.handlers.sanitize_attributes_default_value.logger.warning"
+        "pyxsdata.codegen.handlers.sanitize_attributes_default_value.logger.warning"
     )
     @mock.patch.object(SanitizeAttributesDefaultValue, "reset_attribute_types")
     @mock.patch.object(SanitizeAttributesDefaultValue, "is_valid_native_value")

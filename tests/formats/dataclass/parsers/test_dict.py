@@ -3,6 +3,11 @@ from dataclasses import asdict, dataclass, field
 from decimal import Decimal
 from xml.etree.ElementTree import QName
 
+from pyxsdata.exceptions import ParserError
+from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.parsers import DictDecoder
+from pyxsdata.models.datatype import XmlDate
+from pyxsdata.utils.testing import FactoryTestCase
 from tests import fixtures_dir
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.models import (
@@ -20,11 +25,6 @@ from tests.fixtures.models import (
     UnionType,
 )
 from tests.fixtures.wrapper import Charlie, Wrapper
-from xsdata.exceptions import ParserError
-from xsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
-from xsdata.formats.dataclass.parsers import DictDecoder
-from xsdata.models.datatype import XmlDate
-from xsdata.utils.testing import FactoryTestCase
 
 # Default values for BookForm required fields
 BOOK_DEFAULTS = {
@@ -383,7 +383,7 @@ class DictDecoderTests(FactoryTestCase):
         data = {
             "wildcard": {
                 "qname": "b",
-                "type": "{xsdata}TypeB",
+                "type": "{pyxsdata}TypeB",
                 "value": {
                     "x": "1",
                     "y": "a",
@@ -392,7 +392,7 @@ class DictDecoderTests(FactoryTestCase):
         }
         expected = ExtendedType(
             wildcard=DerivedElement(
-                qname="b", value=TypeB(x=1, y="a"), type="{xsdata}TypeB"
+                qname="b", value=TypeB(x=1, y="a"), type="{pyxsdata}TypeB"
             )
         )
         self.assertEqual(expected, self.decoder.bind_dataclass(data, ExtendedType))

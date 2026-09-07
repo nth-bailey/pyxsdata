@@ -1,7 +1,7 @@
 import unittest
 from dataclasses import dataclass
 
-from xsdata.codegen.models import CodegenModel
+from pyxsdata.codegen.models import CodegenModel
 
 
 @dataclass

@@ -2,14 +2,14 @@ from pathlib import Path
 
 from lxml import etree
 
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.parsers import JsonParser, XmlParser
-from xsdata.formats.dataclass.serializers import (
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.parsers import JsonParser, XmlParser
+from pyxsdata.formats.dataclass.serializers import (
     JsonSerializer,
     PycodeSerializer,
     XmlSerializer,
 )
-from xsdata.formats.dataclass.serializers.config import SerializerConfig
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 
 
 def validate_bindings(schema: Path, clazz: type) -> None:
@@ -40,7 +40,7 @@ def validate_bindings(schema: Path, clazz: type) -> None:
 
     xml = xml_serializer.render(obj)
 
-    expected.with_suffix(".xsdata.xml").write_text(xml, encoding="utf-8")
+    expected.with_suffix(".pyxsdata.xml").write_text(xml, encoding="utf-8")
 
     validator = etree.XMLSchema(etree.parse(str(schema)))
     assert validator.validate(etree.fromstring(xml.encode())), validator.error_log

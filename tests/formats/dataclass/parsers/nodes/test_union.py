@@ -1,15 +1,15 @@
 from dataclasses import field, make_dataclass
 from unittest import TestCase
 
+from pyxsdata.exceptions import ParserError
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+from pyxsdata.formats.dataclass.parsers.nodes import UnionNode
+from pyxsdata.models.mixins import attribute
+from pyxsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 from tests.fixtures.artists import Artist
 from tests.fixtures.models import UnionType
-from xsdata.exceptions import ParserError
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.nodes import UnionNode
-from xsdata.models.mixins import attribute
-from xsdata.utils.testing import XmlMetaFactory, XmlVarFactory
 
 
 class UnionNodeTests(TestCase):
@@ -21,7 +21,7 @@ class UnionNodeTests(TestCase):
 
     def test_child(self) -> None:
         attrs = {"id": "1"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         meta = XmlMetaFactory.create(clazz=Artist)
         var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="foo")
         node = UnionNode(

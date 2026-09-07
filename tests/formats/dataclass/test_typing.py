@@ -1,19 +1,19 @@
 import pytest
 
-from tests.formats.dataclass.cases import (
-    attribute,
-    attributes,
-    element,
-    elements,
-    wildcard,
-)
-from xsdata.formats.dataclass.typing import (
+from pyxsdata.formats.dataclass.typing import (
     evaluate,
     evaluate_attribute,
     evaluate_attributes,
     evaluate_element,
     evaluate_elements,
     evaluate_wildcard,
+)
+from tests.formats.dataclass.cases import (
+    attribute,
+    attributes,
+    element,
+    elements,
+    wildcard,
 )
 
 

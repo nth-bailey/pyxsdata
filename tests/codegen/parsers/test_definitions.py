@@ -1,8 +1,8 @@
 from unittest import TestCase
 
+from pyxsdata.codegen.parsers import DefinitionsParser
+from pyxsdata.models.wsdl import Definitions, Import
 from tests import fixtures_dir
-from xsdata.codegen.parsers import DefinitionsParser
-from xsdata.models.wsdl import Definitions, Import
 
 
 class DefinitionsParserTests(TestCase):

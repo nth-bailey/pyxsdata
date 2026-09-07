@@ -2,7 +2,7 @@ from collections import namedtuple
 from collections.abc import Iterator
 from unittest import TestCase
 
-from xsdata.utils import collections
+from pyxsdata.utils import collections
 
 
 class CollectionsTests(TestCase):

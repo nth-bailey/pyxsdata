@@ -3,9 +3,9 @@ from pathlib import Path
 from unittest import TestCase, mock
 from urllib.request import urlopen
 
+from pyxsdata.models.xsd import Import, Schema
+from pyxsdata.utils.downloader import Downloader
 from tests import fixtures_dir
-from xsdata.models.xsd import Import, Schema
-from xsdata.utils.downloader import Downloader
 
 
 class DownloaderTests(TestCase):

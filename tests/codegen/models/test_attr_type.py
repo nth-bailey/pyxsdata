@@ -1,4 +1,4 @@
-from xsdata.utils.testing import AttrTypeFactory, FactoryTestCase
+from pyxsdata.utils.testing import AttrTypeFactory, FactoryTestCase
 
 
 class AttrTypeTests(FactoryTestCase):

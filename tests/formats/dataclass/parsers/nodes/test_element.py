@@ -2,6 +2,22 @@ import copy
 from dataclasses import make_dataclass
 from unittest import mock
 
+from pyxsdata.exceptions import ParserError
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+from pyxsdata.formats.dataclass.parsers.nodes import (
+    ElementNode,
+    PrimitiveNode,
+    SkipNode,
+    StandardNode,
+    UnionNode,
+    WildcardNode,
+)
+from pyxsdata.formats.dataclass.parsers.utils import ParserUtils
+from pyxsdata.models.enums import DataType, Namespace, QNames
+from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 from tests.fixtures.books import Books
 from tests.fixtures.models import (
     AttrsType,
@@ -16,22 +32,6 @@ from tests.fixtures.models import (
     TypeB,
     TypeC,
 )
-from xsdata.exceptions import ParserError
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
-from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.nodes import (
-    ElementNode,
-    PrimitiveNode,
-    SkipNode,
-    StandardNode,
-    UnionNode,
-    WildcardNode,
-)
-from xsdata.formats.dataclass.parsers.utils import ParserUtils
-from xsdata.models.enums import DataType, Namespace, QNames
-from xsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
 
 
 class ElementNodeTests(FactoryTestCase):
@@ -55,7 +55,7 @@ class ElementNodeTests(FactoryTestCase):
             context=self.context,
             config=ParserConfig(),
             attrs={"a": "b", "a0": "0"},
-            ns_map={"ns0": "xsdata"},
+            ns_map={"ns0": "pyxsdata"},
         )
 
         objects = [("x1", 1), ("x2", 2), ("x2", 3)]
@@ -98,7 +98,7 @@ class ElementNodeTests(FactoryTestCase):
     def test_bind_with_wildcard_var(self) -> None:
         self.node.meta = self.context.build(ExtendedType)
         self.node.attrs = {"a": "b"}
-        self.node.ns_map = {"ns0": "xsdata"}
+        self.node.ns_map = {"ns0": "pyxsdata"}
 
         objects = [("a", "1"), ("b", "2")]
         expected = ExtendedType(
@@ -118,7 +118,7 @@ class ElementNodeTests(FactoryTestCase):
     def test_bind_with_mixed_flag_true(self) -> None:
         self.node.meta = self.context.build(TypeB)
         self.node.attrs = {"a": "b"}
-        self.node.ns_map = {"ns0": "xsdata"}
+        self.node.ns_map = {"ns0": "pyxsdata"}
         self.node.mixed = True
 
         objects = [("x", 1), ("y", "a")]
@@ -135,7 +135,7 @@ class ElementNodeTests(FactoryTestCase):
     def test_bind_with_mixed_content_var(self) -> None:
         self.node.meta = self.context.build(Paragraph)
         self.node.attrs = {"a": "b"}
-        self.node.ns_map = {"ns0": "xsdata"}
+        self.node.ns_map = {"ns0": "pyxsdata"}
 
         objects = [("a", 1)]
         expected = Paragraph(content=["text", AnyElement(qname="a", text="1")])
@@ -228,7 +228,7 @@ class ElementNodeTests(FactoryTestCase):
         self.node.bind("foo", "text", "tail", objects)
         self.assertEqual(1, len(objects))
 
-    @mock.patch("xsdata.formats.dataclass.parsers.nodes.element.logger.warning")
+    @mock.patch("pyxsdata.formats.dataclass.parsers.nodes.element.logger.warning")
     def test_bind_objects(self, mock_warning) -> None:
         self.node.meta = self.context.build(TypeC)
 
@@ -364,7 +364,7 @@ class ElementNodeTests(FactoryTestCase):
     def test_child(self) -> None:
         var = XmlVarFactory.create(xml_type=XmlType.ELEMENT, name="a", types=(TypeC,))
         attrs = {"a": "b"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         position = 1
         self.meta.elements[var.qname] = [var]
 
@@ -385,7 +385,7 @@ class ElementNodeTests(FactoryTestCase):
         self.meta.wildcards.append(wildcard)
 
         attrs = {"a": "b"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         position = 1
 
         actual = self.node.child("cc", attrs, ns_map, position)
@@ -422,7 +422,7 @@ class ElementNodeTests(FactoryTestCase):
             types=(TypeC, TypeB),
         )
         attrs = {"a": "b"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         actual = self.node.build_node(var.qname, var, attrs, ns_map, 10)
 
         self.assertIsInstance(actual, UnionNode)
@@ -447,7 +447,7 @@ class ElementNodeTests(FactoryTestCase):
         mock_xsi_type.return_value = xsi_type
 
         attrs = {"a": "b"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         actual = self.node.build_node(var.qname, var, attrs, ns_map, 10)
 
         self.assertIsInstance(actual, ElementNode)
@@ -474,7 +474,7 @@ class ElementNodeTests(FactoryTestCase):
         mock_xsi_type.return_value = xsi_type
 
         attrs = {"a": "b"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         actual = self.node.build_node(var.qname, var, attrs, ns_map, 10)
 
         self.assertIsInstance(actual, ElementNode)
@@ -608,7 +608,7 @@ class ElementNodeTests(FactoryTestCase):
             xml_type=XmlType.TEXT, name="a", types=(int,), default=100
         )
         attrs = {"a": "b"}
-        ns_map = {"ns0": "xsdata"}
+        ns_map = {"ns0": "pyxsdata"}
         actual = self.node.build_node(var.qname, var, attrs, ns_map, 10)
 
         self.assertIsInstance(actual, PrimitiveNode)

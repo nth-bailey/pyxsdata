@@ -3,18 +3,18 @@ from typing import Any
 from unittest import mock
 from unittest.case import TestCase
 
+from pyxsdata.exceptions import ParserError
+from pyxsdata.formats.dataclass.models.elements import XmlType
+from pyxsdata.formats.dataclass.models.generics import DerivedElement
+from pyxsdata.formats.dataclass.parsers.bases import NodeParser
+from pyxsdata.formats.dataclass.parsers.handlers import XmlEventHandler
+from pyxsdata.formats.dataclass.parsers.mixins import XmlHandler
+from pyxsdata.formats.dataclass.parsers.nodes.primitive import PrimitiveNode
+from pyxsdata.formats.dataclass.parsers.nodes.skip import SkipNode
+from pyxsdata.models.enums import Namespace, QNames
+from pyxsdata.utils.testing import XmlVarFactory
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.models import TypeA
-from xsdata.exceptions import ParserError
-from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.formats.dataclass.models.generics import DerivedElement
-from xsdata.formats.dataclass.parsers.bases import NodeParser
-from xsdata.formats.dataclass.parsers.handlers import XmlEventHandler
-from xsdata.formats.dataclass.parsers.mixins import XmlHandler
-from xsdata.formats.dataclass.parsers.nodes.primitive import PrimitiveNode
-from xsdata.formats.dataclass.parsers.nodes.skip import SkipNode
-from xsdata.models.enums import Namespace, QNames
-from xsdata.utils.testing import XmlVarFactory
 
 
 class NodeParserTests(TestCase):

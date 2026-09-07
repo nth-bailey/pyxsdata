@@ -3,12 +3,15 @@ requires = ["setuptools>=77.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["xsdata*"]
+include = ["pyxsdata*"]
 
 [project]
-name = "xsdata"
-description = "Python XML Binding"
-authors = [{name = "Christodoulos Tsoulloftas", email = "chris@komposta.net"}]
+name = "pyxsdata"
+description = "Modern Python XML & JSON Data Binding with Pydantic & Dataclasses support"
+authors = [
+    {name = "Christodoulos Tsoulloftas", email = "chris@komposta.net"},
+    {name = "nth-bailey"},
+]
 license = "MIT"
 license-files = ["LICENSE"]
 classifiers = [
@@ -17,8 +20,6 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
@@ -27,11 +28,9 @@ classifiers = [
     "Topic :: Software Development :: Code Generators",
     "Topic :: Text Processing :: Markup :: XML",
 ]
-keywords = ["xsd", "wsdl", "schema", "dtd", "binding", "xml", "json", "dataclasses", "generator", "cli"]
-requires-python = ">=3.10"
-dependencies = [
-    "typing-extensions>=4.12.0",
-]
+keywords = ["xsd", "wsdl", "schema", "dtd", "binding", "xml", "json", "dataclasses", "generator", "cli", "pydantic"]
+requires-python = ">=3.12"
+dependencies = []
 dynamic = ["version"]
 
 [project.readme]
@@ -39,47 +38,60 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-Homepage = "https://github.com/tefra/xsdata"
-Source = "https://github.com/tefra/xsdata"
-Documentation = "https://xsdata.readthedocs.io/"
-Changelog = "https://xsdata.readthedocs.io/en/latest/changelog/"
+Homepage = "https://github.com/nth-bailey/pyxsdata"
+Source = "https://github.com/nth-bailey/pyxsdata"
+Documentation = "https://pyxsdata.readthedocs.io/"
+Changelog = "https://pyxsdata.readthedocs.io/en/latest/changelog/"
 
 [project.optional-dependencies]
 cli = [
-    "click>=8.0.0",
-    "jinja2>=3.0.0",
-    "toposort>=1.9",
-    "ruff>=0.9.8"
+    "click>=8.1.8",
+    "jinja2>=3.1.5",
+    "toposort>=1.10",
+    "ruff>=0.9.8",
+]
+pydantic = [
+    "pydantic>=2.10.0",
 ]
 docs = [
-    "mkdocs",
-    "mkdocs-gen-files",
-    "mkdocs-literate-nav",
-    "mkdocs-material",
-    "mkdocs-minify-plugin",
-    "mkdocstrings[python]",
-    "markdown-exec[ansi]",
+    "zensical>=0.0.59",
+    "mkdocs>=1.6.1",
+    "mkdocs-gen-files>=0.6.1",
+    "mkdocs-literate-nav>=0.6.3",
+    "mkdocs-material>=9.6.0",
+    "mkdocs-minify-plugin>=0.8.0",
+    "mkdocstrings[python]>=0.28.0",
+    "markdown-exec[ansi]>=1.10.0",
 ]
-lxml = ["lxml>=5.0.0"]
-soap = ["requests>=2.28.0"]
+lxml = ["lxml>=5.3.0"]
+soap = ["requests>=2.32.3"]
 test = [
-    "pre-commit>=3.0.0",
-    "pytest>=8.0.0",
-    "pytest-benchmark>=4.0.0",
-    "pytest-cov>=5.0.0",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.0",
+    "pytest-benchmark>=5.1.0",
+    "pytest-cov>=6.0.0",
+]
+all = [
+    "pyxsdata[cli,lxml,soap,pydantic]",
 ]
 
 [project.scripts]
-xsdata = "xsdata.__main__:main"
+pyxsdata = "pyxsdata.__main__:main"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.dynamic]
-version = {attr = "xsdata.__version__"}
+version = {attr = "pyxsdata.__version__"}
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty.src]
+exclude = ["tests/fixtures"]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 line-length = 88
 
 [tool.ruff.lint]
@@ -141,11 +153,13 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 addopts = "--color=yes --benchmark-skip"
 doctest_optionflags = "NORMALIZE_WHITESPACE"
 
+
 [tool.coverage.run]
 omit = [
-    "xsdata/__main__.py",
-    "xsdata/utils/debug.py",
+    "pyxsdata/__main__.py",
+    "pyxsdata/utils/debug.py",
 ]

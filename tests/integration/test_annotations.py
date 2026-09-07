@@ -3,11 +3,11 @@ import os
 import pytest
 from click.testing import CliRunner
 
+from pyxsdata.cli import cli
+from pyxsdata.formats.dataclass.context import XmlContext
+from pyxsdata.formats.dataclass.parsers.xml import XmlParser
+from pyxsdata.utils.testing import load_class
 from tests import fixtures_dir, root
-from xsdata.cli import cli
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.parsers.xml import XmlParser
-from xsdata.utils.testing import load_class
 
 os.chdir(root)
 
@@ -17,7 +17,8 @@ def test_annotations() -> None:
     schema = filepath.joinpath("model.xsd")
     runner = CliRunner()
     result = runner.invoke(
-        cli, ["generate", str(schema), f"--config={filepath.joinpath('xsdata.xml')!s}"]
+        cli,
+        ["generate", str(schema), f"--config={filepath.joinpath('pyxsdata.xml')!s}"],
     )
 
     if result.exception:

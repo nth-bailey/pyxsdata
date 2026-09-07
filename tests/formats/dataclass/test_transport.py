@@ -2,7 +2,7 @@ from unittest import TestCase, mock
 
 from requests import HTTPError, Response, Session
 
-from xsdata.formats.dataclass.transports import DefaultTransport
+from pyxsdata.formats.dataclass.transports import DefaultTransport
 
 
 class DefaultTransportTest(TestCase):
@@ -63,8 +63,8 @@ class DefaultTransportTest(TestCase):
 
         response.status_code = 401
         response.reason = "Nope"
-        response.url = "xsdata"
+        response.url = "pyxsdata"
         with self.assertRaises(HTTPError) as cm:
             transport.handle_response(response)
 
-        self.assertEqual("401 Client Error: Nope for url: xsdata", str(cm.exception))
+        self.assertEqual("401 Client Error: Nope for url: pyxsdata", str(cm.exception))

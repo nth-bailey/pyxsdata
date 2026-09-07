@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from xsdata.models.datatype import XmlDate, XmlPeriod
+from pyxsdata.models.datatype import XmlDate, XmlPeriod
 
 __NAMESPACE__ = "http://musicbrainz.org/ns/mmd-2.0#"
 

@@ -1,10 +1,9 @@
 from collections import namedtuple
 from unittest import mock
 
-from tests.fixtures.datatypes import Telephone
-from xsdata.codegen.models import Restrictions
-from xsdata.formats.dataclass.filters import Filters
-from xsdata.models.config import (
+from pyxsdata.codegen.models import Restrictions
+from pyxsdata.formats.dataclass.filters import Filters
+from pyxsdata.models.config import (
     DocstringStyle,
     ExtensionType,
     GeneratorConfig,
@@ -13,14 +12,15 @@ from xsdata.models.config import (
     NameCase,
     ObjectType,
 )
-from xsdata.models.enums import DataType, Namespace, Tag
-from xsdata.utils.testing import (
+from pyxsdata.models.enums import DataType, Namespace, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,
     ExtensionFactory,
     FactoryTestCase,
 )
+from tests.fixtures.datatypes import Telephone
 
 type_str = AttrTypeFactory.native(DataType.STRING)
 type_int = AttrTypeFactory.native(DataType.INT)
@@ -209,7 +209,7 @@ class FiltersTests(FactoryTestCase):
 
     def test_module_name(self) -> None:
         self.filters.substitutions[ObjectType.MODULE].update(
-            {"http://pypi.org/project/xsdata/": "xsdata"}
+            {"http://pypi.org/project/xsdata/": "pyxsdata"}
         )
 
         self.assertEqual("foo_bar", self.filters.module_name("fooBar"))
@@ -219,7 +219,7 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("foo_bar_bam", self.filters.module_name("foo:bar_bam"))
         self.assertEqual("bar_bam", self.filters.module_name("urn:bar_bam"))
         self.assertEqual(
-            "xsdata", self.filters.module_name("http://pypi.org/project/xsdata/")
+            "pyxsdata", self.filters.module_name("http://pypi.org/project/xsdata/")
         )
 
     def test_package_name(self) -> None:
@@ -835,7 +835,7 @@ class FiltersTests(FactoryTestCase):
         self.assertIn(expected, self.filters.default_imports(output))
 
     def test_default_imports_with_builtin_datatype(self) -> None:
-        expected = "from xsdata.models.datatype import XmlDateTime"
+        expected = "from pyxsdata.models.datatype import XmlDateTime"
 
         self.assertIn(expected, self.filters.default_imports("Optional[XmlDateTime]"))
         self.assertIn(expected, self.filters.default_imports("Union[str, XmlDateTime]"))

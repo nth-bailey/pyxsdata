@@ -1,8 +1,10 @@
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.handlers.detect_circular_references import DetectCircularReferences
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import DataType
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.handlers.detect_circular_references import (
+    DetectCircularReferences,
+)
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import DataType
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,

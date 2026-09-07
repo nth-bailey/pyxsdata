@@ -5,26 +5,26 @@ from unittest import mock
 
 from toposort import CircularDependencyError
 
-from xsdata import __version__
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.exceptions import CodegenError
-from xsdata.codegen.mappers import (
+from pyxsdata import __version__
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.exceptions import CodegenError
+from pyxsdata.codegen.mappers import (
     DefinitionsMapper,
     DictMapper,
     DtdMapper,
     ElementMapper,
     SchemaMapper,
 )
-from xsdata.codegen.parsers import DefinitionsParser, DtdParser
-from xsdata.codegen.transformer import ResourceTransformer
-from xsdata.codegen.utils import ClassUtils
-from xsdata.codegen.writer import CodeWriter
-from xsdata.formats.dataclass.models.generics import AnyElement
-from xsdata.formats.dataclass.parsers import TreeParser
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.wsdl import Binding, Definitions, Types
-from xsdata.models.xsd import Import, Include, Override, Schema
-from xsdata.utils.testing import ClassFactory, DtdFactory, FactoryTestCase
+from pyxsdata.codegen.parsers import DefinitionsParser, DtdParser
+from pyxsdata.codegen.transformer import ResourceTransformer
+from pyxsdata.codegen.utils import ClassUtils
+from pyxsdata.codegen.writer import CodeWriter
+from pyxsdata.formats.dataclass.models.generics import AnyElement
+from pyxsdata.formats.dataclass.parsers import TreeParser
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.wsdl import Binding, Definitions, Types
+from pyxsdata.models.xsd import Import, Include, Override, Schema
+from pyxsdata.utils.testing import ClassFactory, DtdFactory, FactoryTestCase
 
 
 class ResourceTransformerTests(FactoryTestCase):
@@ -115,7 +115,7 @@ class ResourceTransformerTests(FactoryTestCase):
         with self.assertRaises(CodegenError):
             self.transformer.process([])
 
-    @mock.patch("xsdata.codegen.transformer.logger.warning")
+    @mock.patch("pyxsdata.codegen.transformer.logger.warning")
     @mock.patch.object(ResourceTransformer, "process_classes")
     def test_process_with_module_not_found_error(
         self, mock_process_classes, mock_warning
@@ -188,7 +188,7 @@ class ResourceTransformerTests(FactoryTestCase):
         mock_map.assert_has_calls([mock.call(x, "foo") for x in elements])
         mock_reduce_classes.assert_called_once_with(classes_a + classes_c)
 
-    @mock.patch("xsdata.codegen.transformer.logger.warning")
+    @mock.patch("pyxsdata.codegen.transformer.logger.warning")
     @mock.patch.object(ClassUtils, "reduce_classes")
     @mock.patch.object(DictMapper, "map")
     @mock.patch.object(ResourceTransformer, "load_resource")
@@ -253,7 +253,7 @@ class ResourceTransformerTests(FactoryTestCase):
             ]
         )
 
-    @mock.patch("xsdata.codegen.transformer.logger.info")
+    @mock.patch("pyxsdata.codegen.transformer.logger.info")
     @mock.patch.object(CodeWriter, "write")
     @mock.patch.object(ResourceTransformer, "analyze_classes")
     def test_process_classes(
@@ -339,7 +339,7 @@ class ResourceTransformerTests(FactoryTestCase):
         self.transformer.convert_definitions(definitions)
         self.assertEqual(classes, self.transformer.classes)
 
-    @mock.patch("xsdata.codegen.transformer.logger.info")
+    @mock.patch("pyxsdata.codegen.transformer.logger.info")
     @mock.patch.object(ResourceTransformer, "count_classes")
     @mock.patch.object(SchemaMapper, "map")
     def test_generate_classes(
@@ -396,7 +396,7 @@ class ResourceTransformerTests(FactoryTestCase):
         mock_definitions_merge.assert_called_once_with(def_two)
         mock_process_schema.assert_called_once_with("file://types.xsd")
 
-    @mock.patch("xsdata.codegen.transformer.logger.debug")
+    @mock.patch("pyxsdata.codegen.transformer.logger.debug")
     def test_load_resource(self, mock_debug) -> None:
         path = Path(__file__).as_uri()
 
@@ -444,7 +444,7 @@ class ResourceTransformerTests(FactoryTestCase):
 
         file_path.unlink()
 
-    @mock.patch("xsdata.codegen.transformer.logger.warning")
+    @mock.patch("pyxsdata.codegen.transformer.logger.warning")
     def test_load_resource_missing(self, mock_warning) -> None:
         uri = Path.cwd().joinpath("foo/bar.xsd").as_uri()
         result = self.transformer.process([uri])
@@ -472,7 +472,7 @@ class ResourceTransformerTests(FactoryTestCase):
         actual = self.transformer.get_cache_file(uris)
         tempdir = Path(tempfile.gettempdir())
         expected = tempdir.joinpath(
-            f"xsdata.{__version__}.ae1bed744d3d3611e698a2d2ef5335d2.cache"
+            f"pyxsdata.{__version__}.ae1bed744d3d3611e698a2d2ef5335d2.cache"
         )
 
         self.assertEqual(expected, actual)

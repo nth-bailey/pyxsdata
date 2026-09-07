@@ -1,13 +1,13 @@
 import sys
 from unittest import mock
 
-from xsdata.codegen.container import ClassContainer
-from xsdata.codegen.handlers import FlattenClassExtensions
-from xsdata.codegen.models import Restrictions, Status
-from xsdata.codegen.utils import ClassUtils
-from xsdata.models.config import GeneratorConfig
-from xsdata.models.enums import DataType, Tag
-from xsdata.utils.testing import (
+from pyxsdata.codegen.container import ClassContainer
+from pyxsdata.codegen.handlers import FlattenClassExtensions
+from pyxsdata.codegen.models import Restrictions, Status
+from pyxsdata.codegen.utils import ClassUtils
+from pyxsdata.models.config import GeneratorConfig
+from pyxsdata.models.enums import DataType, Tag
+from pyxsdata.utils.testing import (
     AttrFactory,
     AttrTypeFactory,
     ClassFactory,

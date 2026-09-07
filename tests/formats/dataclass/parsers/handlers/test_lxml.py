@@ -2,12 +2,12 @@ from unittest.case import TestCase
 
 from lxml import etree
 
+from pyxsdata.exceptions import ParserError, XmlHandlerError
+from pyxsdata.formats.dataclass.parsers.bases import RecordParser
+from pyxsdata.formats.dataclass.parsers.handlers import LxmlEventHandler
 from tests import fixtures_dir
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.books.fixtures import books, events, events_default_ns
-from xsdata.exceptions import ParserError, XmlHandlerError
-from xsdata.formats.dataclass.parsers.bases import RecordParser
-from xsdata.formats.dataclass.parsers.handlers import LxmlEventHandler
 
 
 class LxmlEventHandlerTests(TestCase):

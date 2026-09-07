@@ -1,14 +1,13 @@
 from collections import namedtuple
 from typing import Any
 
-from xsdata.exceptions import ConverterError
-from xsdata.formats.converter import Converter, converter
+from pyxsdata.exceptions import ConverterError
+from pyxsdata.formats.converter import Converter, converter
 
-Telephone = namedtuple('Telephone', ['country_code', 'area_code', 'number'])
+Telephone = namedtuple("Telephone", ["country_code", "area_code", "number"])
 
 
 class PhoneConverter(Converter):
-
     def deserialize(self, value: Any, **kwargs: Any) -> Any:
         parts = value.split("-")
         if len(parts) == 3:

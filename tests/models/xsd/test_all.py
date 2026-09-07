@@ -1,7 +1,7 @@
 import sys
 from unittest import TestCase
 
-from xsdata.models.xsd import All
+from pyxsdata.models.xsd import All
 
 
 class AllTests(TestCase):
