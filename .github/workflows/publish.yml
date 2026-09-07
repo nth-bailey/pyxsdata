@@ -53,12 +53,38 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check if current version exists on PyPI
+        id: check_pypi
+        run: |
+          VERSION=$(python3 -c "import re; m = re.search(r'__version__\s*=\s*[\"\']([^\"\']+)[\"\']', open('pyxsdata/__init__.py').read()); print(m.group(1) if m else '')")
+          echo "Current package version: $VERSION"
+          MISSING=$(python3 -c "
+          import json, urllib.request, sys
+          version = '$VERSION'
+          if not version or version == '0.0.0':
+              print('false')
+              sys.exit(0)
+          try:
+              req = urllib.request.Request('https://pypi.org/pypi/pyxsdata/json', headers={'User-Agent': 'pyxsdata-ci'})
+              with urllib.request.urlopen(req) as resp:
+                  data = json.load(resp)
+                  releases = data.get('releases', {})
+                  print('true' if version not in releases else 'false')
+          except urllib.error.HTTPError as e:
+              print('true' if e.code == 404 else 'false')
+          except Exception as e:
+              print(f'Warning: {e}', file=sys.stderr)
+              print('false')
+          ")
+          echo "Version missing on PyPI: $MISSING"
+          echo "missing=$MISSING" >> "$GITHUB_OUTPUT"
+
       - name: Build distribution packages
-        if: steps.semantic.outputs.new_release_published == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.semantic.outputs.new_release_published == 'true' || steps.check_pypi.outputs.missing == 'true' || github.event_name == 'workflow_dispatch'
         run: uv build
 
       - name: Publish distribution packages to PyPI
-        if: steps.semantic.outputs.new_release_published == 'true' || github.event_name == 'workflow_dispatch'
+        if: steps.semantic.outputs.new_release_published == 'true' || steps.check_pypi.outputs.missing == 'true' || github.event_name == 'workflow_dispatch'
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           attestations: false
