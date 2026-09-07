@@ -419,6 +419,7 @@ class XmlMeta(MetaMixin):
         "text",
         "wildcards",
         "wrappers",
+        "_children_cache",
     )
 
     def __init__(
@@ -450,6 +451,7 @@ class XmlMeta(MetaMixin):
         self.any_attributes = any_attributes
         self.mixed_content = any(wildcard.mixed for wildcard in self.wildcards)
         self.wrappers = wrappers
+        self._children_cache: dict[str, tuple[XmlVar, ...]] = {}
 
     @property
     def element_types(self) -> set[type]:
@@ -557,18 +559,26 @@ class XmlMeta(MetaMixin):
         Yields:
             An iterator of all the class vars that match the given qname.
         """
-        elements = self.elements.get(qname)
-        if elements:
-            yield from elements
+        cached = self._children_cache.get(qname)
+        if cached is None:
+            res: list[XmlVar] = []
+            elements = self.elements.get(qname)
+            if elements:
+                res.extend(elements)
 
-        for choice in self.choices:
-            match = choice.find_choice(qname)
-            if match:
-                yield match
+            for choice in self.choices:
+                match = choice.find_choice(qname)
+                if match:
+                    res.append(match)
 
-        chd = self.find_wildcard(qname)
-        if chd:
-            yield chd
+            chd = self.find_wildcard(qname)
+            if chd:
+                res.append(chd)
+
+            cached = tuple(res)
+            self._children_cache[qname] = cached
+
+        return iter(cached)
 
 
 def find_by_namespace(vars: Sequence[XmlVar], qname: str) -> XmlVar | None:

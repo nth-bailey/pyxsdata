@@ -131,16 +131,17 @@ catalog = parser.parse("catalog.xml", Catalog)
 
 ### Performance vs Legacy xsdata
 
-Through hot-path optimizations in converter dispatch, MRO caching, and parsing node
-lookups, `pyxsdata` deserializes XML significantly faster than legacy `xsdata`:
+Through hot-path optimizations in metadata lookup caching, primitive node fast paths,
+converter dispatch, and parser event handlers, `pyxsdata` deserializes XML significantly
+faster than legacy `xsdata`:
 
 | Backend Handler           | Legacy `xsdata` | `pyxsdata` | Speedup    |
 | :------------------------ | :-------------- | :--------- | :--------- |
-| **`NativeEventHandler`**  | 728.9 ms        | 542.3 ms   | **+25.6%** |
-| **`LxmlEventHandler`**    | 753.2 ms        | 616.0 ms   | **+18.2%** |
-| **`PugixmlEventHandler`** | 883.8 ms        | 771.9 ms   | **+12.7%** |
+| **`NativeEventHandler`**  | 728.9 ms        | 487.2 ms   | **+33.2%** |
+| **`LxmlEventHandler`**    | 753.2 ms        | 553.9 ms   | **+26.5%** |
+| **`PugixmlEventHandler`** | 883.8 ms        | 707.4 ms   | **+20.0%** |
 
-_(Benchmark: 10,000 complex XML items parsed into dataclasses, average of 5 runs)_
+_(Benchmark: 10,000 complex XML items parsed into dataclasses, lowest of 5 runs)_
 
 ### Thread Safety & Context Reuse
 

@@ -83,31 +83,33 @@ class PugixmlEventHandler(XmlHandler):
 
         for event, element in context:
             if event == EventType.START:
-                element_ns_map: dict[str | None, str] = {}
                 raw_attrib: dict[str, str] = getattr(element, "attrib", {})
+                if not raw_attrib:
+                    merged_ns_map = self.merge_parent_namespaces({})
+                    attrs: dict[str, str] = {}
+                else:
+                    element_ns_map: dict[str | None, str] = {}
+                    for key, value in raw_attrib.items():
+                        if key == "xmlns":
+                            element_ns_map[None] = value
+                            self.parser.register_namespace(ns_map, None, value)
+                        elif key.startswith("xmlns:"):
+                            prefix = key[6:]
+                            element_ns_map[prefix] = value
+                            self.parser.register_namespace(ns_map, prefix, value)
 
-                for key, value in raw_attrib.items():
-                    if key == "xmlns":
-                        element_ns_map[None] = value
-                        self.parser.register_namespace(ns_map, None, value)
-                    elif key.startswith("xmlns:"):
-                        prefix = key[6:]
-                        element_ns_map[prefix] = value
-                        self.parser.register_namespace(ns_map, prefix, value)
-
-                merged_ns_map = self.merge_parent_namespaces(element_ns_map)
-                attrs: dict[str, str] = {}
-
-                for key, value in raw_attrib.items():
-                    if key == "xmlns" or key.startswith("xmlns:"):
-                        continue
-                    if ":" in key:
-                        prefix, local = key.split(":", 1)
-                        uri = merged_ns_map.get(prefix)
-                        attr_qname = f"{{{uri}}}{local}" if uri else key
-                        attrs[attr_qname] = value
-                    else:
-                        attrs[key] = value
+                    merged_ns_map = self.merge_parent_namespaces(element_ns_map)
+                    attrs = {}
+                    for key, value in raw_attrib.items():
+                        if key == "xmlns" or key.startswith("xmlns:"):
+                            continue
+                        if ":" in key:
+                            prefix, local = key.split(":", 1)
+                            uri = merged_ns_map.get(prefix)
+                            attr_qname = f"{{{uri}}}{local}" if uri else key
+                            attrs[attr_qname] = value
+                        else:
+                            attrs[key] = value
 
                 raw_tag: str = element.tag
                 if ":" in raw_tag:
@@ -136,8 +138,10 @@ class PugixmlEventHandler(XmlHandler):
                     element.text,
                     element.tail,
                 )
-                if hasattr(element, "clear"):
+                try:
                     element.clear()
+                except AttributeError:
+                    pass
             else:
                 raise XmlHandlerError(f"Unhandled event: `{event}`.")
 

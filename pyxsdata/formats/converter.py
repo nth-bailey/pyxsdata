@@ -92,6 +92,16 @@ class ConverterFactory:
         Returns:
             The converted value
         """
+        if len(types) == 1:
+            data_type = types[0]
+            instance = self.registry.get(data_type)
+            if instance is None:
+                instance = self.type_converter(data_type)
+            try:
+                return instance.deserialize(value, data_type=data_type, **kwargs)
+            except ConverterError:
+                raise ConverterError(f"`{value}` is not a valid `{data_type.__name__}`")
+
         for data_type in types:
             try:
                 instance = self.type_converter(data_type)

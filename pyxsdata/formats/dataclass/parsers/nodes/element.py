@@ -240,7 +240,8 @@ class ElementNode(XmlNode):
             objects: The list of intermediate parsed objects
         """
         position = self.position
-        for qname, obj in objects[position:]:
+        for i in range(position, len(objects)):
+            qname, obj = objects[i]
             if not self.bind_object(params, qname, obj):
                 logger.warning("Unassigned parsed object %s", qname)
 
@@ -549,6 +550,9 @@ class ElementNode(XmlNode):
                 position=position,
             )
 
+        if not var.clazz and not var.any_type and not var.is_wildcard:
+            return nodes.PrimitiveNode(self.meta, var, ns_map, self.config)
+
         xsi_type = ParserUtils.xsi_type(attrs, ns_map)
         xsi_nil = ParserUtils.xsi_nil(attrs)
         derived_factory = self.context.class_type.derived_element
@@ -565,9 +569,6 @@ class ElementNode(XmlNode):
                 xsi_type,
                 xsi_nil,
             )
-
-        if not var.any_type and not var.is_wildcard:
-            return nodes.PrimitiveNode(self.meta, var, ns_map, self.config)
 
         datatype = DataType.from_qname(xsi_type) if xsi_type else None
         derived = var.is_wildcard
