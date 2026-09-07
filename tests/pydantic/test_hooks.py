@@ -20,5 +20,6 @@ class PydanticHooksTests(TestCase):
         import pyxsdata.pydantic as pydantic_mod
 
         self.assertIsNotNone(pydantic_mod.XmlParser)
+        self.assertIsNotNone(pydantic_mod.field)
         with self.assertRaises(AttributeError):
             _ = pydantic_mod.non_existent_attribute

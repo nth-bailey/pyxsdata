@@ -1,7 +1,5 @@
 from typing import Any
 
-from pyxsdata.pydantic.fields import field
-
 __all__ = [
     "DictDecoder",
     "DictEncoder",
@@ -18,6 +16,10 @@ __all__ = [
 
 
 def __getattr__(name: str) -> Any:
+    if name == "field":
+        from pyxsdata.pydantic.fields import field
+
+        return field
     if name in __all__:
         import pyxsdata.pydantic.bindings as bindings
 

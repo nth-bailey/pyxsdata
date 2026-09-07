@@ -13,7 +13,8 @@ from pyxsdata.utils import collections, constants, text
 from pyxsdata.utils.namespaces import build_qname
 
 
-class _MissingType: ...
+class _MissingType:
+    pass
 
 
 MISSING = _MissingType()
