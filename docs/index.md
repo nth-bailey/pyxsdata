@@ -114,13 +114,21 @@ application code, developers simply need clean, intuitive data structures.
 
 ## 📚 Explore the Documentation
 
-- [5-Minute Quickstart](quickstart.md) - Get up and running in minutes with a complete step-by-step tutorial.
-- [Installation Guide](installation.md) - Learn about optional dependencies, `uv`, and verification.
-- [Migrating from xsdata](migration.md) - Seamlessly migrate existing codebases to pyxsdata and native Pydantic v2.
-- [Code Generator Guide](codegen/intro.md) - Explore CLI options, configurations, and docstring styles.
-- [Data Binding Guide](data_binding/basics.md) - Learn XML/JSON parsing, serialization, and tree manipulation.
-- [Parser Backends](data_binding/backends.md) - Compare performance between standard library, `lxml`, and `pugixml`.
-- [Pydantic v2 Integration](pydantic/index.md) - Deep dive into native Pydantic v2 models and JSON schema support.
-- [Frequently Asked Questions](faq.md) - Solutions to common questions, large file streaming, and web framework tips.
+- [5-Minute Quickstart](quickstart.md) - Get up and running in minutes with a complete
+  step-by-step tutorial.
+- [Installation Guide](installation.md) - Learn about optional dependencies, `uv`, and
+  verification.
+- [Migrating from xsdata](migration.md) - Seamlessly migrate existing codebases to
+  pyxsdata and native Pydantic v2.
+- [Code Generator Guide](codegen/intro.md) - Explore CLI options, configurations, and
+  docstring styles.
+- [Data Binding Guide](data_binding/basics.md) - Learn XML/JSON parsing, serialization,
+  and tree manipulation.
+- [Parser Backends](data_binding/backends.md) - Compare performance between standard
+  library, `lxml`, and `pugixml`.
+- [Pydantic v2 Integration](pydantic/index.md) - Deep dive into native Pydantic v2
+  models and JSON schema support.
+- [Frequently Asked Questions](faq.md) - Solutions to common questions, large file
+  streaming, and web framework tips.
 - [Sample Projects](samples.md) - Real-world schemas and models in action.
 - [Changelog](changelog.md) - Release notes and version history.

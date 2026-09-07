@@ -1,6 +1,8 @@
 # Parser Backends & Performance
 
-`pyxsdata` features a modular, event-driven architecture that decouples XML parsing events from Python model instantiation. This allows you to choose between multiple XML parser backends depending on your performance, memory, and feature requirements.
+`pyxsdata` features a modular, event-driven architecture that decouples XML parsing
+events from Python model instantiation. This allows you to choose between multiple XML
+parser backends depending on your performance, memory, and feature requirements.
 
 ---
 
@@ -8,20 +10,24 @@
 
 `pyxsdata` supports three primary XML event handlers:
 
-| Backend Handler | Underlying Engine | Extra Dependency | Best For |
-| :--- | :--- | :--- | :--- |
-| **`NativeEventHandler`** | Python `xml.etree` | *None (built-in)* | Zero-dependency environments, AWS Lambda, lightweight scripts |
-| **`LxmlEventHandler`** | C `libxml2` / `lxml` | `pyxsdata[lxml]` | DTD validation, XInclude, advanced entity resolution |
+| Backend Handler           | Underlying Engine         | Extra Dependency    | Best For                                                          |
+| :------------------------ | :------------------------ | :------------------ | :---------------------------------------------------------------- |
+| **`NativeEventHandler`**  | Python `xml.etree`        | _None (built-in)_   | Zero-dependency environments, AWS Lambda, lightweight scripts     |
+| **`LxmlEventHandler`**    | C `libxml2` / `lxml`      | `pyxsdata[lxml]`    | DTD validation, XInclude, advanced entity resolution              |
 | **`PugixmlEventHandler`** | C++ `pugixml` / `pygixml` | `pyxsdata[pugixml]` | **Maximum throughput**, high-frequency API ingestion, low latency |
 
 ---
 
 ## 1. Pugixml Backend (`PugixmlEventHandler`)
 
-The `pugixml` backend is powered by [`pygixml`](https://github.com/vovcacik/pygixml), a high-speed Cython wrapper around the battle-tested C++ [pugixml](https://pugixml.org/) library combined with yxml.
+The `pugixml` backend is powered by [`pygixml`](https://github.com/vovcacik/pygixml), a
+high-speed Cython wrapper around the battle-tested C++ [pugixml](https://pugixml.org/)
+library combined with yxml.
 
 ### When to Use
-- High-throughput XML processing (e.g. consuming high-rate XML message queues or webhooks).
+
+- High-throughput XML processing (e.g. consuming high-rate XML message queues or
+  webhooks).
 - Large XML files where parsing speed and CPU utilization are critical.
 - Microservices seeking lowest request latency.
 
@@ -61,9 +67,11 @@ catalog = parser.parse("catalog.xml", Catalog)
 The `lxml` backend is powered by Python's popular `lxml` package wrapping C `libxml2`.
 
 ### When to Use
+
 - You need DTD resolution or DTD validation (`load_dtd=True`).
 - You need XInclude processing (`process_xinclude=True`).
-- You want to parse directly from existing `lxml.etree.Element` or `ElementTree` objects.
+- You want to parse directly from existing `lxml.etree.Element` or `ElementTree`
+  objects.
 
 ### Installation & Usage
 
@@ -89,13 +97,16 @@ catalog = parser.parse("catalog.xml", Catalog)
 The standard library backend uses Python's built-in `xml.etree.ElementTree.iterparse`.
 
 ### When to Use
-- Minimal container images or edge environments where installing C/C++ extensions is prohibited or difficult.
+
+- Minimal container images or edge environments where installing C/C++ extensions is
+  prohibited or difficult.
 - Standard workloads where XML documents are small to moderate in size.
 - Zero-dependency deployments.
 
 ### Usage
 
-The native handler is the default fallback when neither `lxml` nor `pygixml` is explicitly requested:
+The native handler is the default fallback when neither `lxml` nor `pygixml` is
+explicitly requested:
 
 ```python
 from pyxsdata.formats.dataclass.parsers import XmlParser
@@ -112,13 +123,16 @@ catalog = parser.parse("catalog.xml", Catalog)
 
 ### General Guidelines
 
-1. **For Maximum Ingestion Speed**: Use `PugixmlEventHandler`. Its C++ pull parser yields the lowest overhead when reading XML files.
-2. **For Advanced XML Specs**: Use `LxmlEventHandler` if your schemas require external DTDs or XInclude resolution.
+1. **For Maximum Ingestion Speed**: Use `PugixmlEventHandler`. Its C++ pull parser
+   yields the lowest overhead when reading XML files.
+2. **For Advanced XML Specs**: Use `LxmlEventHandler` if your schemas require external
+   DTDs or XInclude resolution.
 3. **For Zero Dependencies**: Use `NativeEventHandler`.
 
 ### Thread Safety & Context Reuse
 
-Creating an `XmlContext` inspects Python model classes and builds metadata caches. For optimal performance across all handlers:
+Creating an `XmlContext` inspects Python model classes and builds metadata caches. For
+optimal performance across all handlers:
 
 ```python
 from pyxsdata.formats.dataclass.context import XmlContext

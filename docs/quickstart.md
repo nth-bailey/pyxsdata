@@ -1,6 +1,8 @@
 # 5-Minute Quickstart
 
-Welcome! In this quick tutorial, you'll learn how to take an XML schema or document, generate typed Python models, parse XML files into Python objects with full IDE autocomplete, and serialize them back to XML.
+Welcome! In this quick tutorial, you'll learn how to take an XML schema or document,
+generate typed Python models, parse XML files into Python objects with full IDE
+autocomplete, and serialize them back to XML.
 
 ---
 
@@ -85,7 +87,8 @@ Run `pyxsdata generate` pointing to your schema or sample XML:
     $ pyxsdata generate catalog.xsd --output pydantic --package myapp.models
     ```
 
-`pyxsdata` generates type-safe Python code formatted with [Ruff](https://docs.astral.sh/ruff/). Notice how clean the generated code is:
+`pyxsdata` generates type-safe Python code formatted with
+[Ruff](https://docs.astral.sh/ruff/). Notice how clean the generated code is:
 
 === "Generated Dataclass (myapp/models.py)"
 
@@ -200,6 +203,7 @@ print(xml_output)
 ```
 
 **Output:**
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog>
@@ -227,7 +231,11 @@ print(xml_output)
 
 Now that you have seen the basics, explore the rest of the documentation:
 
-- [Parser Backends Guide](data_binding/backends.md) — Learn how to speed up XML parsing with C++ **pugixml** or **lxml**.
-- [Pydantic v2 Guide](pydantic/index.md) — Integrate pyxsdata with FastAPI, JSON schema export, and data validation.
-- [Code Generator Guide](codegen/intro.md) — Customize package naming, class filters, docstrings, and config files.
-- [Data Binding Deep Dive](data_binding/basics.md) — Work with JSON, raw dictionaries, XML trees, and streaming iterparse.
+- [Parser Backends Guide](data_binding/backends.md) — Learn how to speed up XML parsing
+  with C++ **pugixml** or **lxml**.
+- [Pydantic v2 Guide](pydantic/index.md) — Integrate pyxsdata with FastAPI, JSON schema
+  export, and data validation.
+- [Code Generator Guide](codegen/intro.md) — Customize package naming, class filters,
+  docstrings, and config files.
+- [Data Binding Deep Dive](data_binding/basics.md) — Work with JSON, raw dictionaries,
+  XML trees, and streaming iterparse.

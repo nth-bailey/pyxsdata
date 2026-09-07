@@ -1,6 +1,7 @@
 # Installation Guide
 
-`pyxsdata` requires **Python 3.12+** and is available as a pre-built wheel on [PyPI](https://pypi.org/project/pyxsdata/).
+`pyxsdata` requires **Python 3.12+** and is available as a pre-built wheel on
+[PyPI](https://pypi.org/project/pyxsdata/).
 
 ---
 
@@ -38,14 +39,14 @@
 
 `pyxsdata` is modular so you only install what your application requires:
 
-| Extra | Description | When to Include |
-| :--- | :--- | :--- |
-| **`cli`** | Code generator command-line interface (`click`, `jinja2`, `toposort`, `ruff`) | Whenever generating Python models from schemas or documents |
-| **`pydantic`** | Native Pydantic v2 support (`pydantic>=2.10.0`) | To generate Pydantic models and use `pyxsdata.pydantic.bindings` |
-| **`pugixml`** | C++ `pugixml` fast pull parser (`pygixml>=0.12.0`) | For high-throughput XML parsing and lowest latency |
-| **`lxml`** | C `libxml2` binding (`lxml>=5.3.0`) | For DTD loading, XInclude processing, or parsing from `lxml` trees |
-| **`soap`** | SOAP web services client transport (`requests>=2.32.3`) | When consuming SOAP/WSDL web services |
-| **`all`** | Installs all of the above extras | For full local development and testing |
+| Extra          | Description                                                                   | When to Include                                                    |
+| :------------- | :---------------------------------------------------------------------------- | :----------------------------------------------------------------- |
+| **`cli`**      | Code generator command-line interface (`click`, `jinja2`, `toposort`, `ruff`) | Whenever generating Python models from schemas or documents        |
+| **`pydantic`** | Native Pydantic v2 support (`pydantic>=2.10.0`)                               | To generate Pydantic models and use `pyxsdata.pydantic.bindings`   |
+| **`pugixml`**  | C++ `pugixml` fast pull parser (`pygixml>=0.12.0`)                            | For high-throughput XML parsing and lowest latency                 |
+| **`lxml`**     | C `libxml2` binding (`lxml>=5.3.0`)                                           | For DTD loading, XInclude processing, or parsing from `lxml` trees |
+| **`soap`**     | SOAP web services client transport (`requests>=2.32.3`)                       | When consuming SOAP/WSDL web services                              |
+| **`all`**      | Installs all of the above extras                                              | For full local development and testing                             |
 
 ---
 

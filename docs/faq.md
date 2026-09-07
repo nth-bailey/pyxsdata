@@ -4,12 +4,17 @@
 
 ### How does `pyxsdata` differ from legacy `xsdata`?
 
-`pyxsdata` is an actively maintained, modernized successor designed exclusively for **Python 3.12+**. Key differences include:
+`pyxsdata` is an actively maintained, modernized successor designed exclusively for
+**Python 3.12+**. Key differences include:
 
-1. **Native Pydantic v2 Support**: `xsdata-pydantic` has been consolidated directly into `pyxsdata.pydantic`. You do not need to install or configure external plugins.
+1. **Native Pydantic v2 Support**: `xsdata-pydantic` has been consolidated directly into
+   `pyxsdata.pydantic`. You do not need to install or configure external plugins.
 2. **Strict CLI**: The CLI command is strictly `pyxsdata` with zero legacy shims.
-3. **Pugixml Streaming Parser**: Built-in `PugixmlEventHandler` powered by `pygixml` provides ultra-fast C++ pull-parsing.
-4. **Python 3.12+ Standards**: All generated dataclasses use `kw_only=True` by default, full type annotations use `X | Y` union syntax, and the codebase is statically checked with Astral `ty`.
+3. **Pugixml Streaming Parser**: Built-in `PugixmlEventHandler` powered by `pygixml`
+   provides ultra-fast C++ pull-parsing.
+4. **Python 3.12+ Standards**: All generated dataclasses use `kw_only=True` by default,
+   full type annotations use `X | Y` union syntax, and the codebase is statically
+   checked with Astral `ty`.
 
 ---
 
@@ -24,14 +29,16 @@ Both are first-class citizens in `pyxsdata`!
 
 - **Choose Pydantic v2** (`--output pydantic`) if:
   - You are integrating with **FastAPI** or modern API frameworks.
-  - You need automatic data validation (e.g. `min_length`, regex patterns, numerical bounds).
+  - You need automatic data validation (e.g. `min_length`, regex patterns, numerical
+    bounds).
   - You want out-of-the-box `.model_dump()` and `.model_json_schema()` capabilities.
 
 ---
 
 ### How do I configure custom XML namespace prefixes when serializing?
 
-When serializing models, you can map namespace URIs to clean prefixes using `ns_map` on `XmlSerializer`:
+When serializing models, you can map namespace URIs to clean prefixes using `ns_map` on
+`XmlSerializer`:
 
 ```python
 from pyxsdata.formats.dataclass.serializers import XmlSerializer
@@ -51,7 +58,9 @@ xml_output = serializer.render(my_model, ns_map=ns_map)
 
 ### How do I parse very large XML files without high memory usage?
 
-By default, `XmlParser` streams XML elements event-by-event rather than loading the whole DOM into memory. If your document has millions of repeating child items (e.g. `<record>` in `<database>`), you can use selective parsing:
+By default, `XmlParser` streams XML elements event-by-event rather than loading the
+whole DOM into memory. If your document has millions of repeating child items (e.g.
+`<record>` in `<database>`), you can use selective parsing:
 
 ```python
 from pyxsdata.formats.dataclass.parsers import XmlParser
@@ -78,7 +87,8 @@ data = parser.parse("huge_feed.xml", FeedModel)
 
 ### How do I use `pyxsdata` with FastAPI?
 
-Because `pyxsdata.pydantic` models are standard Pydantic `BaseModel` subclasses, you can use them directly in FastAPI routes:
+Because `pyxsdata.pydantic` models are standard Pydantic `BaseModel` subclasses, you can
+use them directly in FastAPI routes:
 
 ```python
 from fastapi import FastAPI, Response
@@ -105,21 +115,28 @@ async def get_order_xml(order_id: str):
 
 ### Why are some non-nullable fields marked with `kw_only=True`?
 
-In standard Python dataclasses, declaring a non-default field after a field with a default value causes a `TypeError: non-default argument follows default argument`.
+In standard Python dataclasses, declaring a non-default field after a field with a
+default value causes a `TypeError: non-default argument follows default argument`.
 
-In XML schemas, elements can be in any sequence, meaning an optional element often precedes a required element. `pyxsdata` targets Python 3.12+ and generates all dataclasses with `@dataclass(kw_only=True)`, cleanly solving the ordering issue while keeping required fields non-nullable.
+In XML schemas, elements can be in any sequence, meaning an optional element often
+precedes a required element. `pyxsdata` targets Python 3.12+ and generates all
+dataclasses with `@dataclass(kw_only=True)`, cleanly solving the ordering issue while
+keeping required fields non-nullable.
 
 ---
 
 ### Why are elements serialized in a different order than expected?
 
-In XML Schema, order can be strictly enforced (`xs:sequence`) or flexible (`xs:all`, `xs:choice`). If your schema has multiple mixed choices or overlapping elements, enable compound fields in the generator:
+In XML Schema, order can be strictly enforced (`xs:sequence`) or flexible (`xs:all`,
+`xs:choice`). If your schema has multiple mixed choices or overlapping elements, enable
+compound fields in the generator:
 
 ```console
 $ pyxsdata generate schema.xsd --compound-fields
 ```
 
-This groups mixed child elements into a single list while preserving the exact order they appeared in the XML source.
+This groups mixed child elements into a single list while preserving the exact order
+they appeared in the XML source.
 
 ---
 
