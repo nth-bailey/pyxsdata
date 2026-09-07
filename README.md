@@ -75,6 +75,17 @@ Parsing **1,000 complex XML items** into Pydantic v2 `BaseModel` instances:
 | **`XmlParser`** (`pyxsdata.pydantic`)     | Pure Python (`xml.etree`)     | 24.6 ms               | ~40,580 objs/s      | 1.0x (Baseline)               |
 | **Legacy `xsdata-pydantic`**              | Pure Python (`xml.etree`)     | 38.2 ms               | ~26,170 objs/s      | 0.64x (~11.9x slower vs Core) |
 
+### Real-World Enterprise Benchmark: UCI `Entity` Message
+
+Parsing nested, production-grade **Universal Command and Control Interface (UCI v2.5)**
+`Entity` telemetry messages (with security markings, timestamps, headers, metadata, and
+enums):
+
+| Deserializer                           | Engine                        | Latency / Message | Throughput         | Speedup                     |
+| :------------------------------------- | :---------------------------- | :---------------- | :----------------- | :-------------------------- |
+| **`pyxsdata-core`** (`pyxsdata[core]`) | **Rust + PyO3 (`quick-xml`)** | **16.5 µs**       | **~60,360 msgs/s** | **~11.47x (1,047% faster)** |
+| **`XmlParser`** (`pyxsdata` Standard)  | Pure Python (`xml.etree`)     | 190.0 µs          | ~5,262 msgs/s      | 1.0x (Baseline)             |
+
 ### Which Deserializer Should You Use?
 
 - **`CoreXmlParser` / `CoreEventHandler` (`pip install "pyxsdata[core]"`):**
