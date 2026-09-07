@@ -1,4 +1,4 @@
---8<-- "./README.md:3"
+--8<-- "./README.md"
 
 !!! Hint "Why naive?"
 

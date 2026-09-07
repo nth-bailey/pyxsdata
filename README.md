@@ -1,5 +1,3 @@
-[![image](https://github.com/nth-bailey/pyxsdata/raw/main/docs/logo.svg)](https://pyxsdata.readthedocs.io/)
-
 # Modern XML & JSON Bindings for Python 3.12+
 
 [![image](https://github.com/nth-bailey/pyxsdata/workflows/tests/badge.svg)](https://github.com/nth-bailey/pyxsdata/actions)
