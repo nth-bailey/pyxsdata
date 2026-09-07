@@ -22,8 +22,14 @@ try:
 except ImportError:  # pragma: no cover
     PugixmlEventHandler = None  # type: ignore[assignment,misc]
 
+try:
+    from pyxsdata.formats.dataclass.parsers.handlers.core import CoreEventHandler
+except ImportError:  # pragma: no cover
+    CoreEventHandler = None  # type: ignore[assignment,misc]
+
 
 __all__ = [
+    "CoreEventHandler",
     "LxmlEventHandler",
     "PugixmlEventHandler",
     "XmlEventHandler",

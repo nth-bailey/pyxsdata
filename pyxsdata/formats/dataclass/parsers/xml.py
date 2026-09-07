@@ -2,7 +2,10 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from pyxsdata.formats.dataclass.parsers.bases import NodeParser, Parsed
-from pyxsdata.formats.dataclass.parsers.handlers import default_handler
+from pyxsdata.formats.dataclass.parsers.handlers import (
+    CoreEventHandler,
+    default_handler,
+)
 from pyxsdata.formats.dataclass.parsers.mixins import XmlHandler, XmlNode
 from pyxsdata.models.enums import EventType
 from pyxsdata.utils.namespaces import local_name
@@ -23,6 +26,24 @@ class XmlParser(NodeParser):
     """
 
     handler: type[XmlHandler] = field(default=default_handler())
+
+
+@dataclass
+class CoreXmlParser(NodeParser):
+    """Ultra-fast native Xml parser for data classes powered by pyxsdata-core.
+
+    Args:
+        config: The parser config instance
+        context: The xml context instance
+        handler: The xml handler class
+
+    Attributes:
+        ns_map: The parsed namespace prefix-URI map
+    """
+
+    handler: type[XmlHandler] = field(
+        default_factory=lambda: CoreEventHandler or default_handler()
+    )
 
 
 @dataclass
