@@ -545,19 +545,14 @@ class XmlMeta(MetaMixin):
         """
         return self.wildcards[0] if self.wildcards else None
 
-    def find_children(self, qname: str) -> Iterator[XmlVar]:
-        """Find all class vars that match the given qname.
-
-        Go through the elements, choices and wildcards. Sometimes
-        a class might contain more than one var with the same
-        qualified name. The binding process has to check all
-        of them and see which one to use.
+    def get_children(self, qname: str) -> tuple[XmlVar, ...]:
+        """Find all class vars that match the given qname as a cached tuple.
 
         Args:
             qname: The namespace qualified name
 
-        Yields:
-            An iterator of all the class vars that match the given qname.
+        Returns:
+            A tuple of all the class vars that match the given qname.
         """
         cached = self._children_cache.get(qname)
         if cached is None:
@@ -578,7 +573,23 @@ class XmlMeta(MetaMixin):
             cached = tuple(res)
             self._children_cache[qname] = cached
 
-        return iter(cached)
+        return cached
+
+    def find_children(self, qname: str) -> Iterator[XmlVar]:
+        """Find all class vars that match the given qname.
+
+        Go through the elements, choices and wildcards. Sometimes
+        a class might contain more than one var with the same
+        qualified name. The binding process has to check all
+        of them and see which one to use.
+
+        Args:
+            qname: The namespace qualified name
+
+        Yields:
+            An iterator of all the class vars that match the given qname.
+        """
+        return iter(self.get_children(qname))
 
 
 def find_by_namespace(vars: Sequence[XmlVar], qname: str) -> XmlVar | None:

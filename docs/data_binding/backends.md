@@ -135,11 +135,11 @@ Through hot-path optimizations in metadata lookup caching, primitive node fast p
 converter dispatch, and parser event handlers, `pyxsdata` deserializes XML significantly
 faster than legacy `xsdata`:
 
-| Backend Handler           | Legacy `xsdata` | `pyxsdata` | Speedup    |
-| :------------------------ | :-------------- | :--------- | :--------- |
-| **`NativeEventHandler`**  | 728.9 ms        | 487.2 ms   | **+33.2%** |
-| **`LxmlEventHandler`**    | 753.2 ms        | 553.9 ms   | **+26.5%** |
-| **`PugixmlEventHandler`** | 883.8 ms        | 707.4 ms   | **+20.0%** |
+| Backend Handler           | Legacy `xsdata` | `pyxsdata` | Speedup           |
+| :------------------------ | :-------------- | :--------- | :---------------- |
+| **`NativeEventHandler`**  | 728.9 ms        | 332.5 ms   | **+54.4% (2.2x)** |
+| **`LxmlEventHandler`**    | 753.2 ms        | 375.2 ms   | **+50.2% (2.0x)** |
+| **`PugixmlEventHandler`** | 883.8 ms        | 509.4 ms   | **+42.4% (1.7x)** |
 
 _(Benchmark: 10,000 complex XML items parsed into dataclasses, lowest of 5 runs)_
 

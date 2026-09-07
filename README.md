@@ -25,10 +25,11 @@ actively maintained with modern tooling.
 
 ### Key Enhancements over Legacy xsdata
 
-- **Significantly Faster Deserialization**: Up to **33% faster** XML parsing than legacy
-  `xsdata` through cached child node lookups, fast-path primitive binding, optimized
-  converter dispatch, MRO caching, and slice-free intermediate object collection
-  (eliminating ~1.3 million redundant function calls per 10,000 items).
+- **Significantly Faster Deserialization**: Up to **54% faster** XML parsing (over **2x
+  throughput**) than legacy `xsdata` through cached child node lookups, direct scalar
+  and proxy converter fast paths, static method binding, optimized converter dispatch,
+  MRO caching, and slice-free intermediate object collection (eliminating ~1.5 million
+  redundant function calls per 10,000 items).
 - **Unified Native Pydantic v2**: Consolidates `xsdata-pydantic` directly into the core
   library under `pyxsdata.pydantic` with dedicated `--output pydantic` generation and
   drop-in parsers/serializers.

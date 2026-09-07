@@ -260,7 +260,7 @@ class ElementNode(XmlNode):
             parameters or not.
         """
         wrapper = self.pop_wrapper(qname)
-        for var in self.meta.find_children(qname):
+        for var in self.meta.get_children(qname):
             if wrapper and var.wrapper_qname != wrapper:
                 continue
 
@@ -292,8 +292,8 @@ class ElementNode(XmlNode):
 
         return None
 
-    @classmethod
-    def bind_var(cls, params: dict, var: XmlVar, value: Any) -> bool:
+    @staticmethod
+    def bind_var(params: dict, var: XmlVar, value: Any) -> bool:
         """Bind a child object to an element field.
 
         Args:
@@ -496,7 +496,7 @@ class ElementNode(XmlNode):
         Raises:
             ParserError: If the child element is unknown
         """
-        for var in self.meta.find_children(qname):
+        for var in self.meta.get_children(qname):
             if wrapper and var.wrapper_qname != wrapper:
                 continue
 

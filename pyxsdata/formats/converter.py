@@ -65,6 +65,42 @@ class Converter(abc.ABC):
             )
 
 
+class ProxyConverter(Converter):
+    """Proxy wrapper to treat callables as converters.
+
+    Args:
+        factory: The callable factory
+    """
+
+    __slots__ = "factory"
+
+    def __init__(self, factory: Callable):
+        """Initialize the proxy converter."""
+        self.factory = factory
+
+    def deserialize(self, value: Any, **kwargs: Any) -> Any:
+        """Call the instance factory and return the result.
+
+        Args:
+            value: The input value to convert
+            **kwargs: Unused keyword arguments
+
+        Returns:
+            The return result of the callable.
+
+        Raises:
+            ConverterError: on value errors.
+        """
+        try:
+            return self.factory(value)
+        except ValueError as e:
+            raise ConverterError(e)
+
+    def serialize(self, value: Any, **kwargs: Any) -> str:
+        """Cast value to str."""
+        return str(value)
+
+
 class ConverterFactory:
     """Converter factory class.
 
@@ -97,15 +133,49 @@ class ConverterFactory:
             instance = self.registry.get(data_type)
             if instance is None:
                 instance = self.type_converter(data_type)
+
+            inst_type_name = type(instance).__name__
+            if (
+                data_type is str
+                and inst_type_name == "StringConverter"
+                and type(value) is str
+            ):
+                return value
+            if data_type is int and inst_type_name == "IntConverter":
+                try:
+                    return int(value)
+                except (ValueError, TypeError):
+                    raise ConverterError(
+                        f"`{value}` is not a valid `{data_type.__name__}`"
+                    )
+            if data_type is float and inst_type_name == "FloatConverter":
+                try:
+                    return float(value)
+                except ValueError:
+                    raise ConverterError(
+                        f"`{value}` is not a valid `{data_type.__name__}`"
+                    )
+            if isinstance(instance, ProxyConverter):
+                try:
+                    return instance.factory(value)
+                except (ValueError, ConverterError):
+                    raise ConverterError(
+                        f"`{value}` is not a valid `{data_type.__name__}`"
+                    )
+
             try:
-                return instance.deserialize(value, data_type=data_type, **kwargs)
+                if kwargs:
+                    return instance.deserialize(value, data_type=data_type, **kwargs)
+                return instance.deserialize(value, data_type=data_type)
             except ConverterError:
                 raise ConverterError(f"`{value}` is not a valid `{data_type.__name__}`")
 
         for data_type in types:
             try:
                 instance = self.type_converter(data_type)
-                return instance.deserialize(value, data_type=data_type, **kwargs)
+                if kwargs:
+                    return instance.deserialize(value, data_type=data_type, **kwargs)
+                return instance.deserialize(value, data_type=data_type)
             except ConverterError:
                 pass
 
@@ -826,42 +896,6 @@ class DateTimeConverter(DateTimeBase):
                 could not be converted.
         """
         return self.parse(value, **kwargs)
-
-
-class ProxyConverter(Converter):
-    """Proxy wrapper to treat callables as converters.
-
-    Args:
-        factory: The callable factory
-    """
-
-    __slots__ = "factory"
-
-    def __init__(self, factory: Callable):
-        """Initialize the proxy converter."""
-        self.factory = factory
-
-    def deserialize(self, value: Any, **kwargs: Any) -> Any:
-        """Call the instance factory and return the result.
-
-        Args:
-            value: The input value to convert
-            **kwargs: Unused keyword arguments
-
-        Returns:
-            The return result of the callable.
-
-        Raises:
-            ConverterError: on value errors.
-        """
-        try:
-            return self.factory(value)
-        except ValueError as e:
-            raise ConverterError(e)
-
-    def serialize(self, value: Any, **kwargs: Any) -> str:
-        """Cast value to str."""
-        return str(value)
 
 
 converter = ConverterFactory()

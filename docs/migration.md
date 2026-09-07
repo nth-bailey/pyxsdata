@@ -12,17 +12,17 @@ differences and provides a step-by-step checklist.
 
 ## Key Architectural Differences
 
-| Feature                 | Legacy `xsdata`                                  | `pyxsdata`                                 |
-| :---------------------- | :----------------------------------------------- | :----------------------------------------- |
-| **Supported Python**    | Python 3.8 – 3.12                                | **Python 3.12+ exclusively**               |
-| **CLI Command**         | `xsdata`                                         | **Strictly `pyxsdata`**                    |
-| **Pydantic Support**    | External plugin (`xsdata-pydantic`)              | **Built-in (`pyxsdata.pydantic`)**         |
-| **Dataclass Semantics** | Positional defaults (optional workarounds)       | **Native `kw_only=True` everywhere**       |
-| **Type Annotations**    | `typing.Union`, `typing.Optional`, `typing.List` | **`X \| Y`, `list[T]`, PEP 695 Generics**  |
-| **Code Formatting**     | Unformatted or black                             | **Astral Ruff (`ruff>=0.9.8`)**            |
-| **XML Parser Engines**  | `xml.etree`, `lxml`                              | **`xml.etree`, `lxml`, and C++ `pugixml`** |
-| **Performance**         | Baseline xsdata                                  | **Up to 33% faster deserialization**       |
-| **Type Checking**       | mypy                                             | **Astral `ty` with zero diagnostics**      |
+| Feature                 | Legacy `xsdata`                                  | `pyxsdata`                                           |
+| :---------------------- | :----------------------------------------------- | :--------------------------------------------------- |
+| **Supported Python**    | Python 3.8 – 3.12                                | **Python 3.12+ exclusively**                         |
+| **CLI Command**         | `xsdata`                                         | **Strictly `pyxsdata`**                              |
+| **Pydantic Support**    | External plugin (`xsdata-pydantic`)              | **Built-in (`pyxsdata.pydantic`)**                   |
+| **Dataclass Semantics** | Positional defaults (optional workarounds)       | **Native `kw_only=True` everywhere**                 |
+| **Type Annotations**    | `typing.Union`, `typing.Optional`, `typing.List` | **`X \| Y`, `list[T]`, PEP 695 Generics**            |
+| **Code Formatting**     | Unformatted or black                             | **Astral Ruff (`ruff>=0.9.8`)**                      |
+| **XML Parser Engines**  | `xml.etree`, `lxml`                              | **`xml.etree`, `lxml`, and C++ `pugixml`**           |
+| **Performance**         | Baseline xsdata                                  | **Up to 54% faster deserialization (2x throughput)** |
+| **Type Checking**       | mypy                                             | **Astral `ty` with zero diagnostics**                |
 
 ---
 
@@ -120,19 +120,26 @@ Read more in the [Parser Backends Guide](data_binding/backends.md).
 
 ### 6. Faster Deserialization Out of the Box
 
-`pyxsdata` includes built-in optimizations that make XML deserialization up to **33%
-faster** than legacy `xsdata`:
+`pyxsdata` includes built-in optimizations that make XML deserialization up to **54%
+faster** (over **2x throughput**) than legacy `xsdata`:
 
-- **Cached Schema Metadata & Child Queries**: Caches `XmlMeta.find_children` resolution
-  as tuples, eliminating hundreds of thousands of generator allocations and traversal
-  cycles.
+- **Direct Scalar Type Fast-Paths**: Bypasses general converter dispatch and exception
+  handling for single `str`, `int`, and `float` candidate types, accelerating primitive
+  scalar conversions by up to 2.7x.
+- **ProxyConverter Fast-Path**: Calls target factory callables directly for `XmlDate`,
+  `XmlTime`, `XmlDateTime`, `XmlDuration`, and `XmlPeriod` without allocating keyword
+  argument dictionaries.
+- **Cached Schema Metadata & Tuple Iteration**: Caches `XmlMeta.get_children` resolution
+  as immutable tuples, eliminating hundreds of thousands of generator allocations and
+  `iter()` call overheads.
 - **Fast-Path Primitive Node Instantiation**: Immediately constructs `PrimitiveNode` for
   scalar fields without querying XSI attributes or factory classes.
+- **Static Method Binding**: Uses static methods for field binding to avoid per-call
+  bound method descriptor construction.
 - **Slice-Free Intermediate Object Processing**: Traverses queued object tuples using
   direct indexing instead of allocating intermediate sublists during object binding.
 - **Zero-Cost Converter Dispatch & Single-Type Fast-Path**: Replaced expensive
-  exception-suppression wrappers with direct dictionary lookups and fast paths for
-  single-candidate types.
+  exception-suppression wrappers with direct dictionary lookups.
 - **MRO Converter Caching**: Fast-paths class inheritance lookups by caching converter
   resolution directly in the type registry.
 - **Parser Node Caching**: Avoids repeated module imports in parsing hot paths.
