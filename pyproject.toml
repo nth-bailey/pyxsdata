@@ -1,10 +1,10 @@
 [build-system]
-requires = ["uv_build>=0.12.10,<0.13.0"]
-build-backend = "uv_build"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "pyxsdata"
-version = "0.0.0"
+dynamic = ["version"]
 description = "Modern Python XML & JSON Data Binding with Pydantic & Dataclasses support"
 readme = "README.md"
 license = "MIT"
@@ -105,11 +105,11 @@ dev = [
     "build>=1.6.0",
 ]
 
-[tool.uv]
-package = true
+[tool.hatch.version]
+path = "pyxsdata/__init__.py"
 
-[tool.uv.build-backend]
-module-root = ""
+[tool.hatch.build.targets.wheel]
+packages = ["pyxsdata"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
