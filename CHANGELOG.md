@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/nth-bailey/pyxsdata/compare/1.0.3...1.1.0) (2026-09-07)
+
+
+### Bug Fixes
+
+* **packaging:** keep core extra decoupled from all to avoid PyPI resolution in pure-python environments ([ebac0c2](https://github.com/nth-bailey/pyxsdata/commit/ebac0c2aa8fab778c4bf53b4e4779db3caeedc15))
+
+
+### Features
+
+* **parsers:** add CoreEventHandler and CoreXmlParser for pyxsdata-core acceleration ([28c6ff3](https://github.com/nth-bailey/pyxsdata/commit/28c6ff3816f43241ef7c4470078e3ce5c5dd0eaf))
+* **pydantic:** add CoreXmlParser powered by pyxsdata-core acceleration ([7652331](https://github.com/nth-bailey/pyxsdata/commit/7652331c5514973eaf7fe02db8cbf8d6b0a42f20))
+
 ## [1.0.3](https://github.com/nth-bailey/pyxsdata/compare/1.0.2...1.0.3) (2026-09-07)
 
 
