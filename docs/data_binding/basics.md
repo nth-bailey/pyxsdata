@@ -240,7 +240,7 @@ Dictionary containing global variables to extend or overwrite for typing.
 
 When managing a big collection of models, it is sometimes tricky to split them into
 multiple python modules. Even more so if they depend on each other. For the models to be
-serializable by xsdata, they need to be able to import all other referenced models,
+serializable by pyxsdata, they need to be able to import all other referenced models,
 which might not be possible due to circular imports.
 
 One solution to get around this problem is to fence the imports within the python

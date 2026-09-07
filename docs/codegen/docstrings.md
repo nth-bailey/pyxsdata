@@ -1,6 +1,6 @@
 # Docstring styles
 
-xsdata follows [PEP 257](https://www.python.org/dev/peps/pep-0257/) docstring
+pyxsdata follows [PEP 257](https://www.python.org/dev/peps/pep-0257/) docstring
 conventions and offers the ability to switch between the most popular styles or disable
 them completely.
 

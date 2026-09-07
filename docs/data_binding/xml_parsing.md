@@ -133,13 +133,13 @@ all the imported modules to find a matching dataclass.
 
 ## Alternative handlers
 
-XmlHandlers read the xml source and push build events to create the target class. xsData
+XmlHandlers read the xml source and push build events to create the target class. pyxsdata
 ships with two handlers based on lxml and native python that vary in performance and
 features.
 
 !!! Hint
 
-    If you installed xsdata with lxml the default handler is set to
+    If you installed pyxsdata with lxml the default handler is set to
     [LxmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.LxmlEventHandler] otherwise
     [XmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.XmlEventHandler] will be used.
 

@@ -1,7 +1,7 @@
 # Classes
 
-xsdata is using python's [dataclasses][] as representation models for document entities.
-Plugins can extend support for output formats.
+pyxsdata uses Python's [dataclasses][] (and Pydantic models) as representation models for document entities.
+Built-in support includes standard dataclasses and Pydantic v2.
 
 ## Basic Example
 

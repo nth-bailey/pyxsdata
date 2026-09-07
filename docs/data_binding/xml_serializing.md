@@ -145,7 +145,7 @@ mixed content and enabled indentation.
 
 !!! Hint
 
-    If you installed xsdata with lxml the default writer is set to
+    If you installed pyxsdata with lxml the default writer is set to
     [`LxmlEventWriter`][pyxsdata.formats.dataclass.serializers.writers.LxmlEventWriter] otherwise
     [`XmlEventWriter`][pyxsdata.formats.dataclass.serializers.writers.XmlEventWriter] will be used.
 
@@ -201,7 +201,7 @@ The generator will roughly create this class for you.
 
 ### Generics
 
-xsdata comes with two generic models that are used during parsing and you can also use
+pyxsdata comes with two generic models that are used during parsing and you can also use
 to generate any custom xml element.
 
 - [`AnyElement`][pyxsdata.formats.dataclass.models.generics.AnyElement]: Used to represent
@@ -245,7 +245,7 @@ to generate any custom xml element.
 ### Mixed content
 
 For mixed content with known choices you can skip wrapping your instances with a generic
-model. During data binding xsdata will try first to match one of the qualified choices.
+model. During data binding pyxsdata will try first to match one of the qualified choices.
 
 ```python
 >>> @dataclass

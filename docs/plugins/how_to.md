@@ -1,9 +1,9 @@
-# How to extend xsdata
+# How to extend pyxsdata
 
 There are two main entrypoints that developers can leverage to add support a new
 generator output or/and a new class type for data bindings.
 
-## `xsdata.plugins.cli`
+## `pyxsdata.plugins.cli`
 
 This entrypoint allows developers to register a new
 [pyxsdata.formats.mixins.AbstractGenerator][].
@@ -24,7 +24,7 @@ Which can be used during code generation.
 $ pyxsdata generate --output awesome
 ```
 
-## `xsdata.plugins.class_types`
+## `pyxsdata.plugins.class_types`
 
 This entrypoint can be used to register a new
 [pyxsdata.formats.dataclass.compat.ClassType][] for binding operations.
@@ -45,6 +45,6 @@ Which then can be used like this:
 from pyxsdata.formats.dataclass.context import XmlContext
 from pyxsdata.formats.dataclass.parsers import XmlParser
 
-context = XmlContext(class_types="awesome")
+context = XmlContext(class_type="awesome")
 parser = XmlParser(context=context)
 ```

@@ -24,7 +24,7 @@ pip install "pyxsdata[cli,lxml,pydantic] @ git+https://github.com/nth-bailey/pyx
 Verify installation using the cli entry point:
 
 ```console exec="1" source="console"
-$ pypyxsdata --help
+$ pyxsdata --help
 ```
 
 ## Requirements
