@@ -1,0 +1,64 @@
+target-version = "py312"
+line-length = 88
+
+[lint]
+select = [
+    # pycodestyle errors & warnings
+    "E",
+    "W",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # flake8-annotations
+    "ANN",
+    # flake8-comprehensions
+    "C4",
+    # isort
+    "I",
+    # pydocstyle (Google convention)
+    "D",
+    # pep8-naming
+    "N",
+    # flake8-raise
+    "RSE",
+    # flake8-return
+    "RET",
+    # Ruff rules
+    "RUF",
+]
+ignore = [
+    "ANN204",  # Missing return type annotation for special method
+    "ANN206",  # Missing return type annotation for classmethod
+    "ANN401",  # Dynamically typed expressions (typing.Any)
+    "E203",    # Whitespace before ':'
+    "B028",    # No explicit stacklevel keyword argument found
+    "B904",    # Within an except clause, raise exceptions with raise ... from err
+    "D100",    # Missing docstring in public module
+    "D104",    # Missing docstring in public package
+    "N813",    # Camelcase imported as lowercase (e.g. ElementTree as etree)
+    "RUF009",  # Do not perform function call in dataclass defaults
+]
+exclude = ["tests/fixtures"]
+
+[lint.per-file-ignores]
+"**/{tests}/*" = ["ANN001", "ANN002", "ANN003", "E501", "B018", "D"]
+"tests/formats/dataclass/cases/**" = ["UP"]
+"**/utils/testing.py" = ["D"]
+"docs/*" = ["D"]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.isort]
+known-first-party = ["pyxsdata"]
+
+[format]
+docstring-code-format = true
+line-ending = "lf"
+quote-style = "double"
+indent-style = "space"

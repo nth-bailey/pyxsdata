@@ -55,10 +55,10 @@ When contributing or refactoring, strictly maintain the following invariants:
   .venv/bin/ty check pyxsdata
   ```
   All code in `pyxsdata/` must pass with zero diagnostics: **"All checks passed!"**.
-- Type configuration is maintained under `[tool.ty]` in `pyproject.toml`.
+- Type configuration is maintained in `ty.toml`.
 
 ### Linting & Formatting: `ruff`
-- Configuration is in `pyproject.toml` (`target-version = "py312"`).
+- Configuration is in `ruff.toml` (`target-version = "py312"`), enforcing Google Python style guide conventions.
 - Note: Subdirectory `pyxsdata/formats/dataclass/ruff.toml` exists for dataclass-specific overrides.
 - **Commands**:
   ```bash
@@ -123,7 +123,9 @@ pyxsdata/
 ├── docs/                          # Documentation markdown files
 ├── .github/workflows/             # GitHub Actions CI, test, and docs deploy workflows
 ├── zensical.toml                  # Zensical SSG configuration
-└── pyproject.toml                 # Dependencies, project metadata, ruff & ty configs
+├── ruff.toml                      # Ruff linter and formatter configuration (Google style)
+├── ty.toml                        # Astral ty type checker configuration
+└── pyproject.toml                 # Dependencies and project packaging metadata
 ```
 
 ---

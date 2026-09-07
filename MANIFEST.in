@@ -5,6 +5,8 @@ recursive-include pyxsdata *
 
 
 exclude zensical.toml
+exclude ruff.toml
+exclude ty.toml
 exclude .pre-commit-config.yaml
 
 global-exclude .DS_Store *.pyc

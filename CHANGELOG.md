@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Raised minimum required Python version to `>= 3.12`.
 - Modernized codebase to PEP 695 generics, modern type unions, and structural pattern matching.
 - Upgraded all core and optional dependencies to latest releases.
+- Migrated linter and type checker configurations to standalone `ruff.toml` and `ty.toml`, enforcing Google Python Style Guide conventions.
 
 ### Removed
 - Dropped legacy `xsdata` CLI command and backward-compatibility aliases.

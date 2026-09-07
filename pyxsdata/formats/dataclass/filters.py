@@ -200,7 +200,7 @@ class Filters:
         return collections.unique_sequence(bases)
 
     @classmethod
-    def _parent_match(clazz, ext: GeneratorExtension, obj: Class) -> bool:
+    def _parent_match(cls, ext: GeneratorExtension, obj: Class) -> bool:
         if not ext.parent_pattern:
             return True
         parent_path = ".".join(obj.parent_names())
