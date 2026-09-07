@@ -1,0 +1,74 @@
+name: "🐛 Bug Report"
+description: File a bug report to help us improve pyxsdata
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please check existing issues to ensure this hasn't already been reported.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Reproducible Example
+      description: |
+        Please provide a self-contained code snippet and minimal XML / schema (XSD, JSON Schema, WSDL) that reproduces the behavior.
+      render: python
+    validations:
+      required: true
+
+  - type: textarea
+    id: schema
+    attributes:
+      label: Schema / XML Snippet
+      description: Paste the minimal XML or schema here if applicable.
+      render: xml
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Traceback / Output
+      description: Paste the full traceback or unexpected output here.
+      render: text
+    validations:
+      required: false
+
+  - type: dropdown
+    id: backend
+    attributes:
+      label: Target Backend / Mode
+      options:
+        - Dataclasses
+        - Pydantic v2
+        - CLI (Code Generation)
+        - Core Rust Deserializer (pyxsdata-core)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment Info
+      description: Python version, pyxsdata version, OS (e.g. Python 3.12.2, pyxsdata 1.2.0, Linux x86_64).
+    validations:
+      required: true

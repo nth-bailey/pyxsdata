@@ -1,20 +1,22 @@
 ## 📒 Description
 
-> Write a brief description of your PR.
+<!-- Provide a brief description of your PR and the rationale behind it. -->
 
-Resolves #xxxx
+Resolves #
 
-## 🔗 What I've Done
+## 🔗 Changes Made
 
-> Write a description of the steps taken to resolve the issue
+<!-- Outline the key changes introduced in this PR. -->
 
-## 💬 Comments
-
-> A place to write any comments to the reviewer.
+-
 
 ## 🛫 Checklist
 
-- [ ] Updated docs
-- [ ] Added unit-tests
-- [ ] [Sample tests](https://github.com/tefra/xsdata-samples) pass
-- [ ] [W3C tests](https://github.com/tefra/xsdata-w3c-tests) pass
+- [ ] My code follows the code style of this project (`.venv/bin/ruff check pyxsdata`
+      and `.venv/bin/ruff format --check pyxsdata`).
+- [ ] Static type checking passes with zero diagnostics (`.venv/bin/ty check pyxsdata`).
+- [ ] I have added tests for my changes and 100% test coverage is maintained
+      (`.venv/bin/pytest --cov=./pyxsdata`).
+- [ ] Documentation has been updated (or `zensical build` succeeds) if applicable.
+- [ ] My commits follow [Conventional Commits](https://www.conventionalcommits.org/)
+      (e.g. `feat:`, `fix:`, `docs:`, `chore:`).
