@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/nth-bailey/pyxsdata/compare/1.1.1...1.2.0) (2026-09-07)
+
+
+### Features
+
+* **pydantic:** map XSD restrictions to native Pydantic v2 field constraints and use frozen=True ([c821ada](https://github.com/nth-bailey/pyxsdata/commit/c821ada24ffb4e770abd33f004916f0786d9db80))
+
 ## [1.1.1](https://github.com/nth-bailey/pyxsdata/compare/1.1.0...1.1.1) (2026-09-07)
 
 
