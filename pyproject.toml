@@ -9,7 +9,9 @@ include = ["pyxsdata*"]
 name = "pyxsdata"
 description = "Modern Python XML & JSON Data Binding with Pydantic & Dataclasses support"
 authors = [
-    {name = "Christodoulos Tsoulloftas", email = "chris@komposta.net"},
+    {name = "nth-bailey"},
+]
+maintainers = [
     {name = "nth-bailey"},
 ]
 license = "MIT"
