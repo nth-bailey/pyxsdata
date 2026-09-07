@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/nth-bailey/pyxsdata/compare/1.2.1...1.2.2) (2026-09-07)
+
+
+### Bug Fixes
+
+* resolve upstream xsdata bugs for XXE, NewType, choice subclasses, and SOAP client headers ([3005cb2](https://github.com/nth-bailey/pyxsdata/commit/3005cb2f160655a0e53bdb1e31f29b92c481cac4))
+
 ## [1.2.1](https://github.com/nth-bailey/pyxsdata/compare/1.2.0...1.2.1) (2026-09-07)
 
 
