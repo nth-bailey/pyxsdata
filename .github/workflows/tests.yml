@@ -27,6 +27,7 @@ jobs:
           enable-cache: true
       - name: Install dependencies
         run: |
+          uv pip install --system "git+https://github.com/nth-bailey/pyxsdata-core.git"
           uv pip install --system ".[all,test]"
       - name: Test
         run: |
@@ -50,6 +51,7 @@ jobs:
           enable-cache: true
       - name: Install dependencies & ty
         run: |
+          uv pip install --system "git+https://github.com/nth-bailey/pyxsdata-core.git"
           uv pip install --system ".[all,test]" ty types-lxml
       - name: ty check
         run: |
@@ -68,6 +70,7 @@ jobs:
           enable-cache: true
       - name: Install dependencies
         run: |
+          uv pip install --system "git+https://github.com/nth-bailey/pyxsdata-core.git"
           uv pip install --system ".[all,test]"
       - name: Benchmark
         run: |
@@ -108,6 +111,7 @@ jobs:
           enable-cache: true
       - name: Install dependencies
         run: |
+          uv pip install --system "git+https://github.com/nth-bailey/pyxsdata-core.git"
           uv pip install --system ".[all,test]" pre-commit ty types-lxml
       - name: Run pre-commit
         run: |

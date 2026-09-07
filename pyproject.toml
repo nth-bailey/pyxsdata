@@ -94,7 +94,7 @@ core = [
     "pyxsdata-core>=0.1.0",
 ]
 all = [
-    "pyxsdata[cli,lxml,soap,pydantic,pugixml]",
+    "pyxsdata[cli,lxml,soap,pydantic,pugixml,core]",
 ]
 
 [dependency-groups]
