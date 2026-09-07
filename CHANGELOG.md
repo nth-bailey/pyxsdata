@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/nth-bailey/pyxsdata/compare/1.2.2...1.3.0) (2026-09-07)
+
+
+### Features
+
+* implement StrEnum support, schema default metadata, and root mismatch validation ([ea3db10](https://github.com/nth-bailey/pyxsdata/commit/ea3db1025658c45f235ee113b5ea674d02dfdfa9)), closes [#1223](https://github.com/nth-bailey/pyxsdata/issues/1223) [#1184](https://github.com/nth-bailey/pyxsdata/issues/1184) [#1141](https://github.com/nth-bailey/pyxsdata/issues/1141)
+
 ## [1.2.2](https://github.com/nth-bailey/pyxsdata/compare/1.2.1...1.2.2) (2026-09-07)
 
 
