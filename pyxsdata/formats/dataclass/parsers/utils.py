@@ -62,6 +62,9 @@ class ParserUtils:
         Returns:
             The xsi:type attribute value or None
         """
+        if not attrs:
+            return None
+
         xsi_type = attrs.get(QNames.XSI_TYPE)
         if not xsi_type:
             return None
@@ -79,6 +82,9 @@ class ParserUtils:
         Returns:
             The bool value or None if it doesn't exist.
         """
+        if not attrs:
+            return None
+
         xsi_nil = attrs.get(QNames.XSI_NIL)
         return xsi_nil == constants.XML_TRUE if xsi_nil else None
 

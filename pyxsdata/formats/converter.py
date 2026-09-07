@@ -4,7 +4,6 @@ import binascii
 import math
 import re
 from collections.abc import Callable, Sequence
-from contextlib import suppress
 from datetime import date, datetime, time
 from decimal import Decimal, InvalidOperation
 from enum import Enum, EnumMeta
@@ -94,9 +93,11 @@ class ConverterFactory:
             The converted value
         """
         for data_type in types:
-            with suppress(ConverterError):
+            try:
                 instance = self.type_converter(data_type)
                 return instance.deserialize(value, data_type=data_type, **kwargs)
+            except ConverterError:
+                pass
 
         type_names = " | ".join(tp.__name__ for tp in types)
         raise ConverterError(f"`{value}` is not a valid `{type_names}`")
@@ -198,14 +199,16 @@ class ConverterFactory:
         Returns:
             A converter instance
         """
-        with suppress(KeyError):
-            # Quick in and out, without checking the whole mro.
-            return self.registry[data_type]
+        converter = self.registry.get(data_type)
+        if converter is not None:
+            return converter
 
         # We tested the first, ignore the object
         for mro in data_type.__mro__[1:-1]:
             if mro in self.registry:
-                return self.registry[mro]
+                found = self.registry[mro]
+                self.registry[data_type] = found
+                return found
 
         raise ConverterError(f"No converter registered for `{data_type.__qualname__}`")
 

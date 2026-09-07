@@ -1,6 +1,6 @@
 import copy
 from dataclasses import dataclass, field
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from pyxsdata.exceptions import ParserError
 from pyxsdata.formats.dataclass.context import XmlContext
@@ -13,6 +13,12 @@ from pyxsdata.formats.dataclass.parsers.mixins import (
 from pyxsdata.formats.dataclass.parsers.utils import ParserUtils
 from pyxsdata.formats.types import T
 from pyxsdata.models.enums import EventType
+
+if TYPE_CHECKING:
+    from pyxsdata.formats.dataclass.parsers.nodes import ElementNode, WrapperNode
+else:
+    ElementNode = None
+    WrapperNode = None
 
 Parsed = tuple[str | None, Any]
 
@@ -84,7 +90,10 @@ class NodeParser(PushParser):
             attrs: The element attributes
             ns_map: The element namespace prefix-URI map
         """
-        from pyxsdata.formats.dataclass.parsers.nodes import ElementNode, WrapperNode
+        global ElementNode, WrapperNode
+        if ElementNode is None:
+            from pyxsdata.formats.dataclass.parsers.nodes.element import ElementNode
+            from pyxsdata.formats.dataclass.parsers.nodes.wrapper import WrapperNode
 
         try:
             item = queue[-1]

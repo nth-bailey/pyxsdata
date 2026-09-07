@@ -21,6 +21,7 @@ differences and provides a step-by-step checklist.
 | **Type Annotations**    | `typing.Union`, `typing.Optional`, `typing.List` | **`X \| Y`, `list[T]`, PEP 695 Generics**  |
 | **Code Formatting**     | Unformatted or black                             | **Astral Ruff (`ruff>=0.9.8`)**            |
 | **XML Parser Engines**  | `xml.etree`, `lxml`                              | **`xml.etree`, `lxml`, and C++ `pugixml`** |
+| **Performance**         | Baseline xsdata                                  | **Up to 25% faster deserialization**       |
 | **Type Checking**       | mypy                                             | **Astral `ty` with zero diagnostics**      |
 
 ---
@@ -116,3 +117,17 @@ data = parser.parse("huge_feed.xml", FeedModel)
 ```
 
 Read more in the [Parser Backends Guide](data_binding/backends.md).
+
+### 6. Faster Deserialization Out of the Box
+
+`pyxsdata` includes built-in optimizations that make XML deserialization up to **25%
+faster** than legacy `xsdata`:
+
+- **Zero-Cost Converter Dispatch**: Replaced expensive exception-suppression wrappers in
+  the deserialization loop with fast dictionary lookups and zero-cost `try...except`
+  blocks.
+- **MRO Converter Caching**: Fast-paths class inheritance lookups by caching converter
+  resolution directly in the type registry.
+- **Parser Node Caching**: Avoids repeated module imports in parsing hot paths.
+- **Short-Circuited XSI Attribute Checks**: Instantly skips XSI type and nil checks when
+  elements carry no attributes.

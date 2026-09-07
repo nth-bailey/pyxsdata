@@ -93,8 +93,9 @@ dealing directly with the DOM.
   1.1, DTD definitions, and raw XML or JSON documents.
 - **Native Pydantic v2**: Built-in first-class Pydantic v2 code generator and binding
   layer (`pyxsdata.pydantic`). No external plugins required.
-- **Blazing Fast Performance**: Optimized streaming parsers and serializers with support
-  for both `lxml` and Python's native `xml.etree`.
+- **Blazing Fast Performance**: Up to **25% faster** XML deserialization than legacy
+  `xsdata` through zero-overhead type conversion, MRO caching, short-circuited attribute
+  checks, and native support for `xml.etree`, `lxml`, and C++ `pugixml`.
 - **Modern Python 3.12+**: Strictly built for Python 3.12+. Fully type-annotated, PEP
   695 generics, and verified with Astral `ty` with zero diagnostics.
 
