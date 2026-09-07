@@ -178,11 +178,13 @@ catalog = parser.parse("catalog.xml", Catalog)
 
 ### General Guidelines
 
-1. **For Maximum Ingestion Speed**: Use `PugixmlEventHandler`. Its C++ pull parser
-   yields the lowest overhead when reading XML files.
+1. **For Maximum Ingestion Speed**: Use `CoreEventHandler` or `CoreXmlParser`
+   (`pip install "pyxsdata[core]"`). Its native Rust pull-parser yields the lowest
+   overhead (~290k-310k objs/sec, up to 15x faster than legacy `xsdata`).
 2. **For Advanced XML Specs**: Use `LxmlEventHandler` if your schemas require external
    DTDs or XInclude resolution.
-3. **For Zero Dependencies**: Use `NativeEventHandler`.
+3. **For C++ Streaming**: Use `PugixmlEventHandler` for streaming constant-memory XML.
+4. **For Zero Dependencies**: Use `NativeEventHandler`.
 
 ### Performance vs Legacy xsdata
 
