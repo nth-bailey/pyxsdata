@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/nth-bailey/pyxsdata/compare/1.0.1...1.0.2) (2026-09-07)
+
+
+### Performance Improvements
+
+* **parsers:** cache child metadata lookups, fast-path primitive nodes, and eliminate object slicing ([da8f091](https://github.com/nth-bailey/pyxsdata/commit/da8f091f8b5df3be3179e5db0f09e479dcfc0737))
+
 ## [1.0.1](https://github.com/nth-bailey/pyxsdata/compare/1.0.0...1.0.1) (2026-09-07)
 
 
