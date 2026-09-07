@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/nth-bailey/pyxsdata/compare/1.0.2...1.0.3) (2026-09-07)
+
+
+### Performance Improvements
+
+* **parsers:** direct scalar/proxy converter fast paths and tuple child iteration ([90098e6](https://github.com/nth-bailey/pyxsdata/commit/90098e681e14426d615d0092967272c9091c5cd6))
+
 ## [1.0.2](https://github.com/nth-bailey/pyxsdata/compare/1.0.1...1.0.2) (2026-09-07)
 
 
