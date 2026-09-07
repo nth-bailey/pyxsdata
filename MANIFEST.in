@@ -1,11 +1,11 @@
-include LICENSE README.md LICENSE CHANGES.md
+include LICENSE README.md CHANGELOG.md
 recursive-include docs *
 recursive-include tests *
-recursive-include xsdata *
+recursive-include pyxsdata *
 
 
 exclude .readthedocs.yml
-exclude .mkdocs.yml
+exclude zensical.toml
 exclude .pre-commit-config.yaml
 
 global-exclude .DS_Store *.pyc

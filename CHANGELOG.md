@@ -1,3 +1,37 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.0.0] - 2026-03-07
+
+### Added
+- Native Pydantic v2 support (`pyxsdata.pydantic`) with drop-in parsers and serializers (`XmlParser`, `XmlSerializer`, `JsonParser`, etc.).
+- Dedicated Pydantic v2 code generation backend (`pyxsdata generate ... --output pydantic`).
+- Astral `ty` static type checker integration with zero diagnostics.
+- Modern documentation website powered by Zensical static site generator.
+
+### Changed
+- Forked and rebranded library strictly to `pyxsdata`.
+- Raised minimum required Python version to `>= 3.12`.
+- Modernized codebase to PEP 695 generics, modern type unions, and structural pattern matching.
+- Upgraded all core and optional dependencies to latest releases.
+
+### Removed
+- Dropped legacy `xsdata` CLI command and backward-compatibility aliases.
+- Removed `mypy` and `mkdocs` toolchains.
+
+---
+
+## Legacy xsdata History
+
+<details>
+<summary>Click to expand historical changelog from upstream xsdata (v26.2 and older)</summary>
+
 ## 26.2 (2026-02-15)
 
 **Fixes**
@@ -1009,3 +1043,4 @@ they deserved.
 ## 20.1 (2020-01-07)
 
 - Initial release
+</details>
