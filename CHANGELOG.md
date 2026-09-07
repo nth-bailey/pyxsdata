@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/nth-bailey/pyxsdata/compare/1.1.0...1.1.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* **pydantic:** resolve duplicate default on prohibited fields, instance model_fields access, and add field overloads ([74aff56](https://github.com/nth-bailey/pyxsdata/commit/74aff56339590316fc37b15d18924ef1a55f33d5))
+
 # [1.1.0](https://github.com/nth-bailey/pyxsdata/compare/1.0.3...1.1.0) (2026-09-07)
 
 
