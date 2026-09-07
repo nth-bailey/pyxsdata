@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/nth-bailey/pyxsdata/compare/1.2.0...1.2.1) (2026-09-07)
+
+
+### Bug Fixes
+
+* **codegen:** remove redundant truthy check on tuple to satisfy ty ([9598f09](https://github.com/nth-bailey/pyxsdata/commit/9598f0974d4103c82c0022c1036fa30590200cec))
+
 # [1.2.0](https://github.com/nth-bailey/pyxsdata/compare/1.1.1...1.2.0) (2026-09-07)
 
 
