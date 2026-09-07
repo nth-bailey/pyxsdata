@@ -198,3 +198,30 @@ class ClassTests(FactoryTestCase):
         inner.attrs[0].types.append(circular_type)
         obj.inner.append(inner)
         self.assertTrue(obj.has_forward_ref())
+
+    def test_property_is_str_enumeration(self) -> None:
+        obj = ClassFactory.create()
+        self.assertFalse(obj.is_str_enumeration)
+
+        obj = ClassFactory.enumeration(2)
+        self.assertTrue(obj.is_str_enumeration)
+
+        obj = ClassFactory.create(
+            tag=Tag.SIMPLE_TYPE,
+            attrs=[
+                AttrFactory.enumeration(
+                    types=[AttrTypeFactory.native(DataType.INTEGER)]
+                )
+            ],
+        )
+        self.assertFalse(obj.is_str_enumeration)
+
+        obj = ClassFactory.create(
+            tag=Tag.SIMPLE_TYPE,
+            attrs=[
+                AttrFactory.enumeration(
+                    types=[AttrTypeFactory.create(qname="CustomType")]
+                )
+            ],
+        )
+        self.assertFalse(obj.is_str_enumeration)

@@ -91,6 +91,7 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
         self.processor.process_attribute(target, attr)
         self.assertIsNone(attr.default)
         self.assertFalse(attr.fixed)
+        self.assertEqual("abc", attr.schema_default)
 
         attr = AttrFactory.element(default="abc")
         self.processor.process_attribute(target, attr)

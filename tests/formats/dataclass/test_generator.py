@@ -224,3 +224,17 @@ class DataclassGeneratorTests(FactoryTestCase):
 
             with self.assertRaises(CodegenError):
                 self.generator.ruff_code([temp_file.name])
+
+    def test_render_str_enum(self) -> None:
+        classes = [ClassFactory.enumeration(2, qname="MyEnum")]
+        resolver = DependenciesResolver({})
+
+        self.generator.config.output.str_enums = True
+        actual = self.generator.render_module(resolver, classes)
+        self.assertIn("from enum import StrEnum", actual)
+        self.assertIn("class MyEnum(StrEnum):", actual)
+
+        self.generator.config.output.str_enums = False
+        actual = self.generator.render_module(resolver, classes)
+        self.assertIn("from enum import Enum", actual)
+        self.assertIn("class MyEnum(Enum):", actual)

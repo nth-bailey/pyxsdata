@@ -244,6 +244,9 @@ class GeneratorOutput:
     unnest_classes: bool = field(default=False, metadata={"type": "Element"})
     ignore_patterns: bool = field(default=False, metadata={"type": "Element"})
     include_header: bool = field(default=False, metadata={"type": "Element"})
+    str_enums: bool = field(
+        default=False, metadata={"type": "Attribute", "cli": "str-enums"}
+    )
 
     def __post_init__(self):
         """Post initialization method."""

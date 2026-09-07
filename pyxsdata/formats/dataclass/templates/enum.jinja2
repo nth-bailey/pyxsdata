@@ -3,8 +3,9 @@
     {%- include "docstrings." + docstring_name + ".jinja2" -%}
 {% endset -%}
 {% set class_name = obj.name | class_name %}
+{% set enum_base = "StrEnum" if (str_enums and obj.is_str_enumeration) else "Enum" %}
 
-class {{ class_name }}(Enum):
+class {{ class_name }}({{ enum_base }}):
 {%- if help %}
 {{ help | indent(4, first=True) }}
 {%- endif -%}

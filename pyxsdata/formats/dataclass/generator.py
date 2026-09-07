@@ -193,6 +193,7 @@ class DataclassGenerator(AbstractGenerator):
                 .render(
                     obj=obj,
                     module_namespace=module_namespace,
+                    str_enums=self.config.output.str_enums,
                 )
                 .strip()
             )

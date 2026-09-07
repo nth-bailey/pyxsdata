@@ -450,6 +450,21 @@ class Filters:
         if not attr.is_attribute or attr.default is None:
             metadata.pop("required", None)
 
+        if attr.default is None and attr.schema_default is not None:
+            types = converter.sort_types(attr.native_types)
+            if types:
+                try:
+                    metadata["default"] = converter.deserialize(
+                        attr.schema_default,
+                        types,
+                        ns_map=obj.ns_map,
+                        format=attr.restrictions.format,
+                    )
+                except Exception:
+                    metadata["default"] = attr.schema_default
+            else:
+                metadata["default"] = attr.schema_default
+
         if self.docstring_style == DocstringStyle.ACCESSIBLE and attr.help:
             metadata["doc"] = self.clean_docstring(attr.help, False)
 
@@ -501,7 +516,7 @@ class Filters:
         return {
             key: value
             for key, value in data.items()
-            if value is not None and value is not False
+            if value is not None and (value is not False or key == "default")
         }
 
     def format_arguments(self, data: dict, indent: int = 0) -> str:
@@ -953,7 +968,7 @@ class Filters:
         return {
             "dataclasses": {"dataclass": ["@dataclass"], "field": [" = field("]},
             "decimal": {"Decimal": type_patterns("Decimal")},
-            "enum": {"Enum": ["(Enum)"]},
+            "enum": {"Enum": ["(Enum)"], "StrEnum": ["(StrEnum)"]},
             "typing": {
                 "ForwardRef": [": ForwardRef("],
                 "Any": type_patterns("Any"),

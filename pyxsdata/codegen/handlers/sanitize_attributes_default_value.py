@@ -49,6 +49,7 @@ class SanitizeAttributesDefaultValue(RelativeHandlerInterface):
             attr.restrictions.min_occurs = 0
 
         if self.should_reset_default(attr):
+            attr.schema_default = attr.default
             attr.fixed = False
             attr.default = None
 

@@ -120,6 +120,13 @@ class NodeParser(PushParser):
                 raise ParserError(f"No class found matching root: {qname}")
 
             meta = self.context.fetch(clazz, xsi_type=xsi_type)
+            if self.config.fail_on_root_mismatch:
+                expected_qname = self.context.build(clazz).qname
+                if expected_qname != qname and meta.qname != qname:
+                    raise ParserError(
+                        f"Root element `{qname}` does not match expected `{expected_qname}`"
+                    )
+
             if xsi_type is None or meta.qname == qname:
                 derived_factory = None
             else:

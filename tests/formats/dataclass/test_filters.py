@@ -461,6 +461,30 @@ class FiltersTests(FactoryTestCase):
         expected = {"name": "attr_B", "type": "Element"}
         self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
 
+    def test_field_metadata_schema_default(self) -> None:
+        attr = AttrFactory.element(types=[type_str], default=None)
+        attr.schema_default = "abc"
+        expected = {"name": "attr_B", "type": "Element", "default": "abc"}
+        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+
+        attr_bool = AttrFactory.element(types=[type_bool], default=None)
+        attr_bool.schema_default = "false"
+        expected_bool = {"name": "attr_C", "type": "Element", "default": False}
+        self.assertEqual(expected_bool, self.filters.field_metadata(self.obj, attr_bool, None))
+
+        # Test fallback when types is empty
+        attr_empty = AttrFactory.element(default=None)
+        attr_empty.types.clear()
+        attr_empty.schema_default = "raw_val"
+        expected_empty = {"name": "attr_D", "type": "Element", "default": "raw_val"}
+        self.assertEqual(expected_empty, self.filters.field_metadata(self.obj, attr_empty, None))
+
+        # Test exception fallback when deserialization fails
+        attr_invalid = AttrFactory.element(types=[type_int], default=None)
+        attr_invalid.schema_default = "invalid_int"
+        expected_invalid = {"name": "attr_E", "type": "Element", "default": "invalid_int"}
+        self.assertEqual(expected_invalid, self.filters.field_metadata(self.obj, attr_invalid, None))
+
     def test_field_metadata_namespace(self) -> None:
         attr = AttrFactory.element(namespace="foo")
         expected = {"name": "attr_B", "namespace": "foo", "type": "Element"}

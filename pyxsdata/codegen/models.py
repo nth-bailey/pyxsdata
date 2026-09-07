@@ -293,6 +293,7 @@ class Attr(CodegenModel):
     wrapper: str | None = field(default=None)
     index: int = field(compare=False, default_factory=int)
     default: str | None = field(default=None, compare=False)
+    schema_default: str | None = field(default=None, compare=False)
     fixed: bool = field(default=False, compare=False)
     mixed: bool = field(default=False, compare=False)
     types: list[AttrType] = field(default_factory=list, compare=False)
@@ -578,6 +579,18 @@ class Class(CodegenModel):
     def is_enumeration(self) -> bool:
         """Return whether all attrs are enumeration members."""
         return len(self.attrs) > 0 and all(attr.is_enumeration for attr in self.attrs)
+
+    @property
+    def is_str_enumeration(self) -> bool:
+        """Return whether all attrs are string enumeration members."""
+        return self.is_enumeration and all(
+            not list(attr.user_types)
+            and (
+                not attr.native_types
+                or all(issubclass(tp, str) for tp in attr.native_types)
+            )
+            for attr in self.attrs
+        )
 
     @property
     def is_complex_type(self) -> bool:

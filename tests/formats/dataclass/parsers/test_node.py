@@ -113,6 +113,23 @@ class NodeParserTests(TestCase):
             "No class found matching root: {unknown}hopefully", str(cm.exception)
         )
 
+    def test_start_with_fail_on_root_mismatch(self) -> None:
+        parser = NodeParser()
+        parser.config.fail_on_root_mismatch = True
+
+        queue = []
+        objects = []
+        with self.assertRaises(ParserError) as cm:
+            parser.start(Books, queue, objects, "wrong_root", {}, {})
+
+        self.assertEqual(
+            "Root element `wrong_root` does not match expected `{urn:books}books`",
+            str(cm.exception),
+        )
+
+        parser.start(Books, queue, objects, "{urn:books}books", {}, {})
+        self.assertEqual(1, len(queue))
+
     def test_start_with_any_type_root(self) -> None:
         parser = self.parser
         queue = []
