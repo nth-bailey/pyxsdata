@@ -7,8 +7,7 @@ name = "pyxsdata"
 dynamic = ["version"]
 description = "Modern Python XML & JSON Data Binding with Pydantic & Dataclasses support"
 readme = "README.md"
-license = "MIT"
-license-files = ["LICENSE"]
+license = { text = "MIT" }
 requires-python = ">=3.12"
 authors = [
     { name = "nth-bailey" },
@@ -110,6 +109,10 @@ path = "pyxsdata/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["pyxsdata"]
+core-metadata-version = "2.3"
+
+[tool.hatch.build.targets.sdist]
+core-metadata-version = "2.3"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
