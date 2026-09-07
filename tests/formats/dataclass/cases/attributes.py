@@ -11,4 +11,5 @@ cases = [
     (Dict[str, str], ((str,), dict, None, False)),
     (Mapping[str, str], ((str,), dict, None, False)),
     (dict[str, str], ((str,), dict, None, False)),
+    (dict, ((str,), dict, None, False)),
 ]

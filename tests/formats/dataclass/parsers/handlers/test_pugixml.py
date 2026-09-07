@@ -6,6 +6,7 @@ import pytest
 from pyxsdata.exceptions import ParserError, XmlHandlerError
 from pyxsdata.formats.dataclass.parsers.bases import RecordParser
 from pyxsdata.formats.dataclass.parsers.handlers import PugixmlEventHandler
+from pyxsdata.models.enums import EventType
 from tests import fixtures_dir
 from tests.fixtures.books import BookForm, Books
 from tests.fixtures.books.fixtures import books, events, events_default_ns
@@ -127,3 +128,16 @@ class PugixmlEventHandlerTests(TestCase):
         self.assertEqual("first", obj.one)
         self.assertEqual(1.1, obj.two)
         self.assertTrue(obj.three)
+
+    def test_forward_events_without_clear(self) -> None:
+        handler = PugixmlEventHandler(parser=self.parser, clazz=Books)
+
+        class DummyElement:
+            tag = "book"
+            text = None
+            tail = None
+            attrib = {}
+            prefix = ""
+
+        events = [(EventType.START, DummyElement()), (EventType.END, DummyElement())]
+        handler.process_context(events, {})

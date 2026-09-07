@@ -104,11 +104,15 @@ class XmlContextTests(FactoryTestCase):
         self.assertIsNone(self.ctx.find_subclass(c, "Unknown"))
         self.assertIsNone(self.ctx.find_subclass(c, "Other"))
 
-    def is_binding_model(self) -> None:
+    def test_is_binding_model(self) -> None:
         self.assertTrue(self.ctx.is_binding_model(ChoiceType))
 
         self.ctx.models_package = "pyxsdata.models"
         self.assertFalse(self.ctx.is_binding_model(ChoiceType))
+
+        dynamic = make_dataclass("DynamicModel", fields=[])
+        dynamic.__module__ = "non_existent_module"
+        self.assertFalse(self.ctx.is_binding_model(dynamic))
 
     def test_is_derived(self) -> None:
         a = make_dataclass("A", fields=[])

@@ -2,7 +2,7 @@
 
 [![CI Tests](https://github.com/nth-bailey/pyxsdata/workflows/tests/badge.svg)](https://github.com/nth-bailey/pyxsdata/actions)
 [![Documentation](https://github.com/nth-bailey/pyxsdata/actions/workflows/docs.yml/badge.svg)](https://nth-bailey.github.io/pyxsdata/)
-[![Coverage](https://img.shields.io/badge/coverage-99%25-brightgreen.svg)](https://github.com/nth-bailey/pyxsdata/actions/workflows/tests.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/nth-bailey/pyxsdata/actions/workflows/tests.yml)
 [![PyPI version](https://img.shields.io/pypi/v/pyxsdata.svg)](https://pypi.org/project/pyxsdata/)
 [![Python versions](https://img.shields.io/pypi/pyversions/pyxsdata.svg)](https://pypi.org/project/pyxsdata/)
 

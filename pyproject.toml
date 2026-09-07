@@ -57,6 +57,12 @@ Issues = "https://github.com/nth-bailey/pyxsdata/issues"
 [project.scripts]
 pyxsdata = "pyxsdata.__main__:main"
 
+[project.entry-points."pyxsdata.plugins.cli"]
+pydantic = "pyxsdata.pydantic.hooks.cli"
+
+[project.entry-points."pyxsdata.plugins.class_types"]
+pydantic = "pyxsdata.pydantic.hooks.class_type"
+
 [project.optional-dependencies]
 cli = [
     "click>=8.1.8",
@@ -121,7 +127,7 @@ omit = [
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
-fail_under = 98
+fail_under = 100
 exclude_lines = [
     "pragma: no cover",
     "def __repr__",

@@ -206,7 +206,7 @@ try:
     from pyxsdata.pydantic.compat import Pydantic
 
     class_types.register("pydantic", Pydantic())
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
 
 load_entry_points("pyxsdata.plugins.class_types")

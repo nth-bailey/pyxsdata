@@ -77,6 +77,16 @@ class ConverterFactoryTests(unittest.TestCase):
             f"No converter registered for `{A.__qualname__}`", str(cm.exception)
         )
 
+    def test_type_converter_with_intermediate_subclass(self) -> None:
+        class Mixin:
+            pass
+
+        class CustomInt(Mixin, int):
+            pass
+
+        res = converter.type_converter(CustomInt)
+        self.assertEqual(res, converter.type_converter(int))
+
     def test_register_converter(self) -> None:
         class MinusOneInt(int):
             pass

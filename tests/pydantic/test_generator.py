@@ -37,3 +37,28 @@ class PydanticGeneratorTests(FactoryTestCase):
         )
 
         self.assertIsNone(result.exception)
+
+    def test_field_definition_prohibited_and_fixed(self) -> None:
+        from pyxsdata.codegen.models import AttrType
+        from pyxsdata.pydantic.generator import PydanticFilters
+        from pyxsdata.utils.testing import AttrFactory, ClassFactory
+
+        filters = PydanticFilters(GeneratorConfig())
+        obj = ClassFactory.create()
+        attr_prohibited = AttrFactory.create(
+            name="prohibited_attr",
+            types=[AttrType(qname="str")],
+        )
+        attr_prohibited.restrictions.max_occurs = 0
+
+        attr_fixed = AttrFactory.create(
+            name="fixed_attr",
+            types=[AttrType(qname="str")],
+            fixed=True,
+        )
+
+        res_prohibited = filters.field_definition(obj, attr_prohibited, None)
+        self.assertIn("exclude=True, default=None", res_prohibited)
+
+        res_fixed = filters.field_definition(obj, attr_fixed, None)
+        self.assertIn("const=True", res_fixed)
