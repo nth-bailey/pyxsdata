@@ -46,7 +46,7 @@ class ResetAttributeSequences(HandlerInterface):
         if seq:
             for path in attr.restrictions.path:
                 if path[0] == "s" and path[1] == seq:
-                    return path[3] > 1 if path else False
+                    return path[3] > 1
 
                 if path[3] > 1:
                     return True
