@@ -42,8 +42,8 @@ content-type = "text/markdown"
 [project.urls]
 Homepage = "https://github.com/nth-bailey/pyxsdata"
 Source = "https://github.com/nth-bailey/pyxsdata"
-Documentation = "https://pyxsdata.readthedocs.io/"
-Changelog = "https://pyxsdata.readthedocs.io/en/latest/changelog/"
+Documentation = "https://nth-bailey.github.io/pyxsdata/"
+Changelog = "https://nth-bailey.github.io/pyxsdata/changelog/"
 
 [project.optional-dependencies]
 cli = [

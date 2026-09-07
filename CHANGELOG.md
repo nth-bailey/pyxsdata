@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dedicated Pydantic v2 code generation backend (`pyxsdata generate ... --output pydantic`).
 - Astral `ty` static type checker integration with zero diagnostics.
 - Modern documentation website powered by Zensical static site generator.
+- Automated GitHub Pages documentation deployment workflow using Zensical.
 
 ### Fixed
 - Fixed Pydantic `model_json_schema()` generation failing on models containing internal XML data types (`XmlDate`, `XmlDateTime`, `XmlTime`, `XmlDuration`, `XmlPeriod`, `QName`).
@@ -26,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Dropped legacy `xsdata` CLI command and backward-compatibility aliases.
-- Removed `mypy` and `mkdocs` toolchains.
+- Removed `mypy` and `mkdocs` toolchains, hooks, and legacy documentation configurations.
 
 ---
 

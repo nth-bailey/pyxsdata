@@ -4,7 +4,6 @@ recursive-include tests *
 recursive-include pyxsdata *
 
 
-exclude .readthedocs.yml
 exclude zensical.toml
 exclude .pre-commit-config.yaml
 

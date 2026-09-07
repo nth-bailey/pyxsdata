@@ -1,5 +1,5 @@
 [project]
-site_url = "https://pyxsdata.readthedocs.io/"
+site_url = "https://nth-bailey.github.io/pyxsdata/"
 site_name = "pyxsdata"
 site_description = "A modern, high-performance data binding library for Python 3.12+ supporting XML and JSON schemas, Pydantic v2, and Astral ty."
 repo_url = "https://github.com/nth-bailey/pyxsdata"

@@ -94,12 +94,8 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
+# Documentation site build
 /site
-# Ignore everything in the docs/api directory
-docs/api/*
-# But not the .gitkeep file
-!docs/api/.gitkeep
 
 # mypy
 .mypy_cache/

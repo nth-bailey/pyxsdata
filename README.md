@@ -1,7 +1,7 @@
 # Modern XML & JSON Bindings for Python 3.12+
 
 [![image](https://github.com/nth-bailey/pyxsdata/workflows/tests/badge.svg)](https://github.com/nth-bailey/pyxsdata/actions)
-[![image](https://readthedocs.org/projects/pyxsdata/badge)](https://pyxsdata.readthedocs.io/)
+[![docs](https://github.com/nth-bailey/pyxsdata/actions/workflows/docs.yml/badge.svg)](https://nth-bailey.github.io/pyxsdata/)
 [![image](https://codecov.io/gh/nth-bailey/pyxsdata/branch/main/graph/badge.svg)](https://codecov.io/gh/nth-bailey/pyxsdata)
 [![image](https://img.shields.io/pypi/pyversions/pyxsdata.svg)](https://pypi.org/pypi/pyxsdata/)
 [![image](https://img.shields.io/pypi/v/pyxsdata.svg)](https://pypi.org/pypi/pyxsdata/)
@@ -54,7 +54,7 @@ $ pyxsdata generate tests/fixtures/primer/order.xsd --output pydantic --package 
 >>> order.model_dump()
 ```
 
-Check the [documentation](https://pyxsdata.readthedocs.io) for more ✨✨✨
+Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more ✨✨✨
 
 ## Features
 

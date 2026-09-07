@@ -121,10 +121,9 @@ pyxsdata/
 │   ├── models/                    # Model unit tests
 │   └── pydantic/                  # Pydantic v2 bindings, compat, and codegen tests
 ├── docs/                          # Documentation markdown files
-├── .github/workflows/             # GitHub Actions CI & publish workflows
+├── .github/workflows/             # GitHub Actions CI, test, and docs deploy workflows
 ├── zensical.toml                  # Zensical SSG configuration
-├── pyproject.toml                 # Dependencies, project metadata, ruff & ty configs
-└── .readthedocs.yml               # Read the Docs configuration (Zensical build commands)
+└── pyproject.toml                 # Dependencies, project metadata, ruff & ty configs
 ```
 
 ---
