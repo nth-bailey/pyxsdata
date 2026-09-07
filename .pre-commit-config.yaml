@@ -28,4 +28,5 @@ repos:
     hooks:
       - id: prettier
         types_or: [markdown]
+        exclude: ^CHANGELOG\.md$
         args: [--prose-wrap=always, --print-width=88]
