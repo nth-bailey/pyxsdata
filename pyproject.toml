@@ -90,8 +90,11 @@ test = [
     "pytest-benchmark>=5.1.0",
     "pytest-cov>=6.0.0",
 ]
+core = [
+    "pyxsdata-core>=0.1.0",
+]
 all = [
-    "pyxsdata[cli,lxml,soap,pydantic,pugixml]",
+    "pyxsdata[cli,lxml,soap,pydantic,pugixml,core]",
 ]
 
 [dependency-groups]

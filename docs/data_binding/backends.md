@@ -8,17 +8,62 @@ parser backends depending on your performance, memory, and feature requirements.
 
 ## Overview of Backends
 
-`pyxsdata` supports three primary XML event handlers:
+`pyxsdata` supports four primary XML deserialization options:
 
-| Backend Handler           | Underlying Engine         | Extra Dependency    | Best For                                                          |
-| :------------------------ | :------------------------ | :------------------ | :---------------------------------------------------------------- |
-| **`NativeEventHandler`**  | Python `xml.etree`        | _None (built-in)_   | Zero-dependency environments, AWS Lambda, lightweight scripts     |
-| **`LxmlEventHandler`**    | C `libxml2` / `lxml`      | `pyxsdata[lxml]`    | DTD validation, XInclude, advanced entity resolution              |
-| **`PugixmlEventHandler`** | C++ `pugixml` / `pygixml` | `pyxsdata[pugixml]` | **Maximum throughput**, high-frequency API ingestion, low latency |
+| Backend Handler           | Underlying Engine         | Extra Dependency    | Best For                                                           |
+| :------------------------ | :------------------------ | :------------------ | :----------------------------------------------------------------- |
+| **`CoreEventHandler`**    | Rust + PyO3 (`quick-xml`) | `pyxsdata[core]`    | **Ultra-fast throughput** (~290k objs/sec, 15x faster than legacy) |
+| **`NativeEventHandler`**  | Python `xml.etree`        | _None (built-in)_   | Zero-dependency environments, AWS Lambda, lightweight scripts      |
+| **`LxmlEventHandler`**    | C `libxml2` / `lxml`      | `pyxsdata[lxml]`    | DTD validation, XInclude, advanced entity resolution               |
+| **`PugixmlEventHandler`** | C++ `pugixml` / `pygixml` | `pyxsdata[pugixml]` | High-frequency streaming API ingestion, low latency                |
 
 ---
 
-## 1. Pugixml Backend (`PugixmlEventHandler`)
+## 1. Native Rust Core (`CoreEventHandler` / `CoreXmlParser`)
+
+The `core` backend is powered by
+[`pyxsdata-core`](https://github.com/nth-bailey/pyxsdata-core), a dedicated native
+extension built with [PyO3](https://pyo3.rs) and
+[`quick-xml`](https://github.com/tafia/quick-xml). It bypasses Python intermediate DOM
+trees and event queues entirely, converting XML tokens directly into Python dataclass
+models via C-API at **~290,000+ objects/sec**.
+
+### When to Use
+
+- Maximum possible ingestion speed (9.5x faster than pure Python, 15x faster than legacy
+  `xsdata`).
+- High-throughput message queues, large XML bulk imports, and real-time APIs.
+
+### Installation & Usage
+
+```console
+$ uv add "pyxsdata[core]"
+```
+
+Use `CoreXmlParser` directly:
+
+```python
+from pyxsdata.formats.dataclass.parsers import CoreXmlParser
+from myapp.models import Catalog
+
+parser = CoreXmlParser()
+catalog = parser.parse("catalog.xml", Catalog)
+```
+
+Or pass `handler=CoreEventHandler` to `XmlParser`:
+
+```python
+from pyxsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.parsers.handlers import CoreEventHandler
+from myapp.models import Catalog
+
+parser = XmlParser(handler=CoreEventHandler)
+catalog = parser.parse("catalog.xml", Catalog)
+```
+
+---
+
+## 2. Pugixml Backend (`PugixmlEventHandler`)
 
 The `pugixml` backend is powered by [`pygixml`](https://github.com/vovcacik/pygixml), a
 high-speed Cython wrapper around the battle-tested C++ [pugixml](https://pugixml.org/)
@@ -135,11 +180,12 @@ Through hot-path optimizations in metadata lookup caching, primitive node fast p
 converter dispatch, and parser event handlers, `pyxsdata` deserializes XML significantly
 faster than legacy `xsdata`:
 
-| Backend Handler           | Legacy `xsdata` | `pyxsdata` | Speedup           |
-| :------------------------ | :-------------- | :--------- | :---------------- |
-| **`NativeEventHandler`**  | 728.9 ms        | 332.5 ms   | **+54.4% (2.2x)** |
-| **`LxmlEventHandler`**    | 753.2 ms        | 375.2 ms   | **+50.2% (2.0x)** |
-| **`PugixmlEventHandler`** | 883.8 ms        | 509.4 ms   | **+42.4% (1.7x)** |
+| Backend Handler           | Legacy `xsdata` | `pyxsdata`  | Speedup             |
+| :------------------------ | :-------------- | :---------- | :------------------ |
+| **`CoreEventHandler`**    | ~513.0 ms       | **34.4 ms** | **~15.0x (1,490%)** |
+| **`NativeEventHandler`**  | 728.9 ms        | 332.5 ms    | **+54.4% (2.2x)**   |
+| **`LxmlEventHandler`**    | 753.2 ms        | 375.2 ms    | **+50.2% (2.0x)**   |
+| **`PugixmlEventHandler`** | 883.8 ms        | 509.4 ms    | **+42.4% (1.7x)**   |
 
 _(Benchmark: 10,000 complex XML items parsed into dataclasses, lowest of 5 runs)_
 
