@@ -12,7 +12,7 @@ $ pyxsdata download --help
 
 ```console
 ❯ pyxsdata download https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd -o ~/schemas
-========= pyxsdata v26.3.0 / Python 3.12.14 / Platform linux =========
+========= pyxsdata v0.0.0 / Python 3.12.14 / Platform linux =========
 
 Setting base path to https:/www.w3.org/Math/XMLSchema/mathml3
 Fetching https://www.w3.org/Math/XMLSchema/mathml3/mathml3.xsd

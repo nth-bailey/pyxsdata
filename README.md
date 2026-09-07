@@ -84,7 +84,7 @@ Check the [documentation](https://pyxsdata.readthedocs.io) for more ✨✨✨
 - Native Pydantic v2 support (`pyxsdata.pydantic`)
 - Fully type-checked with Astral `ty`
 
-## Changelog: 26.3.0
+## Changelog: 0.0.0
 
 - Modernized for Python 3.12+ minimum.
 - Consolidated `xsdata-pydantic` into core library as `pyxsdata.pydantic`.
