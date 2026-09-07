@@ -9,9 +9,11 @@ edit_uri = "edit/main/docs/"
 nav = [
   { "Get Started" = [
       { "Welcome to pyxsdata" = "index.md" },
+      { "5-Minute Quickstart" = "quickstart.md" },
       { "Installation" = "installation.md" },
-      { "Changelog" = "changelog.md" },
+      { "Migrating from xsdata" = "migration.md" },
       { "Samples" = "samples.md" },
+      { "Changelog" = "changelog.md" },
   ]},
   { "Code Generator" = [
       { "Introduction" = "codegen/intro.md" },
@@ -30,6 +32,7 @@ nav = [
   ]},
   { "Data Binding" = [
       { "Basics" = "data_binding/basics.md" },
+      { "Parser Backends" = "data_binding/backends.md" },
       { "XML Parsing" = "data_binding/xml_parsing.md" },
       { "XML Serializing" = "data_binding/xml_serializing.md" },
       { "JSON Parsing" = "data_binding/json_parsing.md" },
