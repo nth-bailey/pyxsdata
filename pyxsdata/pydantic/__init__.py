@@ -1,6 +1,7 @@
 from typing import Any
 
 __all__ = [
+    "CoreXmlParser",
     "DictDecoder",
     "DictEncoder",
     "JsonParser",

@@ -51,6 +51,7 @@ automatically configured:
 
 ```python
 from pyxsdata.pydantic.bindings import (
+    CoreXmlParser,
     DictDecoder,
     DictEncoder,
     JsonParser,
@@ -74,6 +75,20 @@ print(order.model_dump())
 # Serialize back to XML
 serializer = XmlSerializer()
 output_xml = serializer.render(order)
+```
+
+### High-Performance Native Rust Parsing (`CoreXmlParser`)
+
+When maximum parsing throughput is required, install `pyxsdata[core]` to leverage
+`pyxsdata-core` written in Rust. `CoreXmlParser` natively creates Pydantic v2 model
+instances at over **310,000 objects/sec** (over 7.6x faster than standard Python
+parsing):
+
+```python
+from pyxsdata.pydantic import CoreXmlParser
+
+parser = CoreXmlParser()
+order = parser.from_string(xml_content, PurchaseOrder)
 ```
 
 ### Manual Context Configuration

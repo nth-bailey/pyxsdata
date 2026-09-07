@@ -61,6 +61,16 @@ parser = XmlParser(handler=CoreEventHandler)
 catalog = parser.parse("catalog.xml", Catalog)
 ```
 
+Works identically with Pydantic v2:
+
+```python
+from pyxsdata.pydantic.bindings import CoreXmlParser
+from myapp.models import Catalog
+
+parser = CoreXmlParser()
+catalog = parser.parse("catalog.xml", Catalog)
+```
+
 ---
 
 ## 2. Pugixml Backend (`PugixmlEventHandler`)

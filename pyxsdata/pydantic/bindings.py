@@ -52,6 +52,22 @@ class XmlParser(parsers.XmlParser):
 
 
 @dataclass
+class CoreXmlParser(parsers.CoreXmlParser):
+    """Ultra-fast native XML parser for Pydantic models powered by pyxsdata-core.
+
+    Args:
+        config: The parser config instance
+        context: The XML context instance
+        handler: The XML handler class
+
+    Attributes:
+        ns_map: The parsed namespace prefix-URI map
+    """
+
+    context: XmlContext = field(default_factory=XmlContext)
+
+
+@dataclass
 class XmlSerializer(serializers.XmlSerializer):
     """XML serializer for Pydantic models.
 
