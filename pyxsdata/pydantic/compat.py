@@ -34,12 +34,6 @@ class FieldInfo:
     default_factory: Any
 
 
-class Config:
-    """Configuration wrapper for Pydantic models."""
-
-    arbitrary_types_allowed = True
-
-
 class AnyElement(BaseModel):
     """Generic model to bind XML document data to wildcard fields.
 

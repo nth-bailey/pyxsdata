@@ -1,3 +1,6 @@
+import contextlib
+from typing import Any
+
 from pyxsdata.codegen.models import Attr, Class
 from pyxsdata.formats.dataclass.filters import Filters
 from pyxsdata.formats.dataclass.generator import DataclassGenerator
@@ -42,18 +45,47 @@ class PydanticFilters(Filters):
         attr: Attr,
         parent_namespace: str | None,
     ) -> str:
-        """Return the field definition with any extra metadata."""
-        result = super().field_definition(obj, attr, parent_namespace)
+        """Return the field definition with Pydantic kwargs and extra metadata."""
+        ns_map = obj.ns_map
+        default_value = self.field_default_value(attr, ns_map)
+        metadata = self.field_metadata(obj, attr, parent_namespace)
+
+        kwargs: dict[str, Any] = {}
 
         if attr.is_prohibited:
-            if attr.is_optional and attr.default is None:
-                result = result.replace("init=False", "exclude=True")
-            else:
-                result = result.replace("init=False", "exclude=True, default=None")
+            kwargs["exclude"] = True
+            kwargs["default"] = None
         elif attr.fixed:
-            result = result.replace("init=False", "const=True")
+            kwargs["frozen"] = True
+            if default_value is not False:
+                kwargs["default"] = default_value
+        elif default_value is not False:
+            key = "default_factory" if attr.is_factory else "default"
+            kwargs[key] = default_value
 
-        return result
+        for meta_key, pydantic_key in (
+            ("min_inclusive", "ge"),
+            ("max_inclusive", "le"),
+            ("min_exclusive", "gt"),
+            ("max_exclusive", "lt"),
+            ("min_length", "min_length"),
+            ("max_length", "max_length"),
+            ("pattern", "pattern"),
+        ):
+            if meta_key in metadata:
+                val = metadata[meta_key]
+                if pydantic_key in ("ge", "le", "gt", "lt", "min_length", "max_length"):
+                    with contextlib.suppress(ValueError, TypeError):
+                        val = int(val)
+                    if isinstance(val, str):
+                        with contextlib.suppress(ValueError, TypeError):
+                            val = float(val)
+                kwargs[pydantic_key] = val
+
+        if metadata:
+            kwargs["metadata"] = metadata
+
+        return f"field({self.format_arguments(kwargs, 4)})"
 
     @classmethod
     def build_import_patterns(cls) -> dict[str, dict]:

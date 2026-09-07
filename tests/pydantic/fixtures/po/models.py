@@ -46,7 +46,7 @@ class Usaddress(BaseModel):
         }
     )
     country: str = field(
-        const=True,
+        frozen=True,
         default="US",
         metadata={
             "type": "Attribute",
@@ -83,11 +83,12 @@ class Items(BaseModel):
             }
         )
         quantity: int = field(
+            lt=100,
             metadata={
                 "type": "Element",
                 "namespace": "foo",
                 "max_exclusive": 100,
-            }
+            },
         )
         usprice: Decimal = field(
             metadata={
@@ -112,11 +113,12 @@ class Items(BaseModel):
             },
         )
         part_num: str = field(
+            pattern=r"\d{3}-[A-Z]{2}",
             metadata={
                 "name": "partNum",
                 "type": "Attribute",
                 "pattern": r"\d{3}-[A-Z]{2}",
-            }
+            },
         )
 
 
