@@ -318,3 +318,52 @@ class UpdateAttributesEffectiveChoiceTests(FactoryTestCase):
         self.assertEqual(2, target.attrs[0].restrictions.max_occurs)
         # 'a' should have a negative choice ID (effective choice marker)
         self.assertEqual(-1, target.attrs[0].restrictions.choice)
+
+    def test_same_choice_different_branches_not_merged(self) -> None:
+        choice_id = 12345
+        path_branch1 = [("c", choice_id, 1, 1), ("s", 1, 1, 1)]
+        path_branch2 = [("c", choice_id, 1, 1), ("s", 2, 1, 1)]
+
+        target = ClassFactory.create(
+            attrs=[
+                AttrFactory.element(
+                    name="a",
+                    namespace="ns",
+                    restrictions=Restrictions(
+                        min_occurs=1,
+                        max_occurs=1,
+                        choice=choice_id,
+                        path=path_branch1,
+                    ),
+                ),
+                AttrFactory.element(
+                    name="b",
+                    namespace="ns",
+                    restrictions=Restrictions(
+                        min_occurs=1,
+                        max_occurs=1,
+                        choice=choice_id,
+                        path=path_branch1,
+                    ),
+                ),
+                AttrFactory.element(
+                    name="a",
+                    namespace="ns",
+                    restrictions=Restrictions(
+                        min_occurs=1,
+                        max_occurs=1,
+                        choice=choice_id,
+                        path=path_branch2,
+                    ),
+                ),
+            ]
+        )
+
+        self.processor.process(target)
+
+        # Should NOT merge 'a' elements because they are in mutually exclusive branches
+        self.assertEqual(3, len(target.attrs))
+        self.assertEqual(1, target.attrs[0].restrictions.min_occurs)
+        self.assertEqual(1, target.attrs[0].restrictions.max_occurs)
+        self.assertEqual(1, target.attrs[2].restrictions.min_occurs)
+        self.assertEqual(1, target.attrs[2].restrictions.max_occurs)
