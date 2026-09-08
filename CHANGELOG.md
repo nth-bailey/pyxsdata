@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/nth-bailey/pyxsdata/compare/1.3.0...1.3.1) (2026-09-08)
+
+
+### Bug Fixes
+
+* resolve upstream xsdata bugs for date validation, chameleon schemas, and choice grouping ([001ea3c](https://github.com/nth-bailey/pyxsdata/commit/001ea3cfbf85d6d8fe3909a3664dd63ddfc6c2b5)), closes [#1227](https://github.com/nth-bailey/pyxsdata/issues/1227) [#1225](https://github.com/nth-bailey/pyxsdata/issues/1225) [#1216](https://github.com/nth-bailey/pyxsdata/issues/1216) [#1215](https://github.com/nth-bailey/pyxsdata/issues/1215)
+
 # [1.3.0](https://github.com/nth-bailey/pyxsdata/compare/1.2.2...1.3.0) (2026-09-07)
 
 
