@@ -158,6 +158,15 @@ Fail if a document value can't be correctly converted to python.
 
 **Default:** `False`
 
+### `fail_on_root_mismatch`
+
+Fail with a `ParserError` if the XML root element qualified name does not match the
+target model's expected qualified name.
+
+**Type:** `bool`
+
+**Default:** `False`
+
 ## Serializer Config
 
 API: [SerializerConfig][pyxsdata.formats.dataclass.serializers.config.SerializerConfig]

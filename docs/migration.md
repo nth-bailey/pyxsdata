@@ -23,6 +23,9 @@ differences and provides a step-by-step checklist.
 | **XML Parser Engines**  | `xml.etree`, `lxml`                              | **`xml.etree`, `lxml`, and C++ `pugixml`**           |
 | **Performance**         | Baseline xsdata                                  | **Up to 54% faster deserialization (2x throughput)** |
 | **Type Checking**       | mypy                                             | **Astral `ty` with zero diagnostics**                |
+| **String Enumerations** | Standard `Enum` only                             | **Native `StrEnum` support (`--str-enums`)**         |
+| **Schema Defaults**     | Replaced or discarded                            | **Preserved in `metadata["default"]`**               |
+| **Root Element Safety** | Silently skips mismatched root elements          | **Strict root checking (`fail_on_root_mismatch`)**   |
 
 ---
 
@@ -145,3 +148,35 @@ faster** (over **2x throughput**) than legacy `xsdata`:
 - **Parser Node Caching**: Avoids repeated module imports in parsing hot paths.
 - **Short-Circuited XSI Attribute Checks**: Instantly skips XSI type and nil checks when
   elements carry no attributes.
+
+### 7. Modern `StrEnum` Generation
+
+With Python 3.12+ as the baseline, `pyxsdata` supports generating `enum.StrEnum` instead
+of standard `Enum` for string-based enumerations:
+
+```console
+$ pyxsdata generate schema.xsd --str-enums
+```
+
+Generated `StrEnum` subclasses can be used directly as strings across your codebase
+without manual `.value` unwrapping.
+
+### 8. Strict Root Element Validation
+
+Legacy `xsdata` silently skipped parsing or returned empty models if the document's root
+XML tag didn't match the model class. In `pyxsdata`, you can enable strict root element
+validation using `fail_on_root_mismatch`:
+
+```python
+from pyxsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+
+config = ParserConfig(fail_on_root_mismatch=True)
+parser = XmlParser(config=config)
+```
+
+### 9. Preserved Schema Defaults in Metadata
+
+When generating models where optional fields receive `None` defaults in Python,
+`pyxsdata` preserves the original XML Schema default value in field
+`metadata={"default": ...}` for seamless introspection and downstream schema validation.

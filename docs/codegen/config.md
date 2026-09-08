@@ -243,6 +243,15 @@ See: https://nth-bailey.github.io/pyxsdata/
 
 **CLI Option:** `--include-header / --no-include-header`
 
+### StrEnums
+
+Generate `StrEnum` instead of standard `Enum` for string-based enumerations
+(`Python >= 3.11`).
+
+**Default Value:** `False`
+
+**CLI Option:** `--str-enums / --no-str-enums`
+
 ## Convention Settings
 
 Apply different naming convention per identifier.

@@ -221,6 +221,7 @@ class GeneratorOutput:
         unnest_classes: Move inner classes to upper level
         ignore_patterns: Ignore pattern restrictions
         include_header: Include a header with codegen information in the output
+        str_enums: Generate StrEnum for string enumerations
     """
 
     package: str = field(default="generated", metadata={"type": "Element"})

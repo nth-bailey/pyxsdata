@@ -419,3 +419,27 @@ matches the qualified name, of the xml element, before trying using the
 **Type:** `strict | skip`
 
 **Default:** `strict`
+
+### `default`
+
+Preserves the original XML Schema default value (from schema `default` or `fixed`
+attributes) in field metadata. This allows downstream applications or custom serializers
+to inspect the schema-defined default even when the Python dataclass default is set
+differently (for example, `None` for optional fields).
+
+```python
+@dataclass
+class Item:
+    status: str | None = field(
+        default=None,
+        metadata={
+            "name": "status",
+            "type": "Attribute",
+            "default": "active",
+        },
+    )
+```
+
+**Type:** `Any`
+
+**Default:** `None`
