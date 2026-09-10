@@ -12,7 +12,7 @@ from pyxsdata.utils import namespaces
 
 try:
     import polyxml
-except ImportError:
+except ImportError:  # pragma: no cover
     polyxml = None  # type: ignore[assignment]
 
 

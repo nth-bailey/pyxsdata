@@ -1199,6 +1199,10 @@ class FiltersTests(FactoryTestCase):
         )
         self.assertEqual(expected, self.filters.format_metadata(data))
         self.assertEqual('""', self.filters.format_metadata(""))
+        self.assertEqual(
+            '{\n    "default": "optional",\n}',
+            self.filters.format_metadata({"default": "optional"}),
+        )
 
     def test_import_module(self) -> None:
         case = namedtuple("Case", ["module", "from_module", "result"])

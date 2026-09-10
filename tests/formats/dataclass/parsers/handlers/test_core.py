@@ -153,3 +153,17 @@ class CoreEventHandlerTests(TestCase):
         # Roundtrip back through CoreXmlParser
         parsed = self.parser.from_string(xml_output, Books)
         self.assertEqual(books, parsed)
+
+
+    def test_serializer_without_polyxml(self) -> None:
+        import pyxsdata.formats.dataclass.serializers.xml as xml_mod
+
+        orig = xml_mod.polyxml
+        try:
+            xml_mod.polyxml = None
+            serializer = CoreXmlSerializer()
+            with self.assertRaises(ImportError) as cm:
+                serializer.render(books)
+            self.assertIn("polyxml is required", str(cm.exception))
+        finally:
+            xml_mod.polyxml = orig
