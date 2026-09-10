@@ -1,5 +1,9 @@
 name: Release & Publish to PyPI
 
+concurrency:
+  group: release-pyxsdata
+  cancel-in-progress: false
+
 on:
   workflow_run:
     workflows: ["tests"]
