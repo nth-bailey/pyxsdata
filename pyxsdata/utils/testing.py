@@ -307,7 +307,9 @@ class AttrFactory(Factory):
         **kwargs: Any,
     ) -> Attr:
         return cls.create(
-            name=name, tag=tag, types=[AttrTypeFactory.create(qname=qname, **kwargs)]
+            name=name,
+            tag=tag,
+            types=[AttrTypeFactory.create(qname=qname, **kwargs)],
         )
 
     @classmethod
@@ -319,7 +321,10 @@ class AttrFactory(Factory):
         **kwargs: Any,
     ) -> Attr:
         return cls.create(
-            name=name, tag=tag, types=[AttrTypeFactory.native(datatype)], **kwargs
+            name=name,
+            tag=tag,
+            types=[AttrTypeFactory.native(datatype)],
+            **kwargs,
         )
 
     @classmethod
@@ -337,7 +342,9 @@ class AttrFactory(Factory):
     @classmethod
     def any(cls, **kwargs: Any) -> Attr:
         return cls.create(
-            tag=Tag.ANY, types=[AttrTypeFactory.native(DataType.ANY_TYPE)], **kwargs
+            tag=Tag.ANY,
+            types=[AttrTypeFactory.native(DataType.ANY_TYPE)],
+            **kwargs,
         )
 
     @classmethod

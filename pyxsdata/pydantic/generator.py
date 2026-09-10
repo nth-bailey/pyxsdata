@@ -74,7 +74,14 @@ class PydanticFilters(Filters):
         ):
             if meta_key in metadata:
                 val = metadata[meta_key]
-                if pydantic_key in ("ge", "le", "gt", "lt", "min_length", "max_length"):
+                if pydantic_key in (
+                    "ge",
+                    "le",
+                    "gt",
+                    "lt",
+                    "min_length",
+                    "max_length",
+                ):
                     with contextlib.suppress(ValueError, TypeError):
                         val = int(val)
                     if isinstance(val, str):

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import copy
 import operator
 import sys
@@ -5,7 +7,7 @@ import unicodedata
 from collections.abc import Iterator
 from dataclasses import asdict, dataclass, field, fields, replace
 from enum import IntEnum
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 from pyxsdata.codegen.exceptions import CodegenError
 from pyxsdata.formats.converter import converter
@@ -42,7 +44,7 @@ class CodegenModel:
         clone = copy.deepcopy(self)
         return replace(clone, **kwargs) if kwargs else clone
 
-    def swap(self, source: "CodegenModel") -> None:
+    def swap(self, source: CodegenModel) -> None:
         """Swap the instance attributes from the source instance."""
         for f in fields(self):
             value = copy.deepcopy(getattr(source, f.name))
@@ -116,7 +118,7 @@ class Restrictions(CodegenModel):
         """Return whether the max occurs is zero."""
         return self.max_occurs == 0
 
-    def merge(self, source: "Restrictions") -> None:
+    def merge(self, source: Restrictions) -> None:
         """Update properties from another instance.
 
         Args:
@@ -204,7 +206,7 @@ class Restrictions(CodegenModel):
         return result
 
     @classmethod
-    def from_element(cls, element: ElementBase) -> "Restrictions":
+    def from_element(cls, element: ElementBase) -> Restrictions:
         """Static constructor from a xsd model.
 
         Args:
@@ -297,7 +299,7 @@ class Attr(CodegenModel):
     fixed: bool = field(default=False, compare=False)
     mixed: bool = field(default=False, compare=False)
     types: list[AttrType] = field(default_factory=list, compare=False)
-    choices: list["Attr"] = field(default_factory=list, compare=False)
+    choices: list[Attr] = field(default_factory=list, compare=False)
     namespace: str | None = field(default=None)
     help: str | None = field(default=None, compare=False)
     restrictions: Restrictions = field(default_factory=Restrictions, compare=False)
@@ -536,9 +538,9 @@ class Class(CodegenModel):
     substitutions: list[str] = field(default_factory=list)
     extensions: list[Extension] = field(default_factory=list)
     attrs: list[Attr] = field(default_factory=list)
-    inner: list["Class"] = field(default_factory=list)
+    inner: list[Class] = field(default_factory=list)
     ns_map: dict = field(default_factory=dict)
-    parent: Optional["Class"] = field(default=None, compare=False)
+    parent: Class | None = field(default=None, compare=False)
 
     @property
     def name(self) -> str:

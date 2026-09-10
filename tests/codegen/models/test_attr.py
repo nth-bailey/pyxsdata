@@ -2,7 +2,11 @@ import sys
 
 from pyxsdata.codegen.models import Restrictions
 from pyxsdata.models.enums import DataType, Namespace, Tag
-from pyxsdata.utils.testing import AttrFactory, AttrTypeFactory, FactoryTestCase
+from pyxsdata.utils.testing import (
+    AttrFactory,
+    AttrTypeFactory,
+    FactoryTestCase,
+)
 
 
 class AttrTests(FactoryTestCase):
@@ -35,10 +39,18 @@ class AttrTests(FactoryTestCase):
         self.assertNotEqual(attr, clone)
 
     def test_can_be_restricted(self) -> None:
-        self.assertFalse(AttrFactory.create(tag=Tag.ATTRIBUTE).can_be_restricted())
-        self.assertFalse(AttrFactory.create(tag=Tag.EXTENSION).can_be_restricted())
-        self.assertFalse(AttrFactory.create(tag=Tag.RESTRICTION).can_be_restricted())
-        self.assertTrue(AttrFactory.create(tag=Tag.ELEMENT).can_be_restricted())
+        self.assertFalse(
+            AttrFactory.create(tag=Tag.ATTRIBUTE).can_be_restricted()
+        )
+        self.assertFalse(
+            AttrFactory.create(tag=Tag.EXTENSION).can_be_restricted()
+        )
+        self.assertFalse(
+            AttrFactory.create(tag=Tag.RESTRICTION).can_be_restricted()
+        )
+        self.assertTrue(
+            AttrFactory.create(tag=Tag.ELEMENT).can_be_restricted()
+        )
 
     def test_property_key(self) -> None:
         attr = AttrFactory.attribute(name="a", namespace="b")
@@ -180,7 +192,9 @@ class AttrTests(FactoryTestCase):
             ]
         )
 
-        self.assertCountEqual([attr.types[0], attr.types[-1]], list(attr.user_types))
+        self.assertCountEqual(
+            [attr.types[0], attr.types[-1]], list(attr.user_types)
+        )
 
     def test_property_xml_type(self) -> None:
         attr = AttrFactory.create(tag=Tag.ELEMENT)

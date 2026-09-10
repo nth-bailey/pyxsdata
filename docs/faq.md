@@ -99,10 +99,12 @@ app = FastAPI()
 parser = XmlParser()
 serializer = XmlSerializer()
 
+
 @app.post("/order", response_model=PurchaseOrder)
 async def create_order(order: PurchaseOrder):
     # FastAPI automatically validates incoming JSON into the Pydantic model
     return order
+
 
 @app.get("/order/{order_id}/xml")
 async def get_order_xml(order_id: str):

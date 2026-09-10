@@ -16,8 +16,12 @@ class ProcessMixedContentClassTests(FactoryTestCase):
         attrs = [
             AttrFactory.attribute(),  # keep
             AttrFactory.reference("foo", restrictions=res.clone()),  # choice
-            AttrFactory.native(DataType.INT, restrictions=res.clone()),  # choice
-            AttrFactory.native(DataType.ANY_TYPE, restrictions=res.clone()),  # drop
+            AttrFactory.native(
+                DataType.INT, restrictions=res.clone()
+            ),  # choice
+            AttrFactory.native(
+                DataType.ANY_TYPE, restrictions=res.clone()
+            ),  # drop
             AttrFactory.any(),  # drop
         ]
         item = ClassFactory.create(attrs=attrs)

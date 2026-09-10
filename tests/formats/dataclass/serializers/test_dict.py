@@ -1,6 +1,9 @@
 from unittest.case import TestCase
 
-from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.models.generics import (
+    AnyElement,
+    DerivedElement,
+)
 from pyxsdata.formats.dataclass.serializers import DictEncoder, DictFactory
 from pyxsdata.models.datatype import XmlDate
 from pyxsdata.models.xsd import Attribute
@@ -125,7 +128,12 @@ class DictEncoderTests(TestCase):
         expected = {
             "attributes": {},
             "children": [
-                {"attributes": {}, "children": [], "qname": "foo", "text": "bar"},
+                {
+                    "attributes": {},
+                    "children": [],
+                    "qname": "foo",
+                    "text": "bar",
+                },
                 {"qname": "bar", "value": "1"},
                 {"qname": "bar", "value": 2},
             ],

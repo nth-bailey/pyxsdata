@@ -36,7 +36,9 @@ class DtdMapperTests(FactoryTestCase):
 
     @mock.patch.object(DtdMapper, "build_attributes")
     @mock.patch.object(DtdMapper, "build_elements")
-    def test_build_class(self, mock_build_elements, mock_build_attributes) -> None:
+    def test_build_class(
+        self, mock_build_elements, mock_build_attributes
+    ) -> None:
         location = "tests.dtd"
         element = DtdElementFactory.create(
             name="root", prefix="ns", ns_map={"ns": "pyxsdata"}
@@ -85,7 +87,9 @@ class DtdMapperTests(FactoryTestCase):
         self.assertEqual(Tag.ATTRIBUTE, attr.tag)
         self.assertEqual(Namespace.XML.uri, attr.namespace)
         self.assertEqual(1, len(attr.types))
-        self.assertEqual(AttrTypeFactory.native(DataType.STRING), attr.types[0])
+        self.assertEqual(
+            AttrTypeFactory.native(DataType.STRING), attr.types[0]
+        )
         self.assertEqual(1, attr.restrictions.max_occurs)
         self.assertEqual(0, attr.restrictions.min_occurs)
 
@@ -102,17 +106,25 @@ class DtdMapperTests(FactoryTestCase):
         self.assertEqual(1, len(target.inner))
         self.assertTrue(target.inner[0].is_enumeration)
 
-        self.assertEqual(["a", "b", "c"], [x.name for x in target.inner[0].attrs])
-        self.assertEqual(["a", "b", "c"], [x.default for x in target.inner[0].attrs])
+        self.assertEqual(
+            ["a", "b", "c"], [x.name for x in target.inner[0].attrs]
+        )
+        self.assertEqual(
+            ["a", "b", "c"], [x.default for x in target.inner[0].attrs]
+        )
 
         for attr in target.inner[0].attrs:
             self.assertEqual(Tag.ENUMERATION, attr.tag)
             self.assertTrue(attr.fixed)
-            self.assertEqual([AttrTypeFactory.native(DataType.STRING)], attr.types)
+            self.assertEqual(
+                [AttrTypeFactory.native(DataType.STRING)], attr.types
+            )
 
     def test_build_attribute_restrictions_with_default_required(self) -> None:
         attr = AttrFactory.create()
-        DtdMapper.build_attribute_restrictions(attr, DtdAttributeDefault.REQUIRED, "")
+        DtdMapper.build_attribute_restrictions(
+            attr, DtdAttributeDefault.REQUIRED, ""
+        )
         self.assertEqual(1, attr.restrictions.max_occurs)
         self.assertEqual(1, attr.restrictions.min_occurs)
         self.assertFalse(attr.fixed)
@@ -120,7 +132,9 @@ class DtdMapperTests(FactoryTestCase):
 
     def test_build_attribute_restrictions_with_default_implied(self) -> None:
         attr = AttrFactory.create()
-        DtdMapper.build_attribute_restrictions(attr, DtdAttributeDefault.IMPLIED, "")
+        DtdMapper.build_attribute_restrictions(
+            attr, DtdAttributeDefault.IMPLIED, ""
+        )
         self.assertEqual(1, attr.restrictions.max_occurs)
         self.assertEqual(0, attr.restrictions.min_occurs)
         self.assertFalse(attr.fixed)
@@ -128,15 +142,21 @@ class DtdMapperTests(FactoryTestCase):
 
     def test_build_attribute_restrictions_with_default_fixed(self) -> None:
         attr = AttrFactory.create()
-        DtdMapper.build_attribute_restrictions(attr, DtdAttributeDefault.FIXED, "abc")
+        DtdMapper.build_attribute_restrictions(
+            attr, DtdAttributeDefault.FIXED, "abc"
+        )
         self.assertEqual(1, attr.restrictions.max_occurs)
         self.assertEqual(1, attr.restrictions.min_occurs)
         self.assertTrue(attr.fixed)
         self.assertEqual("abc", attr.default)
 
-    def test_build_attribute_restrictions_with_default_none_and_no_value(self) -> None:
+    def test_build_attribute_restrictions_with_default_none_and_no_value(
+        self,
+    ) -> None:
         attr = AttrFactory.create()
-        DtdMapper.build_attribute_restrictions(attr, DtdAttributeDefault.NONE, None)
+        DtdMapper.build_attribute_restrictions(
+            attr, DtdAttributeDefault.NONE, None
+        )
         self.assertEqual(1, attr.restrictions.max_occurs)
         self.assertEqual(0, attr.restrictions.min_occurs)
         self.assertFalse(attr.fixed)
@@ -146,7 +166,9 @@ class DtdMapperTests(FactoryTestCase):
         self,
     ) -> None:
         attr = AttrFactory.create()
-        DtdMapper.build_attribute_restrictions(attr, DtdAttributeDefault.NONE, "abc")
+        DtdMapper.build_attribute_restrictions(
+            attr, DtdAttributeDefault.NONE, "abc"
+        )
         self.assertEqual(1, attr.restrictions.max_occurs)
         self.assertEqual(1, attr.restrictions.min_occurs)
         self.assertFalse(attr.fixed)
@@ -191,7 +213,9 @@ class DtdMapperTests(FactoryTestCase):
         self.assertEqual(expected, target.attrs)
         self.assertEqual(Tag.COMPLEX_TYPE, target.tag)
 
-    def test_build_elements_with_mixed_element_type_with_no_content(self) -> None:
+    def test_build_elements_with_mixed_element_type_with_no_content(
+        self,
+    ) -> None:
         target = ClassFactory.create(tag=Tag.ELEMENT)
         element = DtdElementFactory.create(
             type=DtdElementType.MIXED,
@@ -222,7 +246,9 @@ class DtdMapperTests(FactoryTestCase):
         self.assertEqual(0, len(target.attrs))
         self.assertEqual(1, len(target.extensions))
 
-        self.assertEqual(str(DataType.ANY_TYPE), target.extensions[0].type.qname)
+        self.assertEqual(
+            str(DataType.ANY_TYPE), target.extensions[0].type.qname
+        )
         self.assertTrue(target.extensions[0].type.native)
 
         self.assertFalse(target.mixed)
@@ -248,7 +274,8 @@ class DtdMapperTests(FactoryTestCase):
     def test_build_elements_with_element_element_type(self) -> None:
         target = ClassFactory.create()
         element = DtdElementFactory.create(
-            type=DtdElementType.ELEMENT, content=DtdContentFactory.create(name="child")
+            type=DtdElementType.ELEMENT,
+            content=DtdContentFactory.create(name="child"),
         )
 
         DtdMapper.build_elements(target, element)
@@ -360,12 +387,16 @@ class DtdMapperTests(FactoryTestCase):
         self.assertEqual(1, result.min_occurs)
         self.assertEqual(sys.maxsize, result.max_occurs)
 
-        result = DtdMapper.build_restrictions(DtdContentOccur.PLUS, nillable=True)
+        result = DtdMapper.build_restrictions(
+            DtdContentOccur.PLUS, nillable=True
+        )
         self.assertEqual(1, result.min_occurs)
         self.assertEqual(sys.maxsize, result.max_occurs)
         self.assertTrue(result.nillable)
 
-        result = DtdMapper.build_restrictions(DtdContentOccur.PLUS, min_occurs=0)
+        result = DtdMapper.build_restrictions(
+            DtdContentOccur.PLUS, min_occurs=0
+        )
         self.assertEqual(0, result.min_occurs)
 
     def test_build_element(self) -> None:

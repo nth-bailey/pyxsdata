@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 import operator
 import re
@@ -68,7 +70,7 @@ class XmlDate(NamedTuple):
         month: int | None = None,
         day: int | None = None,
         offset: int | None = True,
-    ) -> "XmlDate":
+    ) -> XmlDate:
         """Return a new instance replacing the specified fields with new values."""
         if year is None:
             year = self.year
@@ -82,7 +84,7 @@ class XmlDate(NamedTuple):
         return type(self)(year, month, day, offset)
 
     @classmethod
-    def from_string(cls, string: str) -> "XmlDate":
+    def from_string(cls, string: str) -> XmlDate:
         """Initialize from string with format `%Y-%m-%dT%z`."""
         year, month, day, offset = parse_date_args(string, DateFormat.DATE)
         assert year is not None
@@ -92,17 +94,17 @@ class XmlDate(NamedTuple):
         return cls(year, month, day, offset)
 
     @classmethod
-    def from_date(cls, obj: datetime.date) -> "XmlDate":
+    def from_date(cls, obj: datetime.date) -> XmlDate:
         """Initialize from a `datetime.date` instance."""
         return cls(obj.year, obj.month, obj.day)
 
     @classmethod
-    def from_datetime(cls, obj: datetime.datetime) -> "XmlDate":
+    def from_datetime(cls, obj: datetime.datetime) -> XmlDate:
         """Initialize from `datetime.datetime` instance."""
         return cls(obj.year, obj.month, obj.day, calculate_offset(obj))
 
     @classmethod
-    def today(cls) -> "XmlDate":
+    def today(cls) -> XmlDate:
         """Initialize with the current date."""
         return cls.from_date(datetime.date.today())
 
@@ -191,7 +193,7 @@ class XmlDateTime(NamedTuple):
         return -total if negative else total
 
     @classmethod
-    def from_string(cls, string: str) -> "XmlDateTime":
+    def from_string(cls, string: str) -> XmlDateTime:
         """Initialize from string with format `%Y-%m-%dT%H:%M:%S%z`."""
         (
             year,
@@ -218,7 +220,7 @@ class XmlDateTime(NamedTuple):
         return cls(year, month, day, hour, minute, second, fractional_second, offset)
 
     @classmethod
-    def from_datetime(cls, obj: datetime.datetime) -> "XmlDateTime":
+    def from_datetime(cls, obj: datetime.datetime) -> XmlDateTime:
         """Initialize from `datetime.datetime` instance."""
         return cls(
             obj.year,
@@ -232,12 +234,12 @@ class XmlDateTime(NamedTuple):
         )
 
     @classmethod
-    def now(cls, tz: datetime.timezone | None = None) -> "XmlDateTime":
+    def now(cls, tz: datetime.timezone | None = None) -> XmlDateTime:
         """Initialize with the current datetime and the given timezone."""
         return cls.from_datetime(datetime.datetime.now(tz=tz))
 
     @classmethod
-    def utcnow(cls) -> "XmlDateTime":
+    def utcnow(cls) -> XmlDateTime:
         """Initialize with the current datetime and utc timezone."""
         return cls.from_datetime(datetime.datetime.now(datetime.UTC))
 
@@ -264,7 +266,7 @@ class XmlDateTime(NamedTuple):
         second: int | None = None,
         fractional_second: int | None = None,
         offset: int | None = True,
-    ) -> "XmlDateTime":
+    ) -> XmlDateTime:
         """Return a new instance replacing the specified fields with new values."""
         if year is None:
             year = self.year
@@ -381,7 +383,7 @@ class XmlTime(NamedTuple):
         second: int | None = None,
         fractional_second: int | None = None,
         offset: int | None = True,
-    ) -> "XmlTime":
+    ) -> XmlTime:
         """Return a new instance replacing the specified fields with new values."""
         if hour is None:
             hour = self.hour
@@ -397,7 +399,7 @@ class XmlTime(NamedTuple):
         return type(self)(hour, minute, second, fractional_second, offset)
 
     @classmethod
-    def from_string(cls, string: str) -> "XmlTime":
+    def from_string(cls, string: str) -> XmlTime:
         """Initialize from string format `%H:%M:%S%z`."""
         (hour, minute, second, fractional_second, offset) = parse_date_args(
             string, DateFormat.TIME
@@ -412,7 +414,7 @@ class XmlTime(NamedTuple):
         return cls(hour, minute, second, fractional_second, offset)
 
     @classmethod
-    def from_time(cls, obj: datetime.time) -> "XmlTime":
+    def from_time(cls, obj: datetime.time) -> XmlTime:
         """Initialize from `datetime.time` instance."""
         return cls(
             obj.hour,
@@ -423,12 +425,12 @@ class XmlTime(NamedTuple):
         )
 
     @classmethod
-    def now(cls, tz: datetime.timezone | None = None) -> "XmlTime":
+    def now(cls, tz: datetime.timezone | None = None) -> XmlTime:
         """Initialize with the current time and the given timezone."""
         return cls.from_time(datetime.datetime.now(tz=tz).time())
 
     @classmethod
-    def utcnow(cls) -> "XmlTime":
+    def utcnow(cls) -> XmlTime:
         """Initialize with the current time and utc timezone."""
         return cls.from_time(datetime.datetime.now(datetime.UTC).time())
 

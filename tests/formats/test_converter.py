@@ -34,8 +34,12 @@ class ConverterFactoryTests(unittest.TestCase):
         self.assertEqual("1.5", converter.serialize(1.5))
         self.assertEqual("true", converter.serialize(True))
         self.assertEqual("optional", converter.serialize(UseType.OPTIONAL))
-        self.assertEqual("0.0000000877683", converter.serialize(Decimal("8.77683E-8")))
-        self.assertEqual("8.77683E-08", converter.serialize(float("8.77683E-8")))
+        self.assertEqual(
+            "0.0000000877683", converter.serialize(Decimal("8.77683E-8"))
+        )
+        self.assertEqual(
+            "8.77683E-08", converter.serialize(float("8.77683E-8"))
+        )
 
     def test_test(self) -> None:
         self.assertTrue(converter.test("1", [int]))
@@ -74,7 +78,8 @@ class ConverterFactoryTests(unittest.TestCase):
             converter.serialize(A())
 
         self.assertEqual(
-            f"No converter registered for `{A.__qualname__}`", str(cm.exception)
+            f"No converter registered for `{A.__qualname__}`",
+            str(cm.exception),
         )
 
     def test_type_converter_with_intermediate_subclass(self) -> None:
@@ -198,7 +203,9 @@ class FloatConverterTests(unittest.TestCase):
         self.assertEqual("INF", self.converter.serialize(float("+inf")))
         self.assertEqual("-INF", self.converter.serialize(float("-inf")))
         self.assertEqual("NaN", self.converter.serialize(float("nan")))
-        self.assertEqual("8.77683E-08", self.converter.serialize(float("8.77683E-8")))
+        self.assertEqual(
+            "8.77683E-08", self.converter.serialize(float("8.77683E-8"))
+        )
 
 
 class BytesConverterTests(unittest.TestCase):
@@ -231,7 +238,9 @@ class BytesConverterTests(unittest.TestCase):
         with self.assertRaises(ConverterError) as cm:
             self.converter.deserialize(1, format="foo")
 
-        self.assertEqual("Input value must be 'str' got 'int'", str(cm.exception))
+        self.assertEqual(
+            "Input value must be 'str' got 'int'", str(cm.exception)
+        )
 
         with self.assertRaises(ConverterError):
             self.converter.deserialize("aaa", format="base16")
@@ -387,7 +396,9 @@ class EnumConverterTests(unittest.TestCase):
         convert = self.converter.deserialize
         self.assertEqual(EnumA.C, convert("2.1", data_type=EnumA))
         self.assertEqual(EnumA.C, convert(2.1, data_type=EnumA))
-        self.assertEqual(EnumA.E, convert(["2.1", "a", "NaN"], data_type=EnumA))
+        self.assertEqual(
+            EnumA.E, convert(["2.1", "a", "NaN"], data_type=EnumA)
+        )
         self.assertEqual(EnumA.F, convert([2.1, "a", 2], data_type=EnumA))
         self.assertEqual(EnumA.D, convert("  2.1  a ", data_type=EnumA))
         self.assertEqual(EnumA.G, convert("  x \n y z ", data_type=EnumA))
@@ -404,7 +415,9 @@ class EnumConverterTests(unittest.TestCase):
 
     def test_serialize(self) -> None:
         ns_map = {}
-        self.assertEqual("ns0:b", self.converter.serialize(EnumA.A, ns_map=ns_map))
+        self.assertEqual(
+            "ns0:b", self.converter.serialize(EnumA.A, ns_map=ns_map)
+        )
         self.assertEqual("INF", self.converter.serialize(EnumA.B))
         self.assertEqual("2.1", self.converter.serialize(EnumA.C))
 

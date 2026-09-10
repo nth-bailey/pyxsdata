@@ -31,7 +31,10 @@ class XmlContext(context.XmlContext):
     ) -> None:
         """Initialize XmlContext for Pydantic models."""
         super().__init__(
-            element_name_generator, attribute_name_generator, "pydantic", models_package
+            element_name_generator,
+            attribute_name_generator,
+            "pydantic",
+            models_package,
         )
 
 
@@ -53,7 +56,7 @@ class XmlParser(parsers.XmlParser):
 
 @dataclass
 class CoreXmlParser(parsers.CoreXmlParser):
-    """Ultra-fast native XML parser for Pydantic models powered by pyxsdata-core.
+    """Ultra-fast native XML parser for Pydantic models powered by PolyXML.
 
     Args:
         config: The parser config instance
@@ -65,6 +68,15 @@ class CoreXmlParser(parsers.CoreXmlParser):
     """
 
     context: XmlContext = field(default_factory=XmlContext)
+
+
+@dataclass
+class CoreXmlSerializer(serializers.CoreXmlSerializer):
+    """Ultra-fast native XML serializer for Pydantic models powered by PolyXML.
+
+    Args:
+        config: The serializer config instance
+    """
 
 
 @dataclass

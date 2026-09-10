@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Iterator
 from dataclasses import dataclass, field
 from typing import TypeVar
@@ -6,7 +8,12 @@ from pyxsdata.codegen.exceptions import CodegenError
 from pyxsdata.codegen.models import get_name
 from pyxsdata.formats.dataclass.models.generics import AnyElement
 from pyxsdata.models.enums import Namespace
-from pyxsdata.models.mixins import array_any_element, array_element, attribute, element
+from pyxsdata.models.mixins import (
+    array_any_element,
+    array_element,
+    attribute,
+    element,
+)
 from pyxsdata.models.xsd import Schema
 from pyxsdata.utils import collections
 
@@ -284,7 +291,7 @@ class Definitions(ExtensibleElement):
         """Find a port type by name or raise an error."""
         return find_or_die(self.port_types, name, "PortType")
 
-    def merge(self, source: "Definitions") -> None:
+    def merge(self, source: Definitions) -> None:
         """Merge the source instance with this instance."""
         if not self.types:
             self.types = source.types

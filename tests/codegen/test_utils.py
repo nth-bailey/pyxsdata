@@ -85,12 +85,16 @@ class ClassUtilsTests(FactoryTestCase):
                 AttrFactory.create(name="d"),
             ]
         )
-        extension = ExtensionFactory.create(AttrTypeFactory.create(qname="foo"))
+        extension = ExtensionFactory.create(
+            AttrTypeFactory.create(qname="foo")
+        )
         target.extensions.append(extension)
 
         ClassUtils.copy_attributes(source, target, extension)
 
-        self.assertEqual(["a", "b", "d", "c"], [attr.name for attr in target.attrs])
+        self.assertEqual(
+            ["a", "b", "d", "c"], [attr.name for attr in target.attrs]
+        )
 
         mock_copy_inner_classes.assert_has_calls(
             [
@@ -258,16 +262,28 @@ class ClassUtilsTests(FactoryTestCase):
         self.assertEqual(
             ["attr_B", "attr_C", "attr_D"], [x.name for x in result[0].attrs]
         )
-        self.assertEqual(["attr_E", "attr_F"], [x.name for x in result[1].attrs])
+        self.assertEqual(
+            ["attr_E", "attr_F"], [x.name for x in result[1].attrs]
+        )
 
     def test_reduce_attributes(self) -> None:
         restrictions = Restrictions(min_occurs=1, max_occurs=1)
-        attr_a = AttrFactory.create(name="a", restrictions=restrictions.clone())
-        attr_b = AttrFactory.create(name="b", restrictions=restrictions.clone())
-        attr_c = AttrFactory.create(name="c", restrictions=restrictions.clone())
-        attr_d = AttrFactory.create(name="d", restrictions=restrictions.clone())
+        attr_a = AttrFactory.create(
+            name="a", restrictions=restrictions.clone()
+        )
+        attr_b = AttrFactory.create(
+            name="b", restrictions=restrictions.clone()
+        )
+        attr_c = AttrFactory.create(
+            name="c", restrictions=restrictions.clone()
+        )
+        attr_d = AttrFactory.create(
+            name="d", restrictions=restrictions.clone()
+        )
 
-        first = ClassFactory.create(qname="alphabet", attrs=[attr_b, attr_c, attr_d])
+        first = ClassFactory.create(
+            qname="alphabet", attrs=[attr_b, attr_c, attr_d]
+        )
         second = ClassFactory.create(qname="alphabet", attrs=[attr_a, attr_b])
 
         result = ClassUtils.reduce_attributes([first, second])

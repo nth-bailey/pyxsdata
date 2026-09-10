@@ -106,7 +106,9 @@ class ElementTests(TestCase):
         expected = {"min_occurs": 1, "max_occurs": 1}
         self.assertEqual(expected, obj.get_restrictions())
 
-        obj.simple_type = SimpleType(restriction=Restriction(length=Length(value=9)))
+        obj.simple_type = SimpleType(
+            restriction=Restriction(length=Length(value=9))
+        )
         expected["length"] = 9
         self.assertEqual(expected, obj.get_restrictions())
 

@@ -1,7 +1,10 @@
 from collections import defaultdict
 from collections.abc import Iterator
 
-from pyxsdata.codegen.mixins import ContainerInterface, RelativeHandlerInterface
+from pyxsdata.codegen.mixins import (
+    ContainerInterface,
+    RelativeHandlerInterface,
+)
 from pyxsdata.codegen.models import (
     Attr,
     AttrType,

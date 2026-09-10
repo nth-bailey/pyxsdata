@@ -29,7 +29,10 @@ class SchemaTests(TestCase):
             Override(schema_location="b.xsd"),
         ]
         schema = Schema(
-            imports=imports, includes=includes, redefines=redefines, overrides=overrides
+            imports=imports,
+            includes=includes,
+            redefines=redefines,
+            overrides=overrides,
         )
 
         actual = schema.included()

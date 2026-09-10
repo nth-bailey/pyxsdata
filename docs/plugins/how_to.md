@@ -12,8 +12,9 @@ This entrypoint allows developers to register a new
 from pyxsdata.codegen.writer import CodeWriter
 from pyxsdata.formats.mixins import AbstractGenerator
 
-class AwesomeGenerator(AbstractGenerator):
-    ...
+
+class AwesomeGenerator(AbstractGenerator): ...
+
 
 CodeWriter.register_generator("awesome", AwesomeGenerator)
 ```
@@ -33,8 +34,9 @@ This entrypoint can be used to register a new
 from pyxsdata.formats.dataclass.compat import class_types
 from pyxsdata.formats.dataclass.compat import ClassType
 
-class AwesomeType(ClassType):
-    ...
+
+class AwesomeType(ClassType): ...
+
 
 class_types.register("awesome", AwesomeType())
 ```

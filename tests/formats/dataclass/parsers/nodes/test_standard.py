@@ -29,7 +29,13 @@ class StandardNodeTests(TestCase):
     def test_bind_derived(self) -> None:
         datatype = DataType.INT
         node = StandardNode(
-            self.meta, self.var, datatype, {}, self.config, False, DerivedElement
+            self.meta,
+            self.var,
+            datatype,
+            {},
+            self.config,
+            False,
+            DerivedElement,
         )
         objects = []
 
@@ -39,16 +45,26 @@ class StandardNodeTests(TestCase):
     def test_bind_wrapper_type(self) -> None:
         datatype = DataType.HEX_BINARY
         node = StandardNode(
-            self.meta, self.var, datatype, {}, self.config, False, DerivedElement
+            self.meta,
+            self.var,
+            datatype,
+            {},
+            self.config,
+            False,
+            DerivedElement,
         )
         objects = []
 
         self.assertTrue(node.bind("a", "13", None, objects))
-        self.assertEqual(("a", DerivedElement(qname="a", value=b"\x13")), objects[-1])
+        self.assertEqual(
+            ("a", DerivedElement(qname="a", value=b"\x13")), objects[-1]
+        )
 
     def test_bind_nillable(self) -> None:
         datatype = DataType.STRING
-        node = StandardNode(self.meta, self.var, datatype, {}, self.config, True, None)
+        node = StandardNode(
+            self.meta, self.var, datatype, {}, self.config, True, None
+        )
         objects = []
 
         self.assertTrue(node.bind("a", None, None, objects))

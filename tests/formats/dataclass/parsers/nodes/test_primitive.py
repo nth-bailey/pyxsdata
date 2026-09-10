@@ -29,7 +29,11 @@ class PrimitiveNodeTests(TestCase):
         self.assertEqual(("foo", 13), objects[-1])
 
         mock_parse_var.assert_called_once_with(
-            meta=self.meta, var=var, config=self.config, value="13", ns_map=ns_map
+            meta=self.meta,
+            var=var,
+            config=self.config,
+            value="13",
+            ns_map=ns_map,
         )
 
     def test_bind_nillable_content(self) -> None:
@@ -67,7 +71,9 @@ class PrimitiveNodeTests(TestCase):
 
     def test_bind_mixed_with_tail_content(self) -> None:
         self.meta.mixed_content = True
-        var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="foo", types=(int,))
+        var = XmlVarFactory.create(
+            xml_type=XmlType.TEXT, name="foo", types=(int,)
+        )
         node = PrimitiveNode(self.meta, var, {}, self.config)
         objects = []
 
@@ -77,7 +83,9 @@ class PrimitiveNodeTests(TestCase):
 
     def test_bind_mixed_without_tail_content(self) -> None:
         self.meta.mixed_content = True
-        var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="foo", types=(int,))
+        var = XmlVarFactory.create(
+            xml_type=XmlType.TEXT, name="foo", types=(int,)
+        )
         node = PrimitiveNode(self.meta, var, {}, self.config)
         objects = []
 

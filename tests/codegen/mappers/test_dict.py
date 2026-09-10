@@ -86,7 +86,9 @@ class DictMapperTests(FactoryTestCase):
             name="a",
             tag=Tag.ELEMENT,
             types=[
-                AttrTypeFactory.native(DataType.ANY_SIMPLE_TYPE, tag=Tag.ELEMENT),
+                AttrTypeFactory.native(
+                    DataType.ANY_SIMPLE_TYPE, tag=Tag.ELEMENT
+                ),
             ],
         )
         restrictions = Restrictions(min_occurs=0, max_occurs=sys.maxsize)

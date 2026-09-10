@@ -1,5 +1,8 @@
 from pyxsdata.formats.dataclass.parsers import JsonParser, XmlParser
-from pyxsdata.formats.dataclass.serializers import JsonSerializer, XmlSerializer
+from pyxsdata.formats.dataclass.serializers import (
+    JsonSerializer,
+    XmlSerializer,
+)
 from pyxsdata.models.datatype import XmlDate
 from tests.fixtures.books import BookForm, Books
 from tests.integration.benchmarks.conftest import context, xsdata_temp_dir

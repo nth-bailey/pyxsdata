@@ -1,7 +1,15 @@
 from collections import Counter
 
-from pyxsdata.codegen.mixins import ContainerInterface, RelativeHandlerInterface
-from pyxsdata.codegen.models import Attr, Class, Restrictions, get_restriction_choice
+from pyxsdata.codegen.mixins import (
+    ContainerInterface,
+    RelativeHandlerInterface,
+)
+from pyxsdata.codegen.models import (
+    Attr,
+    Class,
+    Restrictions,
+    get_restriction_choice,
+)
 from pyxsdata.codegen.utils import ClassUtils
 from pyxsdata.formats.dataclass.models.elements import XmlType
 from pyxsdata.models.enums import Tag

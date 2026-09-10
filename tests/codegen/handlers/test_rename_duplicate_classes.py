@@ -63,7 +63,9 @@ class RenameDuplicateClassesTests(FactoryTestCase):
         )
 
     @mock.patch.object(RenameDuplicateClasses, "add_abstract_suffix")
-    def test_rename_classes_with_abstract_type(self, mock_add_abstract_suffix) -> None:
+    def test_rename_classes_with_abstract_type(
+        self, mock_add_abstract_suffix
+    ) -> None:
         classes = [
             ClassFactory.create(qname="_a", tag=Tag.ELEMENT),
             ClassFactory.create(qname="_A", tag=Tag.ELEMENT, abstract=True),
@@ -73,7 +75,9 @@ class RenameDuplicateClassesTests(FactoryTestCase):
         mock_add_abstract_suffix.assert_called_once_with(classes[1])
 
     @mock.patch.object(RenameDuplicateClasses, "add_numeric_suffix")
-    def test_rename_classes_protects_single_element(self, mock_rename_class) -> None:
+    def test_rename_classes_protects_single_element(
+        self, mock_rename_class
+    ) -> None:
         classes = [
             ClassFactory.create(qname="_a", tag=Tag.ELEMENT),
             ClassFactory.create(qname="a", tag=Tag.COMPLEX_TYPE),

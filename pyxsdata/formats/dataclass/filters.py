@@ -581,7 +581,21 @@ class Filters:
             return data[8:-1]
 
         if key in (self.FACTORY_KEY, self.DEFAULT_KEY):
-            return data
+            if (
+                data.startswith(('"', "'", "r'", 'r"', "b'", 'b"'))
+                or data in ("True", "False", "None")
+                or data.startswith("lambda")
+                or "." in data
+            ):
+                return data
+            try:
+                float(data)
+                return data
+            except ValueError:
+                pass
+            if key == self.FACTORY_KEY:
+                return data
+            return f'"{data}"'
 
         if key == "pattern":
             return f"r{data!r}".replace("\\\\", "\\")
@@ -768,7 +782,10 @@ class Filters:
 
         return literal_value(
             converter.deserialize(
-                attr.default, types, ns_map=ns_map, format=attr.restrictions.format
+                attr.default,
+                types,
+                ns_map=ns_map,
+                format=attr.restrictions.format,
             )
         )
 
@@ -966,7 +983,10 @@ class Filters:
         """Build import search patterns."""
         type_patterns = cls.build_type_patterns
         return {
-            "dataclasses": {"dataclass": ["@dataclass"], "field": [" = field("]},
+            "dataclasses": {
+                "dataclass": ["@dataclass"],
+                "field": [" = field("],
+            },
             "decimal": {"Decimal": type_patterns("Decimal")},
             "enum": {"Enum": ["(Enum)"], "StrEnum": ["(StrEnum)"]},
             "typing": {

@@ -55,7 +55,11 @@ class WrapperTests(TestCase):
         @dataclass
         class ElementWrapper:
             elements: list[ElementObject] = field(
-                metadata={"wrapper": "Elements", "type": "Element", "name": "Object"}
+                metadata={
+                    "wrapper": "Elements",
+                    "type": "Element",
+                    "name": "Object",
+                }
             )
 
         xml = "<ElementWrapper><Elements><Object><content>Hello</content></Object><Object><content>World</content></Object></Elements></ElementWrapper>"
@@ -74,22 +78,34 @@ class WrapperTests(TestCase):
             class Meta:
                 name = "Property"
 
-            foo_id: int = field(metadata={"name": "Foo-Id", "type": "Attribute"})
+            foo_id: int = field(
+                metadata={"name": "Foo-Id", "type": "Attribute"}
+            )
 
         @dataclass
         class Bar:
             class Meta:
                 name = "Property"
 
-            bar_id: str = field(metadata={"name": "Bar-Id", "type": "Attribute"})
+            bar_id: str = field(
+                metadata={"name": "Bar-Id", "type": "Attribute"}
+            )
 
         @dataclass
         class Response:
             foos: list[Foo] = field(
-                metadata={"wrapper": "Foos", "name": "Property", "type": "Element"}
+                metadata={
+                    "wrapper": "Foos",
+                    "name": "Property",
+                    "type": "Element",
+                }
             )
             bars: list[Bar] = field(
-                metadata={"wrapper": "Bars", "name": "Property", "type": "Element"}
+                metadata={
+                    "wrapper": "Bars",
+                    "name": "Property",
+                    "type": "Element",
+                }
             )
 
         xml = (

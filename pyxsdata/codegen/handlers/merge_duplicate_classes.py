@@ -1,4 +1,7 @@
-from pyxsdata.codegen.mixins import ContainerHandlerInterface, ContainerInterface
+from pyxsdata.codegen.mixins import (
+    ContainerHandlerInterface,
+    ContainerInterface,
+)
 from pyxsdata.codegen.models import (
     Class,
 )

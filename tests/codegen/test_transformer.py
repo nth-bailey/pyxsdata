@@ -146,9 +146,14 @@ class ResourceTransformerTests(FactoryTestCase):
         mock_parse_definitions.side_effect = [fist_def, second_def, None]
         self.transformer.process_definitions(uris)
 
-        mock_convert_schema.assert_has_calls([mock.call(x) for x in fist_def.schemas])
+        mock_convert_schema.assert_has_calls(
+            [mock.call(x) for x in fist_def.schemas]
+        )
         mock_parse_definitions.assert_has_calls(
-            [mock.call(uris[0], namespace=None), mock.call(uris[1], namespace=None)]
+            [
+                mock.call(uris[0], namespace=None),
+                mock.call(uris[1], namespace=None),
+            ]
         )
         mock_convert_definitions.assert_called_once_with(fist_def)
 
@@ -207,7 +212,8 @@ class ResourceTransformerTests(FactoryTestCase):
 
     def test_find_included_chameleons_handles_missing_source(self) -> None:
         self.assertEqual(
-            set(), self.transformer.find_included_chameleons(["file://nonexistent"])
+            set(),
+            self.transformer.find_included_chameleons(["file://nonexistent"]),
         )
 
     @mock.patch.object(ClassUtils, "reduce_classes")
@@ -215,7 +221,11 @@ class ResourceTransformerTests(FactoryTestCase):
     @mock.patch.object(TreeParser, "from_bytes")
     @mock.patch.object(ResourceTransformer, "load_resource")
     def test_process_xml_documents(
-        self, mock_load_resource, mock_from_bytes, mock_map, mock_reduce_classes
+        self,
+        mock_load_resource,
+        mock_from_bytes,
+        mock_map,
+        mock_reduce_classes,
     ) -> None:
         uris = ["foo/a.xml", "foo/b.xml", "foo/c.xml"]
         resources = [b"a", None, b"c"]
@@ -275,7 +285,9 @@ class ResourceTransformerTests(FactoryTestCase):
     @mock.patch.object(DtdMapper, "map")
     @mock.patch.object(DtdParser, "parse")
     @mock.patch.object(ResourceTransformer, "load_resource")
-    def test_process_dtds(self, mock_load_resource, mock_parse, mock_map) -> None:
+    def test_process_dtds(
+        self, mock_load_resource, mock_parse, mock_map
+    ) -> None:
         uris = ["foo/a.dtd", "foo/b.dtd", "foo/c.dtd"]
         resources = [b"a", None, b"c"]
         dtds = DtdFactory.list(2)
@@ -324,8 +336,12 @@ class ResourceTransformerTests(FactoryTestCase):
         mock_writer_write.assert_called_once_with(analyzer_classes)
         mock_logger_into.assert_has_calls(
             [
-                mock.call("Analyzer input: %d main and %d inner classes", 3, 0),
-                mock.call("Analyzer output: %d main and %d inner classes", 2, 0),
+                mock.call(
+                    "Analyzer input: %d main and %d inner classes", 3, 0
+                ),
+                mock.call(
+                    "Analyzer output: %d main and %d inner classes", 2, 0
+                ),
             ]
         )
 
@@ -361,7 +377,9 @@ class ResourceTransformerTests(FactoryTestCase):
 
     @mock.patch.object(ResourceTransformer, "generate_classes")
     @mock.patch.object(ResourceTransformer, "process_schema")
-    def test_convert_schema(self, mock_process_schema, mock_generate_classes) -> None:
+    def test_convert_schema(
+        self, mock_process_schema, mock_generate_classes
+    ) -> None:
         schema = Schema(target_namespace="thug", location="main")
         schema.includes.append(Include(location="foo"))
         schema.overrides.append(Override())
@@ -412,7 +430,11 @@ class ResourceTransformerTests(FactoryTestCase):
         )
 
     def test_parse_schema(self) -> None:
-        uri = Path(__file__).parent.joinpath("../fixtures/books/schema.xsd").as_uri()
+        uri = (
+            Path(__file__)
+            .parent.joinpath("../fixtures/books/schema.xsd")
+            .as_uri()
+        )
         schema = self.transformer.parse_schema(uri, "foo.bar")
         self.assertIsInstance(schema, Schema)
         self.assertEqual(2, len(schema.complex_types))
@@ -458,10 +480,14 @@ class ResourceTransformerTests(FactoryTestCase):
 
         result = self.transformer.load_resource(path)
         self.assertIsNone(result)
-        mock_debug.assert_called_once_with("Skipping already processed: %s", path)
+        mock_debug.assert_called_once_with(
+            "Skipping already processed: %s", path
+        )
 
     def test_classify_resource(self) -> None:
-        self.assertEqual(0, self.transformer.classify_resource("file://notexists"))
+        self.assertEqual(
+            0, self.transformer.classify_resource("file://notexists")
+        )
         self.assertEqual(1, self.transformer.classify_resource("a.xsd"))
         self.assertEqual(2, self.transformer.classify_resource("a.wsdl"))
         self.assertEqual(2, self.transformer.classify_resource("a?wsdl"))
@@ -471,27 +497,39 @@ class ResourceTransformerTests(FactoryTestCase):
 
         file_path = Path(tempfile.mktemp())
         file_path.write_bytes(b"</xs:schema>  \n")
-        self.assertEqual(1, self.transformer.classify_resource(file_path.as_uri()))
+        self.assertEqual(
+            1, self.transformer.classify_resource(file_path.as_uri())
+        )
 
         file_path.write_bytes(b"</xs:definitions>  \n")
         self.transformer.preloaded.clear()
-        self.assertEqual(2, self.transformer.classify_resource(file_path.as_uri()))
+        self.assertEqual(
+            2, self.transformer.classify_resource(file_path.as_uri())
+        )
 
         file_path.write_bytes(b"<!ELEMENT Tags ")
         self.transformer.preloaded.clear()
-        self.assertEqual(3, self.transformer.classify_resource(file_path.as_uri()))
+        self.assertEqual(
+            3, self.transformer.classify_resource(file_path.as_uri())
+        )
 
         file_path.write_bytes(b"</foobar>  \n")
         self.transformer.preloaded.clear()
-        self.assertEqual(4, self.transformer.classify_resource(file_path.as_uri()))
+        self.assertEqual(
+            4, self.transformer.classify_resource(file_path.as_uri())
+        )
 
         file_path.write_bytes(b"\n}  \n")
         self.transformer.preloaded.clear()
-        self.assertEqual(5, self.transformer.classify_resource(file_path.as_uri()))
+        self.assertEqual(
+            5, self.transformer.classify_resource(file_path.as_uri())
+        )
 
         file_path.write_bytes(b"aaa\n")
         self.transformer.preloaded.clear()
-        self.assertEqual(0, self.transformer.classify_resource(file_path.as_uri()))
+        self.assertEqual(
+            0, self.transformer.classify_resource(file_path.as_uri())
+        )
 
         file_path.unlink()
 

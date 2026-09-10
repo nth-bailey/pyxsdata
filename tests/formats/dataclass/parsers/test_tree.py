@@ -20,7 +20,9 @@ class TreeParserTests(TestCase):
                 AnyElement(qname="genre", text="Fiction"),
                 AnyElement(qname="price", text="44.95"),
                 AnyElement(qname="pub_date", text="2000-10-01"),
-                AnyElement(qname="review", text="An amazing story of nothing."),
+                AnyElement(
+                    qname="review", text="An amazing story of nothing."
+                ),
             ],
             attributes={"id": "bk001"},
         )

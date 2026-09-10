@@ -69,7 +69,9 @@ class XmlEventHandlerTests(TestCase):
 
         self.parser.config.process_xinclude = True
         self.parser.config.base_url = str(path)
-        self.assertEqual(books, self.parser.from_string(path.read_text(), Books))
+        self.assertEqual(
+            books, self.parser.from_string(path.read_text(), Books)
+        )
         self.assertEqual(ns_map, self.parser.ns_map)
 
     def test_get_base_url(self) -> None:

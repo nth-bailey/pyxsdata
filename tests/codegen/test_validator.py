@@ -44,13 +44,17 @@ class ClassValidatorTests(FactoryTestCase):
     def test_remove_invalid_classes(self) -> None:
         first = ClassFactory.create(
             extensions=[
-                ExtensionFactory.create(AttrTypeFactory.native(DataType.BOOLEAN)),
+                ExtensionFactory.create(
+                    AttrTypeFactory.native(DataType.BOOLEAN)
+                ),
                 ExtensionFactory.create(AttrTypeFactory.create(qname="foo")),
             ]
         )
         second = ClassFactory.create(
             extensions=[
-                ExtensionFactory.create(AttrTypeFactory.native(DataType.BOOLEAN))
+                ExtensionFactory.create(
+                    AttrTypeFactory.native(DataType.BOOLEAN)
+                )
             ]
         )
         third = ClassFactory.create()
@@ -101,7 +105,9 @@ class ClassValidatorTests(FactoryTestCase):
             help="b",
             substitutions=["a", "b"],
         )
-        two = ClassFactory.create(qname="foo", tag=Tag.COMPLEX_TYPE, substitutions=[])
+        two = ClassFactory.create(
+            qname="foo", tag=Tag.COMPLEX_TYPE, substitutions=[]
+        )
         three = ClassFactory.create(qname="foo", tag=Tag.SIMPLE_TYPE)
 
         classes = [one, two, three]
@@ -146,7 +152,9 @@ class ClassValidatorTests(FactoryTestCase):
         source = ClassFactory.create()
         target = source.clone()
 
-        ext_a = ExtensionFactory.create(AttrTypeFactory.create(qname=source.name))
+        ext_a = ExtensionFactory.create(
+            AttrTypeFactory.create(qname=source.name)
+        )
         ext_str = ExtensionFactory.create(AttrTypeFactory.create(qname="foo"))
         target.extensions.append(ext_str)
         target.extensions.append(ext_a)
@@ -169,7 +177,9 @@ class ClassValidatorTests(FactoryTestCase):
 
         self.validator.merge_redefined_type(source, target)
 
-        mock_copy_group_attributes.assert_called_once_with(source, target, second_attr)
+        mock_copy_group_attributes.assert_called_once_with(
+            source, target, second_attr
+        )
 
     def test_select_winner(self) -> None:
         classes = ClassFactory.list(2)

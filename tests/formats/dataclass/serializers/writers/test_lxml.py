@@ -3,7 +3,10 @@ from unittest import TestCase
 
 import lxml
 
-from pyxsdata.formats.dataclass.serializers import TreeSerializer, XmlSerializer
+from pyxsdata.formats.dataclass.serializers import (
+    TreeSerializer,
+    XmlSerializer,
+)
 from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 from pyxsdata.formats.dataclass.serializers.writers import (
     LxmlEventWriter,
@@ -31,7 +34,9 @@ class LxmlEventWriterTests(TestCase):
 
     def test_render_with_default_namespace_prefix(self) -> None:
         actual = self.serializer.render(books, {None: "urn:books"})
-        expected = fixtures_dir.joinpath("books/books_default_ns.xml").read_text()
+        expected = fixtures_dir.joinpath(
+            "books/books_default_ns.xml"
+        ).read_text()
 
         _xml_declaration, actual = actual.split("\n", 1)
         _, expected = expected.split("\n", 1)
@@ -43,13 +48,17 @@ class LxmlEventWriterTests(TestCase):
         x = make_dataclass("x", [("value", str)])
         obj = x("á, é, í, ó")
         actual = self.serializer.render(obj)
-        expected = '<?xml version="1.0" encoding="ISO-8859-1"?>\n<x>á, é, í, ó</x>\n'
+        expected = (
+            '<?xml version="1.0" encoding="ISO-8859-1"?>\n<x>á, é, í, ó</x>\n'
+        )
         self.assertEqual(expected, actual)
 
     def test_declaration_disabled(self) -> None:
         self.serializer.config.xml_declaration = False
         actual = self.serializer.render(books, {None: "urn:books"})
-        expected = fixtures_dir.joinpath("books/books_default_ns.xml").read_text()
+        expected = fixtures_dir.joinpath(
+            "books/books_default_ns.xml"
+        ).read_text()
         _xml_declaration, expected = expected.split("\n", 1)
 
         self.assertEqual(expected, actual)

@@ -112,7 +112,10 @@ class EnumChoice(click.Choice):
         super().__init__([e.value for e in enumeration])
 
     def convert(
-        self, value: Any, param: Parameter | None = None, ctx: Context | None = None
+        self,
+        value: Any,
+        param: Parameter | None = None,
+        ctx: Context | None = None,
     ) -> Any:
         """Parse the value into an enumeration member."""
         return self.enumeration(value)

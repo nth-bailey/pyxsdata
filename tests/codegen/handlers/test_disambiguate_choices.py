@@ -30,12 +30,14 @@ class DisambiguateChoicesTest(FactoryTestCase):
         compound.choices.append(AttrFactory.any(namespace="foo"))
         compound.choices.append(
             AttrFactory.any(
-                namespace="bar", restrictions=Restrictions(min_occurs=1, max_occurs=1)
+                namespace="bar",
+                restrictions=Restrictions(min_occurs=1, max_occurs=1),
             )
         )
         compound.choices.append(
             AttrFactory.any(
-                namespace="bar", restrictions=Restrictions(max_occurs=3, min_occurs=0)
+                namespace="bar",
+                restrictions=Restrictions(max_occurs=3, min_occurs=0),
             )
         )
         self.container.add(target)
@@ -45,7 +47,9 @@ class DisambiguateChoicesTest(FactoryTestCase):
 
         wildcard = compound.choices[-1]
         self.assertEqual("content", wildcard.name)
-        self.assertEqual([AttrTypeFactory.native(DataType.ANY_TYPE)], wildcard.types)
+        self.assertEqual(
+            [AttrTypeFactory.native(DataType.ANY_TYPE)], wildcard.types
+        )
         self.assertEqual("foo bar", wildcard.namespace)
         self.assertEqual(1, wildcard.restrictions.min_occurs)
         self.assertEqual(4, wildcard.restrictions.max_occurs)
@@ -77,7 +81,9 @@ class DisambiguateChoicesTest(FactoryTestCase):
         compound = AttrFactory.create(tag=Tag.CHOICE, types=[])
         target = ClassFactory.create()
         target.attrs.append(compound)
-        compound.choices.append(AttrFactory.native(DataType.ANY_TYPE, name="a"))
+        compound.choices.append(
+            AttrFactory.native(DataType.ANY_TYPE, name="a")
+        )
         compound.choices.append(
             AttrFactory.native(DataType.ANY_TYPE, name="b", namespace="xs")
         )
@@ -212,8 +218,12 @@ class DisambiguateChoicesTest(FactoryTestCase):
         self.assertEqual("content", last.name)
         self.assertEqual(Tag.ANY, last.tag)
         self.assertEqual(source.namespace, last.namespace)
-        self.assertEqual([AttrTypeFactory.native(DataType.ANY_TYPE)], last.types)
-        self.assertTrue(last.restrictions.is_optional)  # anyType elements can be empty
+        self.assertEqual(
+            [AttrTypeFactory.native(DataType.ANY_TYPE)], last.types
+        )
+        self.assertTrue(
+            last.restrictions.is_optional
+        )  # anyType elements can be empty
         self.assertFalse(last.restrictions.is_list)
 
     def test_add_simply_type_value(self) -> None:

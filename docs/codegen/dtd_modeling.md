@@ -27,5 +27,5 @@ $ pyxsdata generate --package tests.fixtures.dtd.models tests/fixtures/dtd/compl
 === "Output"
 
     ```python
-    --8<-- "tests/fixtures/dtd/models/complete_example.py"
+    --8 < --"tests/fixtures/dtd/models/complete_example.py"
     ```

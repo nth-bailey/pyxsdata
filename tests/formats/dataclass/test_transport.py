@@ -30,7 +30,9 @@ class DefaultTransportTest(TestCase):
     @mock.patch.object(Response, "content", new_callable=mock.PropertyMock)
     @mock.patch.object(Response, "raise_for_status")
     @mock.patch.object(Session, "post")
-    def test_post(self, mock_post, mock_raise_for_status, mock_content) -> None:
+    def test_post(
+        self, mock_post, mock_raise_for_status, mock_content
+    ) -> None:
         transport = DefaultTransport(timeout=1.0)
         data = {"a": "b"}
         url = "http://endpoint.stub/action"
@@ -67,4 +69,6 @@ class DefaultTransportTest(TestCase):
         with self.assertRaises(HTTPError) as cm:
             transport.handle_response(response)
 
-        self.assertEqual("401 Client Error: Nope for url: pyxsdata", str(cm.exception))
+        self.assertEqual(
+            "401 Client Error: Nope for url: pyxsdata", str(cm.exception)
+        )

@@ -349,8 +349,8 @@ from dataclasses import dataclass
 from dataclasses_jsonschema import JsonSchemaMixin
 from typed_dataclass import typed_dataclass
 
+
 @dataclass
 @typed_dataclass
-class Cores(JsonSchemaMixin):
-    ...
+class Cores(JsonSchemaMixin): ...
 ```

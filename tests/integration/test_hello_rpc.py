@@ -26,7 +26,9 @@ class HelloRpcServiceTests(TestCase):
         schema = fixtures_dir.joinpath("hello/hello.wsdl")
         package = "tests.fixtures.hello"
         runner = CliRunner()
-        result = runner.invoke(cli, ["generate", str(schema), "--package", package])
+        result = runner.invoke(
+            cli, ["generate", str(schema), "--package", package]
+        )
 
         if result.exception:
             raise result.exception
@@ -62,7 +64,9 @@ class HelloRpcServiceTests(TestCase):
     def test_client_with_soap_fault(self, mock_most) -> None:
         url = "http://localhost:9999/ws/hello"
         request = fixtures_dir.joinpath("hello/HelloRQ.xml").read_text()
-        response = fixtures_dir.joinpath("hello/HelloRS_SoapFault.xml").read_bytes()
+        response = fixtures_dir.joinpath(
+            "hello/HelloRS_SoapFault.xml"
+        ).read_bytes()
         headers = {"content-type": "text/xml"}
         mock_most.return_value = response
 

@@ -39,7 +39,9 @@ class FlattenAttributeGroupsTests(FactoryTestCase):
         self.processor.container.process()
 
         self.assertEqual(["one", "two"], [x.name for x in target.attrs])
-        self.assertEqual(["inner_one", "inner_two"], [x.name for x in target.inner])
+        self.assertEqual(
+            ["inner_one", "inner_two"], [x.name for x in target.inner]
+        )
 
         for inner in target.inner:
             self.assertEqual(["one", "two"], [x.name for x in inner.attrs])

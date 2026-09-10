@@ -20,7 +20,11 @@ from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 from pyxsdata.models.enums import DataType, Namespace, QNames
 from pyxsdata.utils import collections, namespaces
 from pyxsdata.utils.constants import EMPTY_MAP
-from pyxsdata.utils.namespaces import generate_prefix, prefix_exists, split_qname
+from pyxsdata.utils.namespaces import (
+    generate_prefix,
+    prefix_exists,
+    split_qname,
+)
 
 XSI_NIL = (Namespace.XSI.uri, "nil")
 
@@ -549,7 +553,11 @@ class EventGenerator:
         yield XmlWriterEvent.START, qname
 
         for key, value in self.next_attribute(
-            obj, meta, nillable, xsi_type, self.config.ignore_default_attributes
+            obj,
+            meta,
+            nillable,
+            xsi_type,
+            self.config.ignore_default_attributes,
         ):
             yield XmlWriterEvent.ATTR, key, value
 
@@ -886,7 +894,11 @@ class EventGenerator:
         if value is not None and value != "" and var.any_type:
             datatype = DataType.from_value(value)
             if datatype != DataType.STRING:
-                yield XmlWriterEvent.ATTR, QNames.XSI_TYPE, QName(str(datatype))
+                yield (
+                    XmlWriterEvent.ATTR,
+                    QNames.XSI_TYPE,
+                    QName(str(datatype)),
+                )
 
         yield XmlWriterEvent.DATA, self.encode_primitive(value, var)
         yield XmlWriterEvent.END, var.qname

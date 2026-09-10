@@ -116,7 +116,11 @@ class ClassUtils:
 
     @classmethod
     def copy_group_attributes(
-        cls, source: Class, target: Class, attr: Attr, skip_inner_classes: bool = False
+        cls,
+        source: Class,
+        target: Class,
+        attr: Attr,
+        skip_inner_classes: bool = False,
     ):
         """Copy the attrs of the source class to the target class.
 

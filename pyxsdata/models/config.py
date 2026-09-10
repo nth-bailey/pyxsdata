@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import warnings
 from collections.abc import Callable
@@ -542,7 +544,7 @@ class GeneratorConfig:
     )
 
     @classmethod
-    def create(cls) -> "GeneratorConfig":
+    def create(cls) -> GeneratorConfig:
         """Initialize with default substitutions for common namespaces."""
         obj = cls()
 
@@ -562,7 +564,7 @@ class GeneratorConfig:
         return obj
 
     @classmethod
-    def read(cls, path: Path) -> "GeneratorConfig":
+    def read(cls, path: Path) -> GeneratorConfig:
         """Load configuration from a file path."""
         if not path.exists():
             return cls()
@@ -583,7 +585,7 @@ class GeneratorConfig:
         return cfg
 
     @classmethod
-    def write(cls, output: TextIOBase, obj: "GeneratorConfig"):
+    def write(cls, output: TextIOBase, obj: GeneratorConfig):
         """Write the configuration to the output stream as XML."""
         ctx = XmlContext(
             element_name_generator=text.pascal_case,

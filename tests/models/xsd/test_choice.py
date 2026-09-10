@@ -16,4 +16,6 @@ class ChoiceTests(TestCase):
 
     def test_get_restrictions(self) -> None:
         obj = Choice(min_occurs=1, max_occurs=2)
-        self.assertEqual({"path": [("c", id(obj), 1, 2)]}, obj.get_restrictions())
+        self.assertEqual(
+            {"path": [("c", id(obj), 1, 2)]}, obj.get_restrictions()
+        )

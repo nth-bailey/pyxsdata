@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import sys
 import textwrap
 from collections.abc import Iterator
 from dataclasses import dataclass, field
 from typing import Any as Anything
-from typing import Optional
 
 from pyxsdata.formats.dataclass.serializers import XmlSerializer
 from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
@@ -64,7 +65,7 @@ class Documentation(ElementBase):
 
     lang: str | None = attribute()
     source: str | None = attribute()
-    attributes: Optional["AnyAttribute"] = element()
+    attributes: AnyAttribute | None = element()
     content: list[object] = array_any_element(mixed=True)
 
     def tostring(self) -> str | None:
@@ -87,7 +88,7 @@ class Appinfo(ElementBase):
         mixed = True
 
     source: str | None = attribute()
-    any_attribute: Optional["AnyAttribute"] = element(name="anyAttribute")
+    any_attribute: AnyAttribute | None = element(name="anyAttribute")
     content: list[object] = array_any_element(mixed=True)
 
 
@@ -97,7 +98,7 @@ class Annotation(ElementBase):
 
     app_infos: list[Appinfo] = array_element(name="appinfo")
     documentations: list[Documentation] = array_element(name="documentation")
-    any_attribute: Optional["AnyAttribute"] = element(name="anyAttribute")
+    any_attribute: AnyAttribute | None = element(name="anyAttribute")
 
 
 @dataclass
@@ -106,7 +107,7 @@ class AnnotationBase(ElementBase):
 
     id: str | None = attribute()
     annotations: list[Annotation] = array_element(name="annotation")
-    any_attribute: Optional["AnyAttribute"] = element(name="anyAttribute")
+    any_attribute: AnyAttribute | None = element(name="anyAttribute")
 
     @property
     def display_help(self) -> str | None:
@@ -167,9 +168,9 @@ class SimpleType(AnnotationBase):
     """XSD SimpleType model representation."""
 
     name: str | None = attribute()
-    restriction: Optional["Restriction"] = element()
-    list: Optional["List"] = element()
-    union: Optional["Union"] = element()
+    restriction: Restriction | None = element()
+    list: List | None = element()
+    union: Union | None = element()
 
     @property
     def is_property(self) -> bool:
@@ -340,7 +341,7 @@ class AttributeGroup(AnnotationBase):
     ref: str = attribute(default="")
     name: str | None = attribute()
     attributes: list[Attribute] = array_element(name="attribute")
-    attribute_groups: list["AttributeGroup"] = array_element(name="attributeGroup")
+    attribute_groups: list[AttributeGroup] = array_element(name="attributeGroup")
 
     @property
     def is_property(self) -> bool:
@@ -409,8 +410,8 @@ class All(AnnotationBase):
     min_occurs: int = attribute(default=1, name="minOccurs")
     max_occurs: str | int = attribute(default=1, name="maxOccurs")
     any: list[Any] = array_element(name="any")
-    elements: list["Element"] = array_element(name="element")
-    groups: list["Group"] = array_element(name="group")
+    elements: list[Element] = array_element(name="element")
+    groups: list[Group] = array_element(name="group")
 
     def __post_init__(self):
         """Post initialization validations."""
@@ -429,11 +430,11 @@ class Sequence(AnnotationBase):
 
     min_occurs: int = attribute(default=1, name="minOccurs")
     max_occurs: str | int = attribute(default=1, name="maxOccurs")
-    elements: list["Element"] = array_element(name="element")
-    groups: list["Group"] = array_element(name="group")
-    choices: list["Choice"] = array_element(name="choice")
-    sequences: list["Sequence"] = array_element(name="sequence")
-    any: list["Any"] = array_element()
+    elements: list[Element] = array_element(name="element")
+    groups: list[Group] = array_element(name="group")
+    choices: list[Choice] = array_element(name="choice")
+    sequences: list[Sequence] = array_element(name="sequence")
+    any: list[Any] = array_element()
 
     def __post_init__(self):
         """Post initialization validations."""
@@ -452,11 +453,11 @@ class Choice(AnnotationBase):
 
     min_occurs: int = attribute(default=1, name="minOccurs")
     max_occurs: str | int = attribute(default=1, name="maxOccurs")
-    elements: list["Element"] = array_element(name="element")
-    groups: list["Group"] = array_element(name="group")
-    choices: list["Choice"] = array_element(name="choice")
+    elements: list[Element] = array_element(name="element")
+    groups: list[Group] = array_element(name="group")
+    choices: list[Choice] = array_element(name="choice")
     sequences: list[Sequence] = array_element(name="sequence")
-    any: list["Any"] = array_element()
+    any: list[Any] = array_element()
 
     def __post_init__(self):
         """Post initialization validations."""

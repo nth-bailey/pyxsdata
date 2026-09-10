@@ -7,7 +7,11 @@ from pyxsdata.formats.dataclass.context import XmlContext
 from pyxsdata.formats.dataclass.parsers.config import ParserConfig
 from pyxsdata.formats.dataclass.parsers.utils import ParserUtils
 from pyxsdata.models.enums import Namespace, ProcessType, QNames
-from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
+from pyxsdata.utils.testing import (
+    FactoryTestCase,
+    XmlMetaFactory,
+    XmlVarFactory,
+)
 from tests.fixtures.models import TypeA
 
 
@@ -43,16 +47,22 @@ class ParserUtilsTests(FactoryTestCase):
         self.assertIsNone(ParserUtils.parse_value(None, [int], lambda: 1))
 
         self.assertTrue(2, ParserUtils.parse_value("1", [int], None))
-        mock_deserialize.assert_called_once_with("1", [int], ns_map=None, format=None)
+        mock_deserialize.assert_called_once_with(
+            "1", [int], ns_map=None, format=None
+        )
 
     def test_parse_value_with_tokens_true(self) -> None:
         actual = ParserUtils.parse_value(" 1 2 3", [int], list, None, list)
         self.assertEqual([1, 2, 3], actual)
 
-        actual = ParserUtils.parse_value(["1", "2", "3"], [int], list, None, tuple)
+        actual = ParserUtils.parse_value(
+            ["1", "2", "3"], [int], list, None, tuple
+        )
         self.assertEqual((1, 2, 3), actual)
 
-        actual = ParserUtils.parse_value(None, [int], lambda: [1, 2, 3], None, list)
+        actual = ParserUtils.parse_value(
+            None, [int], lambda: [1, 2, 3], None, list
+        )
         self.assertEqual([1, 2, 3], actual)
 
     @mock.patch.object(ConverterFactory, "deserialize", return_value=2)
@@ -105,7 +115,9 @@ class ParserUtilsTests(FactoryTestCase):
         with self.assertRaises(ParserError) as cm:
             ParserUtils.validate_fixed_value(meta, var, "b")
 
-        self.assertEqual("Fixed value mismatch foo:fixed, `a != b`", str(cm.exception))
+        self.assertEqual(
+            "Fixed value mismatch foo:fixed, `a != b`", str(cm.exception)
+        )
 
         var = XmlVarFactory.create("fixed", default=lambda: "a")
         with self.assertRaises(ParserError):
@@ -126,7 +138,9 @@ class ParserUtilsTests(FactoryTestCase):
         config = ParserConfig()
 
         with warnings.catch_warnings(record=True) as w:
-            result = ParserUtils.parse_var(meta, var, config, "a", types=[int, float])
+            result = ParserUtils.parse_var(
+                meta, var, config, "a", types=[int, float]
+            )
 
         expected = (
             "Failed to convert value for `TypeA.fixed`\n"

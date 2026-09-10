@@ -22,7 +22,7 @@ The message models are no different from XSD-derived classes and include the com
 structure of the `Envelope` wrapper.
 
 ```python
---8<-- "tests/fixtures/calculator/services.py:148:169"
+--8 < --"tests/fixtures/calculator/services.py:148:169"
 ```
 
 ## Operation Class
@@ -31,7 +31,7 @@ The [DefinitionsMapper][pyxsdata.codegen.mappers.DefinitionsMapper] will generat
 static classes to describe all the unique operations and the binding procedure.
 
 ```python
---8<-- "tests/fixtures/calculator/services.py:488:494"
+--8 < --"tests/fixtures/calculator/services.py:488:494"
 ```
 
 ## Client
@@ -100,7 +100,9 @@ The send method requires either an object that matches the config input type or 
 dictionary with raw values that matches the input dataclass field names and structure.
 
 ```python
-request = CalculatorSoapAddInput(body=CalculatorSoapAddInput.Body(add=Add(10, 2)))
+request = CalculatorSoapAddInput(
+    body=CalculatorSoapAddInput.Body(add=Add(10, 2))
+)
 client.send(request)
 # CalculatorSoapAddOutput(body=CalculatorSoapAddOutput.Body(add_response=AddResponse(add_result=12)))
 ```

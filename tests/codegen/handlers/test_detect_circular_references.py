@@ -28,7 +28,9 @@ class DetectCircularReferencesTests(FactoryTestCase):
         first.attrs.append(
             AttrFactory.create(
                 types=[
-                    AttrTypeFactory.create(qname="second", reference=second.ref),
+                    AttrTypeFactory.create(
+                        qname="second", reference=second.ref
+                    ),
                     AttrTypeFactory.create(qname="third", reference=third.ref),
                 ],
                 choices=[

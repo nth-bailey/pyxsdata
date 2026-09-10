@@ -43,4 +43,6 @@ def validate_bindings(schema: Path, clazz: type) -> None:
     expected.with_suffix(".pyxsdata.xml").write_text(xml, encoding="utf-8")
 
     validator = etree.XMLSchema(etree.parse(str(schema)))
-    assert validator.validate(etree.fromstring(xml.encode())), validator.error_log
+    assert validator.validate(etree.fromstring(xml.encode())), (
+        validator.error_log
+    )

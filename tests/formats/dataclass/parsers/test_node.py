@@ -36,7 +36,9 @@ class NodeParserTests(TestCase):
         with self.assertRaises(ParserError) as cm:
             parser.parse([], Books)
 
-        self.assertEqual("Failed to create target class `Books`", str(cm.exception))
+        self.assertEqual(
+            "Failed to create target class `Books`", str(cm.exception)
+        )
 
     def test_parse_with_fail_on_converter_warnings(self) -> None:
         parser = NodeParser(handler=XmlEventHandler)
@@ -57,7 +59,9 @@ class NodeParserTests(TestCase):
 
         attrs = {"k": "v"}
         ns_map = {"a": "b"}
-        self.parser.start(Books, queue, objects, "{urn:books}books", attrs, ns_map)
+        self.parser.start(
+            Books, queue, objects, "{urn:books}books", attrs, ns_map
+        )
         actual = queue[0]
 
         self.assertEqual(1, len(queue))
@@ -110,7 +114,8 @@ class NodeParserTests(TestCase):
             parser.start(None, [], [], "{unknown}hopefully", {}, {})
 
         self.assertEqual(
-            "No class found matching root: {unknown}hopefully", str(cm.exception)
+            "No class found matching root: {unknown}hopefully",
+            str(cm.exception),
         )
 
     def test_start_with_fail_on_root_mismatch(self) -> None:
@@ -204,7 +209,9 @@ class NodeParserTests(TestCase):
         self.assertTrue(parser.end(queue, objects, "author", "foobar", None))
         self.assertEqual(0, len(queue))
         self.assertEqual(("q", "result"), objects[-1])
-        mock_assemble.assert_called_once_with("author", "foobar", None, objects)
+        mock_assemble.assert_called_once_with(
+            "author", "foobar", None, objects
+        )
 
     def test_end_with_no_result(self) -> None:
         parser = NodeParser()

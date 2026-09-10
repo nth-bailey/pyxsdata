@@ -109,7 +109,9 @@ class XmlDateTests(TestCase):
         self.assertEqual("2021-01-01", str(actual.replace(offset=None)))
         self.assertEqual("2021-01-01Z", str(actual.replace(offset=False)))
         self.assertEqual("2022-12-25+02:00", str(actual.replace(2022, 12, 25)))
-        self.assertEqual("2022-12-25+00:10", str(actual.replace(2022, 12, 25, 10)))
+        self.assertEqual(
+            "2022-12-25+00:10", str(actual.replace(2022, 12, 25, 10))
+        )
 
     def test_comparisons(self) -> None:
         a = XmlDate(2021, 1, 1)
@@ -128,11 +130,21 @@ class XmlDateTests(TestCase):
 class XmlDateTimeTests(TestCase):
     def test_from_string(self) -> None:
         examples = {
-            "2002-01-01T12:01:01-00:00": XmlDateTime(2002, 1, 1, 12, 1, 1, 0, 0),
-            "2002-01-01T12:01:01-02:15": XmlDateTime(2002, 1, 1, 12, 1, 1, 0, -135),
-            "2002-01-01T12:01:01+02:15": XmlDateTime(2002, 1, 1, 12, 1, 1, 0, 135),
-            "2002-01-01T12:01:01.010Z": XmlDateTime(2002, 1, 1, 12, 1, 1, 10000000, 0),
-            "2002-01-01T12:01:01.123456": XmlDateTime(2002, 1, 1, 12, 1, 1, 123456000),
+            "2002-01-01T12:01:01-00:00": XmlDateTime(
+                2002, 1, 1, 12, 1, 1, 0, 0
+            ),
+            "2002-01-01T12:01:01-02:15": XmlDateTime(
+                2002, 1, 1, 12, 1, 1, 0, -135
+            ),
+            "2002-01-01T12:01:01+02:15": XmlDateTime(
+                2002, 1, 1, 12, 1, 1, 0, 135
+            ),
+            "2002-01-01T12:01:01.010Z": XmlDateTime(
+                2002, 1, 1, 12, 1, 1, 10000000, 0
+            ),
+            "2002-01-01T12:01:01.123456": XmlDateTime(
+                2002, 1, 1, 12, 1, 1, 123456000
+            ),
             "2002-01-01T12:01:01": XmlDateTime(2002, 1, 1, 12, 1, 1, 0),
             "2010-09-19T24:00:00Z": XmlDateTime(2010, 9, 19, 24, 0, 0, 0, 0),
             "2010-09-19T03:35:25.482845071Z": XmlDateTime(
@@ -224,13 +236,17 @@ class XmlDateTimeTests(TestCase):
         now = datetime.now(tz=UTC).replace(microsecond=0, second=0, minute=1)
         self.assertEqual(
             XmlDateTime.from_datetime(now),
-            XmlDateTime.utcnow().replace(fractional_second=0, second=0, minute=1),
+            XmlDateTime.utcnow().replace(
+                fractional_second=0, second=0, minute=1
+            ),
         )
 
         now = datetime.now(UTC).replace(microsecond=0, second=0, minute=1)
         self.assertEqual(
             XmlDateTime.from_datetime(now),
-            XmlDateTime.utcnow().replace(fractional_second=0, second=0, minute=1),
+            XmlDateTime.utcnow().replace(
+                fractional_second=0, second=0, minute=1
+            ),
         )
 
     def test_comparisons(self) -> None:
@@ -255,17 +271,25 @@ class XmlDateTimeTests(TestCase):
     def test_replace(self) -> None:
         actual = XmlDateTime(2002, 1, 1, 12, 1, 1, 0, -120)
         self.assertIsNot(actual, actual.replace())
-        self.assertEqual("2022-01-01T12:01:01-02:00", str(actual.replace(2022)))
-        self.assertEqual("2022-12-01T12:01:01-02:00", str(actual.replace(2022, 12)))
-        self.assertEqual("2022-12-25T12:01:01-02:00", str(actual.replace(2022, 12, 25)))
+        self.assertEqual(
+            "2022-01-01T12:01:01-02:00", str(actual.replace(2022))
+        )
+        self.assertEqual(
+            "2022-12-01T12:01:01-02:00", str(actual.replace(2022, 12))
+        )
+        self.assertEqual(
+            "2022-12-25T12:01:01-02:00", str(actual.replace(2022, 12, 25))
+        )
         self.assertEqual(
             "2022-12-25T10:01:01-02:00", str(actual.replace(2022, 12, 25, 10))
         )
         self.assertEqual(
-            "2022-12-25T10:15:01-02:00", str(actual.replace(2022, 12, 25, 10, 15))
+            "2022-12-25T10:15:01-02:00",
+            str(actual.replace(2022, 12, 25, 10, 15)),
         )
         self.assertEqual(
-            "2022-12-25T10:15:30-02:00", str(actual.replace(2022, 12, 25, 10, 15, 30))
+            "2022-12-25T10:15:30-02:00",
+            str(actual.replace(2022, 12, 25, 10, 15, 30)),
         )
         self.assertEqual(
             "2022-12-25T10:15:30.150-02:00",
@@ -403,7 +427,9 @@ class XmlTimeTests(TestCase):
         self.assertEqual("14:02:03.000000001Z", str(actual.replace(14, 2, 3)))
         self.assertEqual("14:02:03Z", str(actual.replace(14, 2, 3, 0)))
         self.assertEqual("14:02:03", str(actual.replace(14, 2, 3, 0, None)))
-        self.assertEqual("14:02:03+00:55", str(actual.replace(14, 2, 3, 0, 55)))
+        self.assertEqual(
+            "14:02:03+00:55", str(actual.replace(14, 2, 3, 0, 55))
+        )
 
 
 class XmlDurationTests(TestCase):
@@ -431,7 +457,12 @@ class XmlDurationTests(TestCase):
             "P1DT2H": {"days": 1, "hours": 2, "negative": False},
             "P20M": {"months": 20, "negative": False},
             "PT20M": {"minutes": 20, "negative": False},
-            "P0Y20M0D": {"days": 0, "months": 20, "negative": False, "years": 0},
+            "P0Y20M0D": {
+                "days": 0,
+                "months": 20,
+                "negative": False,
+                "years": 0,
+            },
             "P0Y": {"negative": False, "years": 0},
             "-P60D": {"days": 60, "negative": True},
             "-P60DT1M": {"days": 60, "minutes": 1, "negative": True},
@@ -440,7 +471,9 @@ class XmlDurationTests(TestCase):
 
         for value, expected in fixtures.items():
             obj = XmlDuration(value)
-            self.assertEqual(expected, filter_none(obj.asdict()), f"Failed in: {value}")
+            self.assertEqual(
+                expected, filter_none(obj.asdict()), f"Failed in: {value}"
+            )
             self.assertEqual(value, str(obj), f"Failed out: {value}")
 
     def test_init_invalid(self) -> None:

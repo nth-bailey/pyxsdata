@@ -61,7 +61,10 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
     @mock.patch.object(SanitizeAttributesDefaultValue, "should_reset_default")
     @mock.patch.object(SanitizeAttributesDefaultValue, "should_reset_required")
     def test_process_attribute(
-        self, mock_should_reset_required, mock_should_reset_default, mock_process_types
+        self,
+        mock_should_reset_required,
+        mock_should_reset_default,
+        mock_process_types,
     ) -> None:
         target = ClassFactory.create()
         mock_should_reset_required.side_effect = [
@@ -105,7 +108,9 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
         self.processor.process_attribute(target, attr)
         self.assertEqual("abc", attr.default)
 
-        attr = AttrFactory.extension(types=[AttrTypeFactory.native(DataType.INTEGER)])
+        attr = AttrFactory.extension(
+            types=[AttrTypeFactory.native(DataType.INTEGER)]
+        )
         self.processor.process_attribute(target, attr)
         self.assertIsNone(attr.default)
 
@@ -158,7 +163,9 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
     )
     @mock.patch.object(SanitizeAttributesDefaultValue, "reset_attribute_types")
     @mock.patch.object(SanitizeAttributesDefaultValue, "is_valid_native_value")
-    @mock.patch.object(SanitizeAttributesDefaultValue, "is_valid_external_value")
+    @mock.patch.object(
+        SanitizeAttributesDefaultValue, "is_valid_external_value"
+    )
     def test_process_types(
         self,
         mock_is_valid_external_value,
@@ -193,7 +200,9 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
         target = ClassFactory.create()
 
         # Not native types
-        attr = AttrFactory.create(types=[AttrTypeFactory.create("foo")], default="abc")
+        attr = AttrFactory.create(
+            types=[AttrTypeFactory.create("foo")], default="abc"
+        )
         self.assertFalse(self.processor.is_valid_native_value(target, attr))
 
         # Successful
@@ -202,7 +211,9 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
 
         # Failed: mixed types
         attr = AttrFactory.native(
-            DataType.INT, default="2 a 3", restrictions=Restrictions(tokens=True)
+            DataType.INT,
+            default="2 a 3",
+            restrictions=Restrictions(tokens=True),
         )
         self.assertFalse(self.processor.is_valid_native_value(target, attr))
 
@@ -262,15 +273,21 @@ class SanitizeAttributesDefaultValueTests(FactoryTestCase):
         attr_type = AttrTypeFactory.create()
         attr = AttrFactory.create()
 
-        self.assertFalse(self.processor.is_valid_inner_type(source, attr, attr_type))
+        self.assertFalse(
+            self.processor.is_valid_inner_type(source, attr, attr_type)
+        )
 
         attr_type.forward = True
-        self.assertFalse(self.processor.is_valid_inner_type(source, attr, attr_type))
+        self.assertFalse(
+            self.processor.is_valid_inner_type(source, attr, attr_type)
+        )
 
         source.attrs.append(AttrFactory.extension())
         attr.default = "abc"
         attr.fixed = True
-        self.assertTrue(self.processor.is_valid_inner_type(source, attr, attr_type))
+        self.assertTrue(
+            self.processor.is_valid_inner_type(source, attr, attr_type)
+        )
 
         self.assertFalse(attr.fixed)
         self.assertIsNone(attr.default)

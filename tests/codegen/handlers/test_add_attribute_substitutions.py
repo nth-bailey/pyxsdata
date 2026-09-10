@@ -23,14 +23,20 @@ class AddAttributeSubstitutionsTests(FactoryTestCase):
 
     @mock.patch.object(AddAttributeSubstitutions, "process_attribute")
     @mock.patch.object(AddAttributeSubstitutions, "create_substitutions")
-    def test_process(self, mock_create_substitutions, mock_process_attribute) -> None:
+    def test_process(
+        self, mock_create_substitutions, mock_process_attribute
+    ) -> None:
         def init_substitutions() -> None:
             self.processor.substitutions = {}
 
         mock_create_substitutions.side_effect = init_substitutions
 
         target = ClassFactory.create(
-            attrs=[AttrFactory.enumeration(), AttrFactory.any(), AttrFactory.element()]
+            attrs=[
+                AttrFactory.enumeration(),
+                AttrFactory.any(),
+                AttrFactory.element(),
+            ]
         )
 
         self.processor.process(target)
@@ -97,7 +103,9 @@ class AddAttributeSubstitutionsTests(FactoryTestCase):
                 substitutions=[build_qname(ns, "foo"), build_qname(ns, "bar")],
                 abstract=True,
             ),
-            ClassFactory.create(substitutions=[build_qname(ns, "foo")], abstract=True),
+            ClassFactory.create(
+                substitutions=[build_qname(ns, "foo")], abstract=True
+            ),
         ]
 
         reference_attrs = AttrFactory.list(3)
@@ -113,7 +121,11 @@ class AddAttributeSubstitutionsTests(FactoryTestCase):
         self.assertEqual(expected, self.processor.substitutions)
 
         mock_create_substitution.assert_has_calls(
-            [mock.call(classes[0]), mock.call(classes[0]), mock.call(classes[1])]
+            [
+                mock.call(classes[0]),
+                mock.call(classes[0]),
+                mock.call(classes[1]),
+            ]
         )
 
     def test_create_substitution(self) -> None:

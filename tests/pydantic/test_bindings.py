@@ -60,3 +60,19 @@ class BindingsTests(TestCase):
         self.assertIsInstance(result, TypeA)
         self.assertEqual("first", result.one)
         self.assertEqual(1.1, result.two)
+
+    def test_core_xml_serializer(self) -> None:
+        from pyxsdata.pydantic.bindings import CoreXmlParser, CoreXmlSerializer
+        from tests.pydantic.fixtures.common import TypeA
+
+        item = TypeA(one="hello", two=42.5)
+        serializer = CoreXmlSerializer()
+        xml = serializer.render(item)
+        self.assertIn("<one>hello</one>", xml)
+        self.assertIn("<two>42.5</two>", xml)
+
+        # Roundtrip
+        parser = CoreXmlParser()
+        res = parser.from_string(xml, TypeA)
+        self.assertEqual(item.one, res.one)
+        self.assertEqual(item.two, res.two)

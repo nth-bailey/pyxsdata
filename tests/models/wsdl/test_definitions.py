@@ -4,7 +4,14 @@ from unittest import TestCase
 
 from pyxsdata.codegen.exceptions import CodegenError
 from pyxsdata.formats.dataclass.models.generics import AnyElement
-from pyxsdata.models.wsdl import Binding, Definitions, Message, PortType, Service, Types
+from pyxsdata.models.wsdl import (
+    Binding,
+    Definitions,
+    Message,
+    PortType,
+    Service,
+    Types,
+)
 from pyxsdata.models.xsd import Schema
 
 

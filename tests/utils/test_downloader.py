@@ -52,7 +52,8 @@ class DownloaderTests(TestCase):
             [
                 mock.call(schema.imports[0].location, None),
                 mock.call(
-                    schema.imports[2].location, schema.imports[2].schema_location
+                    schema.imports[2].location,
+                    schema.imports[2].schema_location,
                 ),
             ]
         )
@@ -87,8 +88,12 @@ class DownloaderTests(TestCase):
 
             self.downloader.downloaded.update(
                 {
-                    "http://foo.com/bar.xsd": dir_path.joinpath("some/place/bar.xsd"),
-                    "http://foo.com/bar/bar.xsd": dir_path.joinpath("other/bar.xsd"),
+                    "http://foo.com/bar.xsd": dir_path.joinpath(
+                        "some/place/bar.xsd"
+                    ),
+                    "http://foo.com/bar/bar.xsd": dir_path.joinpath(
+                        "other/bar.xsd"
+                    ),
                 }
             )
 
@@ -101,7 +106,9 @@ class DownloaderTests(TestCase):
             )
             self.assertEqual(expected, result)
 
-            result = self.downloader.adjust_imports(dir_path.joinpath("foo"), content)
+            result = self.downloader.adjust_imports(
+                dir_path.joinpath("foo"), content
+            )
             expected = (
                 '<hypothetical location="../some/place/bar.xsd" />\n'
                 '<hypothetical schemaLocation="../other/bar.xsd" />\n'
@@ -117,7 +124,9 @@ class DownloaderTests(TestCase):
 
         with tempfile.TemporaryDirectory() as dir:
             output_path = Path(dir)
-            file_path = output_path.joinpath("www.example.com/schemas/v1/schema.xsd")
+            file_path = output_path.joinpath(
+                "www.example.com/schemas/v1/schema.xsd"
+            )
             self.downloader.output = output_path
             self.downloader.write_file(file_uri, http_location, content)
 

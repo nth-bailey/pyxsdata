@@ -50,5 +50,8 @@ def field(
 ) -> Any:
     """Create a Pydantic field configured with pyxsdata metadata."""
     return FieldInfo(
-        metadata=metadata, default=default, default_factory=default_factory, **kwargs
+        metadata=metadata,
+        default=default,
+        default_factory=default_factory,
+        **kwargs,
     )

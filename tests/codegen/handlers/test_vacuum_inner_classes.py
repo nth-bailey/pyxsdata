@@ -67,7 +67,9 @@ class VacuumInnerClassesTests(FactoryTestCase):
         # Not bare: has more than one extension
         self.assertIn(inner_2, target.inner)
 
-        self.assertEqual(str(DataType.ANY_SIMPLE_TYPE), target.attrs[1].types[0].qname)
+        self.assertEqual(
+            str(DataType.ANY_SIMPLE_TYPE), target.attrs[1].types[0].qname
+        )
         self.assertEqual(0, target.attrs[1].types[0].reference)
         self.assertFalse(target.attrs[1].types[0].forward)
         self.assertFalse(target.attrs[1].types[0].circular)
@@ -77,7 +79,8 @@ class VacuumInnerClassesTests(FactoryTestCase):
             inner_4.extensions[0].type.qname, target.attrs[2].types[0].qname
         )
         self.assertEqual(
-            inner_4.extensions[0].type.reference, target.attrs[2].types[0].reference
+            inner_4.extensions[0].type.reference,
+            target.attrs[2].types[0].reference,
         )
         self.assertFalse(target.attrs[2].types[0].forward)
         self.assertFalse(target.attrs[2].types[0].circular)

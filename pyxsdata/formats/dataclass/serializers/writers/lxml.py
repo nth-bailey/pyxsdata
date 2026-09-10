@@ -3,7 +3,10 @@ from collections.abc import Iterator
 from lxml import etree
 from lxml.sax import ElementTreeContentHandler
 
-from pyxsdata.formats.dataclass.serializers.mixins import EventContentHandler, XmlWriter
+from pyxsdata.formats.dataclass.serializers.mixins import (
+    EventContentHandler,
+    XmlWriter,
+)
 
 
 class LxmlEventWriter(XmlWriter):

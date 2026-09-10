@@ -1,6 +1,9 @@
 from collections import defaultdict
 
-from pyxsdata.codegen.mixins import ContainerInterface, RelativeHandlerInterface
+from pyxsdata.codegen.mixins import (
+    ContainerInterface,
+    RelativeHandlerInterface,
+)
 from pyxsdata.codegen.models import Attr, AttrType, Class
 from pyxsdata.codegen.utils import ClassUtils
 from pyxsdata.models.enums import Tag

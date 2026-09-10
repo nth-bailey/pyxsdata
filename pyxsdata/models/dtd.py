@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import enum
 from dataclasses import dataclass
-from typing import Optional
 
 from pyxsdata.models.enums import DataType
 from pyxsdata.utils.namespaces import build_qname
@@ -99,8 +100,8 @@ class DtdContent:
     name: str
     type: DtdContentType
     occur: DtdContentOccur
-    left: Optional["DtdContent"]
-    right: Optional["DtdContent"]
+    left: DtdContent | None
+    right: DtdContent | None
 
 
 @dataclass

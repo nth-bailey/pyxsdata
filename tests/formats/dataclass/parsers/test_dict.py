@@ -4,7 +4,10 @@ from decimal import Decimal
 from xml.etree.ElementTree import QName
 
 from pyxsdata.exceptions import ParserError
-from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.models.generics import (
+    AnyElement,
+    DerivedElement,
+)
 from pyxsdata.formats.dataclass.parsers import DictDecoder
 from pyxsdata.models.datatype import XmlDate
 from pyxsdata.utils.testing import FactoryTestCase
@@ -333,7 +336,9 @@ class DictDecoderTests(FactoryTestCase):
     def test_bind_choice_dataclass(self) -> None:
         data = {"choice": [{"x": 1}, {"x": 1, "y": "a"}]}
         expected = ChoiceType(choice=[TypeA(x=1), TypeB(x=1, y="a")])
-        self.assertEqual(expected, self.decoder.bind_dataclass(data, ChoiceType))
+        self.assertEqual(
+            expected, self.decoder.bind_dataclass(data, ChoiceType)
+        )
 
     def test_bind_derived_value_with_choice_var(self) -> None:
         data = {
@@ -356,7 +361,9 @@ class DictDecoderTests(FactoryTestCase):
                 )
             ]
         )
-        self.assertEqual(expected, self.decoder.bind_dataclass(data, ChoiceType))
+        self.assertEqual(
+            expected, self.decoder.bind_dataclass(data, ChoiceType)
+        )
 
         with self.assertRaises(ParserError) as cm:
             data["choice"][0]["qname"] = "nope"
@@ -377,7 +384,9 @@ class DictDecoderTests(FactoryTestCase):
     def test_bind_wildcard_dataclass(self) -> None:
         data = {"a": None, "wildcard": {"x": 1}}
         expected = ExtendedType(wildcard=TypeA(x=1))
-        self.assertEqual(expected, self.decoder.bind_dataclass(data, ExtendedType))
+        self.assertEqual(
+            expected, self.decoder.bind_dataclass(data, ExtendedType)
+        )
 
     def test_bind_wildcard_with_derived_dataclass(self) -> None:
         data = {
@@ -395,7 +404,9 @@ class DictDecoderTests(FactoryTestCase):
                 qname="b", value=TypeB(x=1, y="a"), type="{pyxsdata}TypeB"
             )
         )
-        self.assertEqual(expected, self.decoder.bind_dataclass(data, ExtendedType))
+        self.assertEqual(
+            expected, self.decoder.bind_dataclass(data, ExtendedType)
+        )
 
     def test_bind_any_type_with_derived_dataclass(self) -> None:
         data = {
@@ -405,19 +416,27 @@ class DictDecoderTests(FactoryTestCase):
                 "value": {"x": "1"},
             }
         }
-        expected = ExtendedType(any=DerivedElement(qname="any", value=TypeA(x=1)))
-        self.assertEqual(expected, self.decoder.bind_dataclass(data, ExtendedType))
+        expected = ExtendedType(
+            any=DerivedElement(qname="any", value=TypeA(x=1))
+        )
+        self.assertEqual(
+            expected, self.decoder.bind_dataclass(data, ExtendedType)
+        )
 
         with self.assertRaises(ParserError) as cm:
             data["any"]["type"] = "notexists"
             self.decoder.bind_dataclass(data, ExtendedType)
 
-        self.assertEqual("Unable to locate xsi:type `notexists`", str(cm.exception))
+        self.assertEqual(
+            "Unable to locate xsi:type `notexists`", str(cm.exception)
+        )
 
     def test_bind_text_with_unions(self) -> None:
         @dataclass
         class Fixture:
-            x: list[int | float | str | bool] = field(metadata={"tokens": True})
+            x: list[int | float | str | bool] = field(
+                metadata={"tokens": True}
+            )
 
         values = ["foo", 12.2, "12.2", 12, "12", True, "false"]
 
@@ -435,12 +454,17 @@ class DictDecoderTests(FactoryTestCase):
         meta = self.decoder.context.build(ExtendedType)
         xml_vars = meta.get_all_vars()
         self.assertIsNone(self.decoder.find_var(xml_vars, "a", [1, 2]))
-        self.assertEqual(xml_vars[0], self.decoder.find_var(xml_vars, "a", {"x": 1}))
+        self.assertEqual(
+            xml_vars[0], self.decoder.find_var(xml_vars, "a", {"x": 1})
+        )
 
         meta = self.decoder.context.build(Wrapper)
         xml_vars = meta.get_all_vars()
         self.assertIsNone(self.decoder.find_var(xml_vars, "charlies", {}))
-        self.assertIsNone(self.decoder.find_var(xml_vars, "bravos", {"bravo": 1}))
+        self.assertIsNone(
+            self.decoder.find_var(xml_vars, "bravos", {"bravo": 1})
+        )
         self.assertEqual(
-            xml_vars[0], self.decoder.find_var(xml_vars, "alphas", {"alpha": "foo"})
+            xml_vars[0],
+            self.decoder.find_var(xml_vars, "alphas", {"alpha": "foo"}),
         )

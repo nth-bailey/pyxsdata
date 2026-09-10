@@ -7,29 +7,29 @@ them completely.
 === "reStructuredText"
 
     ```python
-    --8<-- "tests/fixtures/docstrings/rst/schema.py:31:"
+    --8 < --"tests/fixtures/docstrings/rst/schema.py:31:"
     ```
 
 === "NumPy"
 
     ```python
-    --8<-- "tests/fixtures/docstrings/numpy/schema.py:31:"
+    --8 < --"tests/fixtures/docstrings/numpy/schema.py:31:"
     ```
 
 === "Google"
 
     ```python
-    --8<-- "tests/fixtures/docstrings/google/schema.py:31:"
+    --8 < --"tests/fixtures/docstrings/google/schema.py:31:"
     ```
 
 === "Accessible"
 
     ```python
-    --8<-- "tests/fixtures/docstrings/accessible/schema.py:31:"
+    --8 < --"tests/fixtures/docstrings/accessible/schema.py:31:"
     ```
 
 === "Blank"
 
     ```python
-    --8<-- "tests/fixtures/docstrings/blank/schema.py:21:"
+    --8 < --"tests/fixtures/docstrings/blank/schema.py:21:"
     ```

@@ -190,7 +190,9 @@ class SchemaParserTests(TestCase):
         self.parser.location = Path.cwd()
 
         mock_resolve_path.side_effect = lambda x: Path.cwd().joinpath(x)
-        mock_resolve_local_path.side_effect = lambda x, y: Path.cwd().joinpath(x)
+        mock_resolve_local_path.side_effect = lambda x, y: Path.cwd().joinpath(
+            x
+        )
 
         schema.overrides.append(Override(schema_location="o1"))
         schema.overrides.append(Override(schema_location="o2"))
@@ -245,10 +247,14 @@ class SchemaParserTests(TestCase):
 
         iam = Path(__file__)
         self.parser.location = iam.as_uri()
-        self.assertEqual(iam.as_uri(), self.parser.resolve_local_path(iam.name, None))
+        self.assertEqual(
+            iam.as_uri(), self.parser.resolve_local_path(iam.name, None)
+        )
         self.assertEqual(
             "http://something",
-            self.parser.resolve_local_path("http://something", Namespace.XSI.uri),
+            self.parser.resolve_local_path(
+                "http://something", Namespace.XSI.uri
+            ),
         )
         self.assertEqual(
             iam.parent.parent.joinpath("xsi.xsd").as_uri(),
@@ -317,7 +323,9 @@ class SchemaParserTests(TestCase):
         default_open_content.any = Any()
 
         self.parser.end_default_open_content(default_open_content)
-        self.assertEqual(default_open_content, self.parser.default_open_content)
+        self.assertEqual(
+            default_open_content, self.parser.default_open_content
+        )
         self.assertEqual(0, default_open_content.any.index)
 
         default_open_content.mode = Mode.SUFFIX

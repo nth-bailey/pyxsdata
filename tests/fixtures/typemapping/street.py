@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from tests.fixtures.typemapping.city import City
@@ -12,5 +14,5 @@ class Street:
         global_type = False
 
     name: str
-    city: Optional["City"] = None
-    houses: list["House"] = field(default_factory=list)
+    city: City | None = None
+    houses: list[House] = field(default_factory=list)

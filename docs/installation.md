@@ -80,5 +80,6 @@ In Python, verify the package and version:
 
 ```python
 import pyxsdata
+
 print(pyxsdata.__version__)
 ```

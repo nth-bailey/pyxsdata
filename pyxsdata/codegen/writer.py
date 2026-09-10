@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import ClassVar
 
 from pyxsdata.codegen.exceptions import CodegenError
@@ -49,7 +51,7 @@ class CodeWriter:
                 result.path.write_text(src_code, encoding="utf-8")
 
     @classmethod
-    def from_config(cls, config: GeneratorConfig) -> "CodeWriter":
+    def from_config(cls, config: GeneratorConfig) -> CodeWriter:
         """Instance the code writer from the generator configuration instance.
 
         Validates that the output format is registered as a generator.

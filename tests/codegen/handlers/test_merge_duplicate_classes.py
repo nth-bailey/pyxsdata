@@ -27,7 +27,8 @@ class MergeDuplicateClassesTests(FactoryTestCase):
 
         self.assertEqual([first, fourth, fifth], list(self.container))
         self.assertEqual(
-            {first.ref: third.ref, second.ref: third.ref}, self.processor.merges
+            {first.ref: third.ref, second.ref: third.ref},
+            self.processor.merges,
         )
 
     def test_update_references(self) -> None:

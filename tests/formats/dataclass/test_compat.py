@@ -32,4 +32,6 @@ class DataclassesTests(TestCase):
         with self.assertRaises(XmlContextError) as cm:
             class_type.verify_model(int)
 
-        self.assertEqual(f"Type '{int}' is not a dataclass.", str(cm.exception))
+        self.assertEqual(
+            f"Type '{int}' is not a dataclass.", str(cm.exception)
+        )

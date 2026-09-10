@@ -39,8 +39,12 @@ class CodeWriterTests(FactoryTestCase):
             mock_render_header.return_value = "// Head\n"
             self.writer.write(classes)
 
-            self.assertEqual("// Head\naAa", Path(f"{tmpdir}/foo/a.py").read_text())
-            self.assertEqual("// Head\nbBb", Path(f"{tmpdir}/bar/b.py").read_text())
+            self.assertEqual(
+                "// Head\naAa", Path(f"{tmpdir}/foo/a.py").read_text()
+            )
+            self.assertEqual(
+                "// Head\nbBb", Path(f"{tmpdir}/bar/b.py").read_text()
+            )
             self.assertFalse(Path(f"{tmpdir}/c.py").exists())
             mock_normalize_packages.assert_called_once_with(classes)
 

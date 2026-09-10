@@ -8,13 +8,20 @@ from xml.etree.ElementTree import QName
 
 from pyxsdata.exceptions import XmlContextError
 from pyxsdata.formats.dataclass.compat import class_types
-from pyxsdata.formats.dataclass.models.builders import XmlMetaBuilder, XmlVarBuilder
+from pyxsdata.formats.dataclass.models.builders import (
+    XmlMetaBuilder,
+    XmlVarBuilder,
+)
 from pyxsdata.formats.dataclass.models.elements import XmlType
 from pyxsdata.models.datatype import XmlDate
 from pyxsdata.utils import text
 from pyxsdata.utils.constants import return_input
 from pyxsdata.utils.namespaces import build_qname
-from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
+from pyxsdata.utils.testing import (
+    FactoryTestCase,
+    XmlMetaFactory,
+    XmlVarFactory,
+)
 from tests.fixtures.artists import Artist
 from tests.fixtures.books import BookForm
 from tests.fixtures.models import (
@@ -42,7 +49,10 @@ class XmlMetaBuilderTests(FactoryTestCase):
     @mock.patch.object(XmlMetaBuilder, "build_vars")
     def test_build(self, mock_build_vars) -> None:
         var = XmlVarFactory.create(
-            xml_type=XmlType.ELEMENT, name="foo", namespaces=("foo",), types=(int,)
+            xml_type=XmlType.ELEMENT,
+            name="foo",
+            namespaces=("foo",),
+            types=(int,),
         )
         mock_build_vars.return_value = [var]
 
@@ -55,7 +65,10 @@ class XmlMetaBuilderTests(FactoryTestCase):
 
         self.assertEqual(expected, result)
         mock_build_vars.assert_called_once_with(
-            Artist, "http://musicbrainz.org/ns/mmd-2.0#", return_input, return_input
+            Artist,
+            "http://musicbrainz.org/ns/mmd-2.0#",
+            return_input,
+            return_input,
         )
 
     @mock.patch.object(XmlMetaBuilder, "build_vars", return_value=[])
@@ -99,7 +112,9 @@ class XmlMetaBuilderTests(FactoryTestCase):
         with self.assertRaises(XmlContextError) as cm:
             self.builder.build(int, None)
 
-        self.assertEqual(f"Type '{int}' is not a dataclass.", str(cm.exception))
+        self.assertEqual(
+            f"Type '{int}' is not a dataclass.", str(cm.exception)
+        )
 
     def test_build_locates_globalns_per_field(self) -> None:
         actual = self.builder.build(ChoiceTypeChild, None)
@@ -137,7 +152,9 @@ class XmlMetaBuilderTests(FactoryTestCase):
         self.assertEqual("gl", self.builder.target_namespace(Module, Meta))
 
     def test_build_vars(self) -> None:
-        result = self.builder.build_vars(BookForm, None, text.pascal_case, str.upper)
+        result = self.builder.build_vars(
+            BookForm, None, text.pascal_case, str.upper
+        )
         self.assertIsInstance(result, Iterator)
 
         expected = [
@@ -213,7 +230,9 @@ class XmlMetaBuilderTests(FactoryTestCase):
             self.assertIsNone(var.clazz)
 
     def test_build_vars_with_ignore_types(self) -> None:
-        result = self.builder.build_vars(TypeB, None, return_input, return_input)
+        result = self.builder.build_vars(
+            TypeB, None, return_input, return_input
+        )
         self.assertIsInstance(result, Iterator)
 
         actual = list(result)
@@ -247,7 +266,8 @@ class XmlMetaBuilderTests(FactoryTestCase):
             self.builder.default_xml_type(cls)
 
         self.assertEqual(
-            "Dataclass `e` includes more than one text node!", str(cm.exception)
+            "Dataclass `e` includes more than one text node!",
+            str(cm.exception),
         )
 
 

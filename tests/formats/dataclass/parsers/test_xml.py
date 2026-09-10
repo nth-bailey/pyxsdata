@@ -4,7 +4,11 @@ from pyxsdata.formats.dataclass.models.elements import XmlType
 from pyxsdata.formats.dataclass.parsers.nodes import PrimitiveNode, SkipNode
 from pyxsdata.formats.dataclass.parsers.xml import UserXmlParser
 from pyxsdata.models.enums import EventType
-from pyxsdata.utils.testing import FactoryTestCase, XmlMetaFactory, XmlVarFactory
+from pyxsdata.utils.testing import (
+    FactoryTestCase,
+    XmlMetaFactory,
+    XmlVarFactory,
+)
 from tests.fixtures.artists import Artist
 from tests.fixtures.books import Books
 
@@ -32,14 +36,18 @@ class UserXmlParserTests(FactoryTestCase):
         objects = []
         queue = []
         meta = XmlMetaFactory.create(clazz=Artist)
-        var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="foo", types=(bool,))
+        var = XmlVarFactory.create(
+            xml_type=XmlType.TEXT, name="foo", types=(bool,)
+        )
         queue.append(PrimitiveNode(meta, var, {}, self.parser.config))
 
         result = self.parser.end(queue, objects, "enabled", "true", None)
         self.assertTrue(result)
         self.assertEqual(0, len(queue))
         self.assertEqual(("enabled", True), objects[-1])
-        mock_emit_event.assert_called_once_with(EventType.END, "enabled", obj=result)
+        mock_emit_event.assert_called_once_with(
+            EventType.END, "enabled", obj=result
+        )
 
     @mock.patch.object(UserXmlParser, "emit_event")
     def test_end_with_no_result(self, mock_emit_event) -> None:
@@ -59,4 +67,6 @@ class UserXmlParserTests(FactoryTestCase):
         self.parser.emit_event("foo", "{tns}BarEl", a=1, b=2)
 
         mock_func.assert_called_once_with(a=1, b=2)
-        self.assertEqual({("foo", "{tns}BarEl"): mock_func}, self.parser.hooks_cache)
+        self.assertEqual(
+            {("foo", "{tns}BarEl"): mock_func}, self.parser.hooks_cache
+        )

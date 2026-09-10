@@ -7,7 +7,10 @@ from types import MappingProxyType
 from typing import Any, Protocol
 
 from pyxsdata.exceptions import XmlContextError
-from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.models.generics import (
+    AnyElement,
+    DerivedElement,
+)
 from pyxsdata.utils.hooks import load_entry_points
 
 

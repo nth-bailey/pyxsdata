@@ -30,7 +30,7 @@ class XmlParser(NodeParser):
 
 @dataclass
 class CoreXmlParser(NodeParser):
-    """Ultra-fast native Xml parser for data classes powered by pyxsdata-core.
+    """Ultra-fast native Xml parser for data classes powered by PolyXML.
 
     Args:
         config: The parser config instance

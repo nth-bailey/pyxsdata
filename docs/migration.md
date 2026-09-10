@@ -95,7 +95,7 @@ In `pyxsdata`, all generated dataclasses use `kw_only=True` by default:
 @dataclass(kw_only=True)
 class Person:
     middle_name: str | None = None  # optional with default
-    last_name: str                  # required non-default field works cleanly!
+    last_name: str  # required non-default field works cleanly!
 ```
 
 This guarantees that required schema elements remain strictly required in Python.

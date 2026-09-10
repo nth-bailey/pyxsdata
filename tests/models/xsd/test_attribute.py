@@ -24,7 +24,9 @@ class AttributeTests(TestCase):
         self.assertEqual([], list(obj.attr_types))
 
         obj.simple_type.restriction = Restriction(base="thug")
-        self.assertEqual([obj.simple_type.restriction.base], list(obj.attr_types))
+        self.assertEqual(
+            [obj.simple_type.restriction.base], list(obj.attr_types)
+        )
 
     def test_property_real_name(self) -> None:
         obj = Attribute(ref="bar")
@@ -38,7 +40,9 @@ class AttributeTests(TestCase):
 
     def test_get_restrictions(self) -> None:
         obj = Attribute()
-        self.assertEqual({"max_occurs": 1, "min_occurs": 0}, obj.get_restrictions())
+        self.assertEqual(
+            {"max_occurs": 1, "min_occurs": 0}, obj.get_restrictions()
+        )
 
         obj.use = UseType.REQUIRED
         expected = {"max_occurs": 1, "min_occurs": 1}
@@ -48,7 +52,9 @@ class AttributeTests(TestCase):
         expected = {"max_occurs": 0, "min_occurs": 0}
         self.assertEqual(expected, obj.get_restrictions())
 
-        obj.simple_type = SimpleType(restriction=Restriction(length=Length(value=1)))
+        obj.simple_type = SimpleType(
+            restriction=Restriction(length=Length(value=1))
+        )
         expected["length"] = 1
         self.assertEqual(expected, obj.get_restrictions())
 

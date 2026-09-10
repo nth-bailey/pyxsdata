@@ -38,7 +38,9 @@ class UnnestInnerClassesTests(FactoryTestCase):
         self.assertEqual(c.qname, b.attrs[0].types[0].qname)
         self.assertEqual(b.qname, c.attrs[0].types[0].qname)
 
-    def test_process_with_config_disabled_promotes_only_enumerations(self) -> None:
+    def test_process_with_config_disabled_promotes_only_enumerations(
+        self,
+    ) -> None:
         self.container.config.output.unnest_classes = False
         a = ClassFactory.create()
         b = ClassFactory.create()

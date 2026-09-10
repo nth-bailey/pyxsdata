@@ -16,7 +16,9 @@ class ClassTests(FactoryTestCase):
     def test_dependencies(self) -> None:
         obj = ClassFactory.create(
             attrs=[
-                AttrFactory.create(types=[AttrTypeFactory.native(DataType.DECIMAL)]),
+                AttrFactory.create(
+                    types=[AttrTypeFactory.native(DataType.DECIMAL)]
+                ),
                 AttrFactory.create(
                     types=[
                         AttrTypeFactory.create(
@@ -51,14 +53,20 @@ class ClassTests(FactoryTestCase):
                             qname=build_qname(Namespace.XS.uri, "openAttrs")
                         ),
                         AttrTypeFactory.create(
-                            qname=build_qname(Namespace.XS.uri, "localAttribute")
+                            qname=build_qname(
+                                Namespace.XS.uri, "localAttribute"
+                            )
                         ),
                     ]
                 ),
             ],
             extensions=[
-                ExtensionFactory.reference(build_qname(Namespace.XS.uri, "foobar")),
-                ExtensionFactory.reference(build_qname(Namespace.XS.uri, "foobar")),
+                ExtensionFactory.reference(
+                    build_qname(Namespace.XS.uri, "foobar")
+                ),
+                ExtensionFactory.reference(
+                    build_qname(Namespace.XS.uri, "foobar")
+                ),
             ],
             inner=[
                 ClassFactory.create(
@@ -87,7 +95,9 @@ class ClassTests(FactoryTestCase):
 
         self.assertCountEqual(expected, list(obj.dependencies()))
         self.assertIn("circular", list(obj.dependencies(allow_circular=True)))
-        self.assertIn("{pyxsdata}circular", list(obj.dependencies(allow_circular=True)))
+        self.assertIn(
+            "{pyxsdata}circular", list(obj.dependencies(allow_circular=True))
+        )
 
     def test_property_has_suffix_attr(self) -> None:
         obj = ClassFactory.create()

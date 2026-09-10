@@ -45,7 +45,9 @@ class CreateCompoundFieldsTests(FactoryTestCase):
             ]
         )
 
-    def test_process_with_config_enabled_false_calculate_min_occurs(self) -> None:
+    def test_process_with_config_enabled_false_calculate_min_occurs(
+        self,
+    ) -> None:
         self.processor.config.enabled = False
         target = ClassFactory.elements(5)
         target.attrs[0].restrictions.choice = 1
@@ -164,10 +166,14 @@ class CreateCompoundFieldsTests(FactoryTestCase):
 
         self.processor.config.force_default_name = False
         self.processor.config.use_substitution_groups = True
-        actual = self.processor.choose_name(target, ["a", "b", "c"], ["d", "e", "f"])
+        actual = self.processor.choose_name(
+            target, ["a", "b", "c"], ["d", "e", "f"]
+        )
         self.assertEqual("d_Or_e_Or_f", actual)
 
-        actual = self.processor.choose_name(target, ["a", "b", "c"], ["d", "f"])
+        actual = self.processor.choose_name(
+            target, ["a", "b", "c"], ["d", "f"]
+        )
         self.assertEqual("a_Or_b_Or_c", actual)
 
     def test_build_reserved_names(self) -> None:
@@ -205,7 +211,11 @@ class CreateCompoundFieldsTests(FactoryTestCase):
 
     def test_build_attr_choice(self) -> None:
         attr = AttrFactory.create(
-            name="a", namespace="pyxsdata", default="123", help="help", fixed=True
+            name="a",
+            namespace="pyxsdata",
+            default="123",
+            help="help",
+            fixed=True,
         )
         attr.local_name = "aaa"
         attr.restrictions = Restrictions(
@@ -261,7 +271,10 @@ class CreateCompoundFieldsTests(FactoryTestCase):
                                 ("s", 193, 1, 1): {
                                     "min": [0, 0],
                                     "max": [1, 1],
-                                    ("c", 200, 1, 1): {"min": [0, 0], "max": [1, 1]},
+                                    ("c", 200, 1, 1): {
+                                        "min": [0, 0],
+                                        "max": [1, 1],
+                                    },
                                 },
                             },
                         },

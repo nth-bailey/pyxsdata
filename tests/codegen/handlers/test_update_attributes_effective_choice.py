@@ -83,7 +83,9 @@ class UpdateAttributesEffectiveChoiceTests(FactoryTestCase):
                 ),
                 AttrFactory.element(name="c", namespace="b"),
                 AttrFactory.element(
-                    name="d", namespace="b", restrictions=Restrictions(choice=1)
+                    name="d",
+                    namespace="b",
+                    restrictions=Restrictions(choice=1),
                 ),
             ]
         )

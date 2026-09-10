@@ -26,7 +26,9 @@ class CreateWrapperFieldsTests(FactoryTestCase):
         )
 
         self.source = ClassFactory.create(qname="foo")
-        self.source.attrs.append(AttrFactory.native(DataType.STRING, name="item"))
+        self.source.attrs.append(
+            AttrFactory.native(DataType.STRING, name="item")
+        )
         self.container.extend([self.target, self.source])
 
     def test_process_skip_with_config_disabled(self) -> None:

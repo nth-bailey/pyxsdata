@@ -132,7 +132,9 @@ class GeneratorConfigTests(TestCase):
         with warnings.catch_warnings(record=True) as w:
             OutputFormat(eq=False, order=True)
 
-        self.assertEqual("Enabling eq because order is true", str(w[-1].message))
+        self.assertEqual(
+            "Enabling eq because order is true", str(w[-1].message)
+        )
 
     def test_generic_collections_requires_frozen_false(self) -> None:
         with warnings.catch_warnings(record=True) as w:
@@ -151,13 +153,17 @@ class GeneratorConfigTests(TestCase):
         for case in cases:
             with self.assertRaises(CodegenError):
                 GeneratorExtension(
-                    type=ExtensionType.DECORATOR, import_string=case, class_name="Test"
+                    type=ExtensionType.DECORATOR,
+                    import_string=case,
+                    class_name="Test",
                 )
 
     def test_extension_with_invalid_class_name_pattern(self) -> None:
         with self.assertRaises(CodegenError):
             GeneratorExtension(
-                type=ExtensionType.DECORATOR, import_string="a.b", class_name="*Foo"
+                type=ExtensionType.DECORATOR,
+                import_string="a.b",
+                class_name="*Foo",
             )
 
     def test_extension_with_parent_path(self) -> None:

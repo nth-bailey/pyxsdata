@@ -123,7 +123,9 @@ class RestrictionsTests(TestCase):
 
     def test_asdict_with_implied_types(self) -> None:
         restrictions = Restrictions(min_occurs=1, max_occurs=4)
-        self.assertEqual({"max_occurs": 4, "min_occurs": 1}, restrictions.asdict())
+        self.assertEqual(
+            {"max_occurs": 4, "min_occurs": 1}, restrictions.asdict()
+        )
 
         restrictions.min_occurs = 0
         self.assertEqual({"max_occurs": 4}, restrictions.asdict())

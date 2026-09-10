@@ -4,7 +4,9 @@ from pyxsdata.formats.dataclass.serializers.writers.native import (
 )
 
 try:
-    from pyxsdata.formats.dataclass.serializers.writers.lxml import LxmlEventWriter
+    from pyxsdata.formats.dataclass.serializers.writers.lxml import (
+        LxmlEventWriter,
+    )
 
     DEFAULT_XML_WRITER: type[XmlWriter] = LxmlEventWriter
 except ImportError:  # pragma: no cover

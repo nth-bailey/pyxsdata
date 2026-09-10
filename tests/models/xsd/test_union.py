@@ -45,10 +45,12 @@ class UnionTests(TestCase):
 
     def test_get_restrictions(self) -> None:
         first = Restriction(
-            min_exclusive=MinExclusive(value="1"), min_inclusive=MinInclusive(value="2")
+            min_exclusive=MinExclusive(value="1"),
+            min_inclusive=MinInclusive(value="2"),
         )
         second = Restriction(
-            min_length=MinLength(value="3"), max_exclusive=MaxExclusive(value="4")
+            min_length=MinLength(value="3"),
+            max_exclusive=MaxExclusive(value="4"),
         )
         obj = Union(
             simple_types=[

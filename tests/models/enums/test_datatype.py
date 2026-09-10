@@ -18,17 +18,27 @@ class DataTypeTests(TestCase):
 
         self.assertEqual(DataType.LONG, DataType.from_value(-2147483649))
         self.assertEqual(DataType.LONG, DataType.from_value(2147483648))
-        self.assertEqual(DataType.LONG, DataType.from_value(-9223372036854775808))
-        self.assertEqual(DataType.LONG, DataType.from_value(9223372036854775807))
+        self.assertEqual(
+            DataType.LONG, DataType.from_value(-9223372036854775808)
+        )
+        self.assertEqual(
+            DataType.LONG, DataType.from_value(9223372036854775807)
+        )
 
-        self.assertEqual(DataType.INTEGER, DataType.from_value(-9223372036854775809))
-        self.assertEqual(DataType.INTEGER, DataType.from_value(9223372036854775808))
+        self.assertEqual(
+            DataType.INTEGER, DataType.from_value(-9223372036854775809)
+        )
+        self.assertEqual(
+            DataType.INTEGER, DataType.from_value(9223372036854775808)
+        )
 
     def test_from_value_float(self) -> None:
         self.assertEqual(DataType.FLOAT, DataType.from_value(-1.175494351e-38))
         self.assertEqual(DataType.FLOAT, DataType.from_value(3.402823466e38))
 
-        self.assertEqual(DataType.DOUBLE, DataType.from_value(-1.175494352e-38))
+        self.assertEqual(
+            DataType.DOUBLE, DataType.from_value(-1.175494352e-38)
+        )
         self.assertEqual(DataType.DOUBLE, DataType.from_value(3.402823467e38))
 
     def test_from_value_period(self) -> None:
@@ -36,13 +46,17 @@ class DataTypeTests(TestCase):
         self.assertEqual(DataType.G_DAY, DataType.from_value(g_day))
 
         g_month_day = XmlPeriod("--12-20-02:44")
-        self.assertEqual(DataType.G_MONTH_DAY, DataType.from_value(g_month_day))
+        self.assertEqual(
+            DataType.G_MONTH_DAY, DataType.from_value(g_month_day)
+        )
 
         g_month = XmlPeriod("--12")
         self.assertEqual(DataType.G_MONTH, DataType.from_value(g_month))
 
         g_year_month = XmlPeriod("2021-01")
-        self.assertEqual(DataType.G_YEAR_MONTH, DataType.from_value(g_year_month))
+        self.assertEqual(
+            DataType.G_YEAR_MONTH, DataType.from_value(g_year_month)
+        )
 
         g_year = XmlPeriod("2021")
         self.assertEqual(DataType.G_YEAR, DataType.from_value(g_year))
@@ -52,9 +66,12 @@ class DataTypeTests(TestCase):
         self.assertEqual(DataType.DECIMAL, DataType.from_value(Decimal("1.1")))
         self.assertEqual(DataType.QNAME, DataType.from_value(QName("a")))
         self.assertEqual(DataType.STRING, DataType.from_value("a"))
-        self.assertEqual(DataType.DATE, DataType.from_value(XmlDate(2021, 1, 1)))
+        self.assertEqual(
+            DataType.DATE, DataType.from_value(XmlDate(2021, 1, 1))
+        )
         self.assertEqual(DataType.TIME, DataType.from_value(XmlTime(12, 1, 1)))
         self.assertEqual(
-            DataType.DATE_TIME, DataType.from_value(XmlDateTime(2002, 1, 1, 12, 1, 1))
+            DataType.DATE_TIME,
+            DataType.from_value(XmlDateTime(2002, 1, 1, 12, 1, 1)),
         )
         self.assertEqual(DataType.STRING, DataType.from_value(self))

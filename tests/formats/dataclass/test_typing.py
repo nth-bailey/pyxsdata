@@ -90,6 +90,7 @@ def test_evaluate_wildcard(case, expected) -> None:
 
 def test_unwrap_type() -> None:
     from typing import NewType
+
     from pyxsdata.formats.dataclass.typing import unwrap_type
 
     UserId = NewType("UserId", int)

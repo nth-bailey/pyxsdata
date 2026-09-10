@@ -18,7 +18,9 @@ class DtdParserTests(TestCase):
     @classmethod
     def parse(cls, file_name: str):
         file_path = fixtures_dir.joinpath(file_name)
-        return DtdParser.parse(file_path.read_bytes(), str(file_path.resolve()))
+        return DtdParser.parse(
+            file_path.read_bytes(), str(file_path.resolve())
+        )
 
     @mock.patch("lxml.etree.DTD")
     def test_parse_requires_lxml(self, mock_lxml) -> None:
@@ -173,7 +175,9 @@ class DtdParserTests(TestCase):
         self.assertEqual("ns", dtd.elements[1].prefix)
 
         self.assertIn("ns", dtd.elements[0].ns_map)
-        self.assertEqual("http://www.example.com/", dtd.elements[0].ns_map["ns"])
+        self.assertEqual(
+            "http://www.example.com/", dtd.elements[0].ns_map["ns"]
+        )
         self.assertNotIn("ns", dtd.elements[1].ns_map)
 
     def test_with_default_namespace(self) -> None:
@@ -185,5 +189,7 @@ class DtdParserTests(TestCase):
         self.assertIsNone(dtd.elements[1].prefix)
 
         self.assertIn(None, dtd.elements[0].ns_map)
-        self.assertEqual("http://www.example.com/", dtd.elements[0].ns_map[None])
+        self.assertEqual(
+            "http://www.example.com/", dtd.elements[0].ns_map[None]
+        )
         self.assertNotIn(None, dtd.elements[1].ns_map)

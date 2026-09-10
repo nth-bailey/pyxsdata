@@ -15,20 +15,30 @@ class ResetAttributeSequencesTests(FactoryTestCase):
                 AttrFactory.element(),
                 AttrFactory.element(restrictions=Restrictions(sequence=1)),
                 AttrFactory.element(
-                    restrictions=Restrictions(sequence=2, path=[("s", 2, 1, 1)]),
+                    restrictions=Restrictions(
+                        sequence=2, path=[("s", 2, 1, 1)]
+                    ),
                 ),
                 AttrFactory.element(
-                    restrictions=Restrictions(sequence=2, path=[("s", 2, 1, 1)]),
+                    restrictions=Restrictions(
+                        sequence=2, path=[("s", 2, 1, 1)]
+                    ),
                 ),
                 AttrFactory.element(
-                    restrictions=Restrictions(sequence=3, path=[("s", 3, 1, 1)]),
+                    restrictions=Restrictions(
+                        sequence=3, path=[("s", 3, 1, 1)]
+                    ),
                 ),
                 # Effective choices
                 AttrFactory.element(
-                    restrictions=Restrictions(sequence=3, path=[("s", 3, 1, 2)]),
+                    restrictions=Restrictions(
+                        sequence=3, path=[("s", 3, 1, 2)]
+                    ),
                 ),
                 AttrFactory.element(
-                    restrictions=Restrictions(sequence=3, path=[("s", 3, 1, 2)]),
+                    restrictions=Restrictions(
+                        sequence=3, path=[("s", 3, 1, 2)]
+                    ),
                 ),
                 # Nested Group Sequence
                 AttrFactory.element(

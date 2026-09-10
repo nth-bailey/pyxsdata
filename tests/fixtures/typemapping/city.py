@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
@@ -11,4 +13,4 @@ class City:
         global_type = False
 
     name: str
-    streets: list["Street"] = field(default_factory=list)
+    streets: list[Street] = field(default_factory=list)

@@ -23,7 +23,9 @@ class ProcessAttributeTypesTests(FactoryTestCase):
 
     @mock.patch.object(ProcessAttributeTypes, "cascade_properties")
     @mock.patch.object(ProcessAttributeTypes, "process_types")
-    def test_process(self, mock_process_types, mock_cascade_properties) -> None:
+    def test_process(
+        self, mock_process_types, mock_cascade_properties
+    ) -> None:
         target = ClassFactory.elements(2)
 
         self.processor.process(target)
@@ -109,16 +111,22 @@ class ProcessAttributeTypesTests(FactoryTestCase):
 
         self.processor.process_type(target, attr, attr_type)
         self.assertEqual(0, mock_process_native_type.call_count)
-        mock_process_dependency_type.assert_called_once_with(target, attr, attr_type)
+        mock_process_dependency_type.assert_called_once_with(
+            target, attr, attr_type
+        )
 
     @mock.patch.object(ProcessAttributeTypes, "process_inner_type")
-    def test_process_type_with_forward_reference(self, mock_process_inner_type) -> None:
+    def test_process_type_with_forward_reference(
+        self, mock_process_inner_type
+    ) -> None:
         attr = AttrFactory.create()
         target = ClassFactory.create()
         attr_type = AttrTypeFactory.create(forward=True)
 
         self.processor.process_type(target, attr, attr_type)
-        mock_process_inner_type.assert_called_once_with(target, attr, attr_type)
+        mock_process_inner_type.assert_called_once_with(
+            target, attr, attr_type
+        )
 
     def test_process_native_type(self) -> None:
         attr = AttrFactory.native(DataType.INT)
@@ -223,8 +231,12 @@ class ProcessAttributeTypesTests(FactoryTestCase):
     def test_process_inner_type_with_simple_type(
         self, mock_copy_attribute_properties, mock_update_restrictions
     ) -> None:
-        attr = AttrFactory.create(types=[AttrTypeFactory.create(qname="{bar}a")])
-        inner = ClassFactory.simple_type(qname="{bar}a", status=Status.FLATTENED)
+        attr = AttrFactory.create(
+            types=[AttrTypeFactory.create(qname="{bar}a")]
+        )
+        inner = ClassFactory.simple_type(
+            qname="{bar}a", status=Status.FLATTENED
+        )
         target = ClassFactory.create(inner=[inner])
 
         self.processor.process_inner_type(target, attr, attr.types[0])
@@ -287,13 +299,17 @@ class ProcessAttributeTypesTests(FactoryTestCase):
         attr.types.append(AttrTypeFactory.create(qname=source.name))
 
         self.assertEqual("Foobar", attr.types[0].name)
-        self.processor.copy_attribute_properties(source, target, attr, attr.types[0])
+        self.processor.copy_attribute_properties(
+            source, target, attr, attr.types[0]
+        )
 
         self.assertEqual("first", attr.types[0].name)
         self.assertEqual("second", attr.types[1].name)
         self.assertEqual("foo", attr.help)
         self.assertEqual(
-            Restrictions(min_length=2, min_occurs=1, max_occurs=2, max_length=100),
+            Restrictions(
+                min_length=2, min_occurs=1, max_occurs=2, max_length=100
+            ),
             attr.restrictions,
         )
         mock_copy_inner_class.assert_has_calls(
@@ -311,7 +327,9 @@ class ProcessAttributeTypesTests(FactoryTestCase):
         target = ClassFactory.elements(1)
         attr = target.attrs[0]
 
-        self.processor.copy_attribute_properties(source, target, attr, attr.types[0])
+        self.processor.copy_attribute_properties(
+            source, target, attr, attr.types[0]
+        )
 
         mock_reset_attribute_type.assert_called_once_with(attr.types[0])
 
@@ -320,24 +338,32 @@ class ProcessAttributeTypesTests(FactoryTestCase):
         target = ClassFactory.elements(1)
         attr = target.attrs[0]
 
-        self.processor.copy_attribute_properties(source, target, attr, attr.types[0])
+        self.processor.copy_attribute_properties(
+            source, target, attr, attr.types[0]
+        )
         self.assertTrue(attr.restrictions.nillable)
 
     def test_copy_attribute_properties_set_default_value_if_none(self) -> None:
-        target = ClassFactory.create(attrs=AttrFactory.list(1, tag=Tag.ATTRIBUTE))
+        target = ClassFactory.create(
+            attrs=AttrFactory.list(1, tag=Tag.ATTRIBUTE)
+        )
         attr = target.attrs[0]
 
         source = ClassFactory.elements(1)
         source.attrs[0].default = "foo"
         source.attrs[0].fixed = True
 
-        self.processor.copy_attribute_properties(source, target, attr, attr.types[0])
+        self.processor.copy_attribute_properties(
+            source, target, attr, attr.types[0]
+        )
         self.assertEqual("foo", attr.default)
         self.assertTrue("foo", attr.fixed)
 
         source.attrs[0].default = "bar"
         source.attrs[0].fixed = False
-        self.processor.copy_attribute_properties(source, target, attr, attr.types[0])
+        self.processor.copy_attribute_properties(
+            source, target, attr, attr.types[0]
+        )
         self.assertEqual("foo", attr.default)
         self.assertTrue("foo", attr.fixed)
 
@@ -348,35 +374,51 @@ class ProcessAttributeTypesTests(FactoryTestCase):
         complex_type = ClassFactory.create(qname="a", tag=Tag.COMPLEX_TYPE)
         simple_type = ClassFactory.create(qname="a", tag=Tag.SIMPLE_TYPE)
 
-        actual = self.processor.find_dependency(element, attr_type, Tag.ELEMENT)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.ELEMENT
+        )
         self.assertIsNone(actual)
 
         self.processor.container.add(simple_type)
-        actual = self.processor.find_dependency(element, attr_type, Tag.ELEMENT)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.ELEMENT
+        )
         self.assertEqual(simple_type, actual)
 
         self.processor.container.add(complex_type)
-        actual = self.processor.find_dependency(element, attr_type, Tag.ELEMENT)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.ELEMENT
+        )
         self.assertEqual(complex_type, actual)
 
         self.processor.container.add(element)
-        actual = self.processor.find_dependency(complex_type, attr_type, Tag.ELEMENT)
+        actual = self.processor.find_dependency(
+            complex_type, attr_type, Tag.ELEMENT
+        )
         self.assertEqual(element, actual)
 
-        actual = self.processor.find_dependency(element, attr_type, Tag.ELEMENT)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.ELEMENT
+        )
         self.assertEqual(complex_type, actual)
 
-        actual = self.processor.find_dependency(element, attr_type, Tag.SIMPLE_TYPE)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.SIMPLE_TYPE
+        )
         self.assertEqual(simple_type, actual)
 
-        actual = self.processor.find_dependency(element, attr_type, Tag.EXTENSION)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.EXTENSION
+        )
         self.assertEqual(simple_type, actual)
 
         referenced = ClassFactory.create()
         self.processor.container.add(referenced)
         attr_type.reference = referenced.ref
         attr_type.qname = referenced.qname
-        actual = self.processor.find_dependency(element, attr_type, Tag.EXTENSION)
+        actual = self.processor.find_dependency(
+            element, attr_type, Tag.EXTENSION
+        )
         self.assertEqual(referenced, actual)
 
     def test_update_restrictions(self) -> None:

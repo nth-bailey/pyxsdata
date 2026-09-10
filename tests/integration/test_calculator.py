@@ -10,7 +10,10 @@ from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 from pyxsdata.formats.dataclass.transports import DefaultTransport
 from pyxsdata.utils.testing import load_class
 from tests import fixtures_dir, root
-from tests.fixtures.calculator import CalculatorSoapAdd, CalculatorSoapAddOutput
+from tests.fixtures.calculator import (
+    CalculatorSoapAdd,
+    CalculatorSoapAddOutput,
+)
 
 os.chdir(root)
 
@@ -20,7 +23,9 @@ class CalculatorServiceTests(TestCase):
         schema = fixtures_dir.joinpath("calculator/services.wsdl")
         package = "tests.fixtures.calculator"
         runner = CliRunner()
-        result = runner.invoke(cli, ["generate", str(schema), "--package", package])
+        result = runner.invoke(
+            cli, ["generate", str(schema), "--package", package]
+        )
 
         if result.exception:
             raise result.exception
@@ -33,7 +38,10 @@ class CalculatorServiceTests(TestCase):
         url = "http://www.dneonline.com/calculator.asmx"
         request = fixtures_dir.joinpath("calculator/AddRQ.xml").read_text()
         response = fixtures_dir.joinpath("calculator/AddRS.xml").read_bytes()
-        headers = {"content-type": "text/xml", "SOAPAction": "http://tempuri.org/Add"}
+        headers = {
+            "content-type": "text/xml",
+            "SOAPAction": "http://tempuri.org/Add",
+        }
         mock_most.return_value = response
 
         config = Config.from_service(CalculatorSoapAdd)

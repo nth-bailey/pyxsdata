@@ -8,21 +8,24 @@ from pyxsdata.exceptions import ParserError
 from pyxsdata.formats.dataclass.context import XmlContext
 from pyxsdata.formats.dataclass.parsers import CoreXmlParser
 from pyxsdata.formats.dataclass.parsers.handlers import CoreEventHandler
+from pyxsdata.formats.dataclass.serializers import CoreXmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 from tests import fixtures_dir
 from tests.fixtures.books import Books
 from tests.fixtures.books.fixtures import books
 
 try:
-    import pyxsdata_core
+    import polyxml
 except ImportError:
-    pyxsdata_core = None
+    polyxml = None
 
 
 class CoreEventHandlerTests(TestCase):
     def setUp(self) -> None:
-        if pyxsdata_core is None:
-            raise pytest.skip("pyxsdata-core is not installed")
+        if polyxml is None:
+            raise pytest.skip("polyxml is not installed")
         self.parser = CoreXmlParser()
+        self.serializer = CoreXmlSerializer()
 
     def test_parse_from_path(self) -> None:
         path = fixtures_dir.joinpath("books/books.xml")
@@ -134,3 +137,19 @@ class CoreEventHandlerTests(TestCase):
     def test_parse_syntax_error(self) -> None:
         with self.assertRaises(ParserError):
             self.parser.from_bytes(b"<books><unclosed>", Books)
+
+    def test_serialize_render(self) -> None:
+        xml_str = self.serializer.render(books)
+        self.assertIn('<book id="bk001" lang="en">', xml_str)
+        self.assertIn("<author>Hightower, Kim</author>", xml_str)
+
+    def test_serialize_write_and_roundtrip(self) -> None:
+        serializer = CoreXmlSerializer(config=SerializerConfig(indent="  "))
+        stream = io.StringIO()
+        serializer.write(stream, books)
+        xml_output = stream.getvalue()
+        self.assertIn("  <book", xml_output)
+
+        # Roundtrip back through CoreXmlParser
+        parsed = self.parser.from_string(xml_output, Books)
+        self.assertEqual(books, parsed)

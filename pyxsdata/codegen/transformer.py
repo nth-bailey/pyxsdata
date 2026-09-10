@@ -336,13 +336,17 @@ class ResourceTransformer:
         class_num, inner_num = self.count_classes(self.classes)
         if class_num:
             logger.info(
-                "Analyzer input: %d main and %d inner classes", class_num, inner_num
+                "Analyzer input: %d main and %d inner classes",
+                class_num,
+                inner_num,
             )
 
             classes = self.analyze_classes(self.classes)
             class_num, inner_num = self.count_classes(classes)
             logger.info(
-                "Analyzer output: %d main and %d inner classes", class_num, inner_num
+                "Analyzer output: %d main and %d inner classes",
+                class_num,
+                inner_num,
             )
 
             writer = CodeWriter.from_config(self.config)

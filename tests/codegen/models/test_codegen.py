@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import unittest
 from dataclasses import dataclass
 
@@ -6,7 +8,7 @@ from pyxsdata.codegen.models import CodegenModel
 
 @dataclass
 class Foo(CodegenModel):
-    bar: list["Bar"]
+    bar: list[Bar]
 
     @dataclass
     class Bar(CodegenModel):

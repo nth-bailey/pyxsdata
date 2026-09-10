@@ -1,6 +1,12 @@
 from collections.abc import Iterator
 
-from pyxsdata.codegen.models import Attr, AttrType, Class, Extension, Restrictions
+from pyxsdata.codegen.models import (
+    Attr,
+    AttrType,
+    Class,
+    Extension,
+    Restrictions,
+)
 from pyxsdata.models.enums import DataType, Tag
 from pyxsdata.models.mixins import ElementBase
 from pyxsdata.models.xsd import (
@@ -15,7 +21,14 @@ from pyxsdata.models.xsd import (
 from pyxsdata.utils import collections, text
 from pyxsdata.utils.namespaces import build_qname, is_default, prefix_exists
 
-ROOT_CLASSES = (SimpleType, ComplexType, Group, AttributeGroup, Element, Attribute)
+ROOT_CLASSES = (
+    SimpleType,
+    ComplexType,
+    Group,
+    AttributeGroup,
+    Element,
+    Attribute,
+)
 
 
 class SchemaMapper:

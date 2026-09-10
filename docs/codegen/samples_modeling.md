@@ -32,7 +32,7 @@ $ pyxsdata generate --package tests.fixtures.artists tests/fixtures/artists
 === "Output"
 
     ```python
-    --8<-- "tests/fixtures/artists/metadata.py"
+    --8 < --"tests/fixtures/artists/metadata.py"
     ```
 
 ## JSON Documents
@@ -56,5 +56,5 @@ $ pyxsdata generate --package tests.fixtures.series tests/fixtures/series/sample
 === "Output"
 
     ```python
-    --8<-- "tests/fixtures/series/series.py"
+    --8 < --"tests/fixtures/series/series.py"
     ```

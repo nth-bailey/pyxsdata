@@ -6,15 +6,21 @@ for document entities. Built-in support includes standard dataclasses and Pydant
 ## Basic Example
 
 ```python exec="true" source="above" result="xml"
-from dataclasses import dataclass # markdown-exec: hide
-from pyxsdata.formats.dataclass.serializers import XmlSerializer # markdown-exec: hide
-serializer = XmlSerializer() # markdown-exec: hide
-serializer.config.indent = "  " # markdown-exec: hide
+from dataclasses import dataclass  # markdown-exec: hide
+from pyxsdata.formats.dataclass.serializers import (
+    XmlSerializer,
+)  # markdown-exec: hide
+
+serializer = XmlSerializer()  # markdown-exec: hide
+serializer.config.indent = "  "  # markdown-exec: hide
+
+
 @dataclass
 class Book:
     title: str
     author: str
     year: int
+
 
 book = Book(title="The Catcher in the Rye", author="J.D. Salinger", year=1951)
 print(serializer.render(book))

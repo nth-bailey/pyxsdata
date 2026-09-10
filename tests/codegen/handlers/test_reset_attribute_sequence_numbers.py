@@ -17,7 +17,9 @@ class ResetAttributeSequencesTests(FactoryTestCase):
         self.config = GeneratorConfig()
         self.container = ClassContainer(config=self.config)
         self.container.step = Steps.FINALIZE
-        self.processor = ResetAttributeSequenceNumbers(container=self.container)
+        self.processor = ResetAttributeSequenceNumbers(
+            container=self.container
+        )
 
     def test_process_without_sequence_fields(self) -> None:
         target = ClassFactory.elements(2)

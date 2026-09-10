@@ -2,7 +2,13 @@ import sys
 from collections.abc import Iterator
 from typing import Any
 
-from pyxsdata.codegen.models import Attr, AttrType, Class, Extension, Restrictions
+from pyxsdata.codegen.models import (
+    Attr,
+    AttrType,
+    Class,
+    Extension,
+    Restrictions,
+)
 from pyxsdata.models.dtd import (
     Dtd,
     DtdAttribute,
@@ -283,7 +289,10 @@ class DtdMapper:
         """
         types = AttrType(qname=name, native=False)
         attr = Attr(
-            name=name, tag=Tag.ELEMENT, types=[types], restrictions=restrictions.clone()
+            name=name,
+            tag=Tag.ELEMENT,
+            types=[types],
+            restrictions=restrictions.clone(),
         )
         attr.index = len(target.attrs)
         target.attrs.append(attr)

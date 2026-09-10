@@ -65,12 +65,16 @@ class ValidateReferences(ContainerHandlerInterface):
 
                 if tp.reference not in references:
                     raise CodegenError(
-                        "Unresolved reference detected", cls=item.qname, type=tp.qname
+                        "Unresolved reference detected",
+                        cls=item.qname,
+                        type=tp.qname,
                     )
 
                 if tp.qname != references[tp.reference]:
                     raise CodegenError(
-                        "Misrepresented reference", cls=item.qname, type=tp.qname
+                        "Misrepresented reference",
+                        cls=item.qname,
+                        type=tp.qname,
                     )
 
     def validate_parent_references(self) -> None:

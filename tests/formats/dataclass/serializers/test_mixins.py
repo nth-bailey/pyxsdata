@@ -6,9 +6,16 @@ from xml.etree.ElementTree import QName
 from xml.sax import ContentHandler
 from xml.sax.saxutils import XMLGenerator
 
-from pyxsdata.exceptions import SerializerError, XmlContextError, XmlWriterError
+from pyxsdata.exceptions import (
+    SerializerError,
+    XmlContextError,
+    XmlWriterError,
+)
 from pyxsdata.formats.dataclass.models.elements import XmlType
-from pyxsdata.formats.dataclass.models.generics import AnyElement, DerivedElement
+from pyxsdata.formats.dataclass.models.generics import (
+    AnyElement,
+    DerivedElement,
+)
 from pyxsdata.formats.dataclass.serializers import XmlSerializer
 from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
 from pyxsdata.formats.dataclass.serializers.mixins import (
@@ -171,7 +178,9 @@ class XmlWriterTests(TestCase):
 
         self.assertEqual(expected, lines[1])
 
-    def test_convert_resets_default_namespace_for_unqualified_elements(self) -> None:
+    def test_convert_resets_default_namespace_for_unqualified_elements(
+        self,
+    ) -> None:
         events = iter(
             [
                 ("start", "{a}a"),
@@ -258,11 +267,18 @@ class EventGeneratorTests(TestCase):
         @dataclass
         class ElementWrapper:
             elements: list[ElementObject] = field(
-                metadata={"wrapper": "Elements", "type": "Element", "name": "Object"}
+                metadata={
+                    "wrapper": "Elements",
+                    "type": "Element",
+                    "name": "Object",
+                }
             )
 
         obj = ElementWrapper(
-            elements=[ElementObject(content="Hello"), ElementObject(content="World")]
+            elements=[
+                ElementObject(content="Hello"),
+                ElementObject(content="World"),
+            ]
         )
         events = self.generator.generate(obj)
         expected = [
@@ -457,10 +473,14 @@ class EventGeneratorTests(TestCase):
     def test_convert_dataclass_with_no_dataclass(self) -> None:
         with self.assertRaises(XmlContextError) as cm:
             next(self.generator.convert_dataclass(1))
-        self.assertEqual("Type '<class 'int'>' is not a dataclass.", str(cm.exception))
+        self.assertEqual(
+            "Type '<class 'int'>' is not a dataclass.", str(cm.exception)
+        )
 
     def test_convert_mixed_content(self) -> None:
-        var = XmlVarFactory.create(xml_type=XmlType.WILDCARD, name="a", mixed=True)
+        var = XmlVarFactory.create(
+            xml_type=XmlType.WILDCARD, name="a", mixed=True
+        )
         book = BookForm(**BOOK_DEFAULTS, id="123")
         ebook = DerivedElement("ebook", BookForm(**BOOK_DEFAULTS, id="123"))
         value = ["text", AnyElement(qname="br"), book, ebook, "tail"]
@@ -556,8 +576,14 @@ class EventGeneratorTests(TestCase):
         self.assertIsInstance(result, Generator)
         self.assertListEqual(expected, list(result))
 
-        expected = [("start", "a"), ("data", ["1", QName("{a}b"), "3"]), ("end", "a")]
-        result = self.generator.convert_value([1, QName("{a}b"), 3], var, "pyxsdata")
+        expected = [
+            ("start", "a"),
+            ("data", ["1", QName("{a}b"), "3"]),
+            ("end", "a"),
+        ]
+        result = self.generator.convert_value(
+            [1, QName("{a}b"), 3], var, "pyxsdata"
+        )
         self.assertEqual(expected, list(result))
 
         expected = [
@@ -569,7 +595,9 @@ class EventGeneratorTests(TestCase):
             ("end", "a"),
         ]
 
-        result = self.generator.convert_value([[1, 2, 3], [4, 5, 6]], var, "pyxsdata")
+        result = self.generator.convert_value(
+            [[1, 2, 3], [4, 5, 6]], var, "pyxsdata"
+        )
         self.assertEqual(expected, list(result))
 
         var = XmlVarFactory.create(
@@ -594,7 +622,9 @@ class EventGeneratorTests(TestCase):
         self.assertEqual(expected, list(result))
 
     def test_convert_any_type_with_primitive_element(self) -> None:
-        var = XmlVarFactory.create(xml_type=XmlType.ELEMENT, name="a", types=(object,))
+        var = XmlVarFactory.create(
+            xml_type=XmlType.ELEMENT, name="a", types=(object,)
+        )
         expected = [
             ("start", "a"),
             ("data", "str"),
@@ -772,7 +802,9 @@ class EventGeneratorTests(TestCase):
         with self.assertRaises(SerializerError) as cm:
             list(result)
 
-        self.assertEqual("TypeA is not derived from BookForm", str(cm.exception))
+        self.assertEqual(
+            "TypeA is not derived from BookForm", str(cm.exception)
+        )
 
     def test_convert_element(self) -> None:
         var = XmlVarFactory.create(xml_type=XmlType.ELEMENT, name="a")
@@ -787,7 +819,9 @@ class EventGeneratorTests(TestCase):
         self.assertEqual(expected, list(result))
 
     def test_convert_element_with_nillable_true(self) -> None:
-        var = XmlVarFactory.create(xml_type=XmlType.ELEMENT, name="a", nillable=True)
+        var = XmlVarFactory.create(
+            xml_type=XmlType.ELEMENT, name="a", nillable=True
+        )
         expected = [
             ("start", "a"),
             ("attr", QNames.XSI_NIL, "true"),
@@ -1000,7 +1034,9 @@ class EventGeneratorTests(TestCase):
         self.assertEqual(msg, str(cm.exception))
 
     def test_convert_value_with_list_value(self) -> None:
-        var = XmlVarFactory.create(xml_type=XmlType.ELEMENT, name="a", factory=list)
+        var = XmlVarFactory.create(
+            xml_type=XmlType.ELEMENT, name="a", factory=list
+        )
         value = [True, False]
         expected = [
             ("start", "a"),
@@ -1016,7 +1052,9 @@ class EventGeneratorTests(TestCase):
         self.assertEqual(expected, list(result))
 
     def test_next_value(self) -> None:
-        obj = SequentialType(x0=1, x1=[2, 3, 4, None], x2=[6, 7], x3=[9], x4=10)
+        obj = SequentialType(
+            x0=1, x1=[2, 3, 4, None], x2=[6, 7], x3=[9], x4=10
+        )
         meta = self.generator.context.build(SequentialType)
         x0 = meta.text
         x1 = next(meta.find_children("x1"))
@@ -1055,7 +1093,9 @@ class EventGeneratorTests(TestCase):
         self.assertIsInstance(actual, Generator)
         self.assertEqual(expected, list(actual))
 
-        actual = self.generator.next_attribute(obj, meta, True, "xs:bool", False)
+        actual = self.generator.next_attribute(
+            obj, meta, True, "xs:bool", False
+        )
         expected.extend(
             [
                 (QNames.XSI_TYPE, "xs:bool"),

@@ -42,7 +42,9 @@ class ClientTests(TestCase):
         self.assertIs(client.parser.context, client.serializer.context)
 
     def test_from_service(self) -> None:
-        client = Client.from_service(CalculatorSoapAdd, location="http://testurl.com")
+        client = Client.from_service(
+            CalculatorSoapAdd, location="http://testurl.com"
+        )
 
         actual = asdict(client.config)
         expected = {
@@ -148,13 +150,16 @@ class ClientTests(TestCase):
         config = replace(config, soap_action="add")
         client = Client(config=config)
         result = client.prepare_headers({})
-        self.assertEqual({"SOAPAction": "add", "content-type": "text/xml"}, result)
+        self.assertEqual(
+            {"SOAPAction": "add", "content-type": "text/xml"}, result
+        )
 
         config = replace(config, encoding="utf-8")
         client = Client(config=config)
         result = client.prepare_headers({})
         self.assertEqual(
-            {"SOAPAction": "add", "content-type": "text/xml; charset=utf-8"}, result
+            {"SOAPAction": "add", "content-type": "text/xml; charset=utf-8"},
+            result,
         )
 
     def test_prepare_headers_raises_error_with_unsupported_binding_transport(
@@ -166,4 +171,6 @@ class ClientTests(TestCase):
         with self.assertRaises(ClientValueError) as cm:
             client.prepare_headers({})
 
-        self.assertEqual("Unsupported binding transport: `foobar`", str(cm.exception))
+        self.assertEqual(
+            "Unsupported binding transport: `foobar`", str(cm.exception)
+        )

@@ -51,7 +51,9 @@ class LxmlEventHandlerTests(TestCase):
 
         self.parser.config.process_xinclude = True
         self.parser.config.base_url = path.as_uri()
-        self.assertEqual(books, self.parser.from_bytes(path.read_bytes(), Books))
+        self.assertEqual(
+            books, self.parser.from_bytes(path.read_bytes(), Books)
+        )
         self.assertEqual(ns_map, self.parser.ns_map)
 
     def test_parse_context_with_unhandled_event(self) -> None:

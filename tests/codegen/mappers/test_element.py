@@ -82,7 +82,8 @@ class ElementMapperTests(FactoryTestCase):
             children=[
                 AnyElement(qname="{pyxsdata}child", text="primitive"),
                 AnyElement(
-                    qname="{inner}child", attributes={"{foo}bar": "1", "{bar}foo": "2"}
+                    qname="{inner}child",
+                    attributes={"{foo}bar": "1", "{bar}foo": "2"},
                 ),
             ],
         )
@@ -106,7 +107,11 @@ class ElementMapperTests(FactoryTestCase):
                 AttrFactory.element(
                     name="child",
                     namespace="inner",
-                    types=[AttrTypeFactory.create(qname="{target}child", forward=True)],
+                    types=[
+                        AttrTypeFactory.create(
+                            qname="{target}child", forward=True
+                        )
+                    ],
                     index=1,
                 ),
             ],
@@ -248,7 +253,9 @@ class ElementMapperTests(FactoryTestCase):
         self.assertTrue(actual.mixed)
 
     def test_build_class_nillable(self) -> None:
-        element = AnyElement(qname="{pyxsdata}root", attributes={QNames.XSI_NIL: "1"})
+        element = AnyElement(
+            qname="{pyxsdata}root", attributes={QNames.XSI_NIL: "1"}
+        )
         target = ElementMapper.build_class(element, None)
         self.assertTrue(target.nillable)
 
@@ -311,13 +318,25 @@ class ElementMapperTests(FactoryTestCase):
         self.assertEqual(3, len(target.attrs))
 
     def test_select_namespace(self) -> None:
-        self.assertEqual("a", ElementMapper.select_namespace("a", "a", Tag.ELEMENT))
-        self.assertEqual("b", ElementMapper.select_namespace("b", "a", Tag.ELEMENT))
-        self.assertEqual("", ElementMapper.select_namespace(None, "a", Tag.ELEMENT))
+        self.assertEqual(
+            "a", ElementMapper.select_namespace("a", "a", Tag.ELEMENT)
+        )
+        self.assertEqual(
+            "b", ElementMapper.select_namespace("b", "a", Tag.ELEMENT)
+        )
+        self.assertEqual(
+            "", ElementMapper.select_namespace(None, "a", Tag.ELEMENT)
+        )
 
-        self.assertEqual("a", ElementMapper.select_namespace("a", "a", Tag.ATTRIBUTE))
-        self.assertEqual("b", ElementMapper.select_namespace("b", "a", Tag.ATTRIBUTE))
-        self.assertIsNone(ElementMapper.select_namespace(None, "a", Tag.ATTRIBUTE))
+        self.assertEqual(
+            "a", ElementMapper.select_namespace("a", "a", Tag.ATTRIBUTE)
+        )
+        self.assertEqual(
+            "b", ElementMapper.select_namespace("b", "a", Tag.ATTRIBUTE)
+        )
+        self.assertIsNone(
+            ElementMapper.select_namespace(None, "a", Tag.ATTRIBUTE)
+        )
 
     def test_sequential_groups(self) -> None:
         a = AnyElement(qname="a")

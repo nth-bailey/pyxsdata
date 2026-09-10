@@ -15,7 +15,10 @@ from pyxsdata.formats.types import T
 from pyxsdata.models.enums import EventType
 
 if TYPE_CHECKING:
-    from pyxsdata.formats.dataclass.parsers.nodes import ElementNode, WrapperNode
+    from pyxsdata.formats.dataclass.parsers.nodes import (
+        ElementNode,
+        WrapperNode,
+    )
 else:
     ElementNode = None
     WrapperNode = None
@@ -92,8 +95,12 @@ class NodeParser(PushParser):
         """
         global ElementNode, WrapperNode
         if ElementNode is None:
-            from pyxsdata.formats.dataclass.parsers.nodes.element import ElementNode
-            from pyxsdata.formats.dataclass.parsers.nodes.wrapper import WrapperNode
+            from pyxsdata.formats.dataclass.parsers.nodes.element import (
+                ElementNode,
+            )
+            from pyxsdata.formats.dataclass.parsers.nodes.wrapper import (
+                WrapperNode,
+            )
 
         try:
             item = queue[-1]

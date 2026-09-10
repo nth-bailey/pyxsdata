@@ -60,7 +60,9 @@ class DataclassGeneratorTests(FactoryTestCase):
                 mock.call([classes[2]], "thug.life"),
             ]
         )
-        mock_render_module.assert_has_calls([mock.call(mock.ANY, [x]) for x in classes])
+        mock_render_module.assert_has_calls(
+            [mock.call(mock.ANY, [x]) for x in classes]
+        )
         mock_validate_imports.assert_called_once()
 
     def test_render_package(self) -> None:
@@ -191,10 +193,14 @@ class DataclassGeneratorTests(FactoryTestCase):
 
     def test_module_name(self) -> None:
         self.assertEqual("foo_bar", self.generator.module_name("fooBar"))
-        self.assertEqual("foo_bar_wtf", self.generator.module_name("fooBar.wtf"))
+        self.assertEqual(
+            "foo_bar_wtf", self.generator.module_name("fooBar.wtf")
+        )
         self.assertEqual("mod_1111", self.generator.module_name("1111"))
         self.assertEqual("xs_string", self.generator.module_name("xs:string"))
-        self.assertEqual("foo_bar_bam", self.generator.module_name("foo:bar_bam"))
+        self.assertEqual(
+            "foo_bar_bam", self.generator.module_name("foo:bar_bam")
+        )
         self.assertEqual("bar_bam", self.generator.module_name("urn:bar_bam"))
 
     def test_package_name(self) -> None:
@@ -218,7 +224,9 @@ class DataclassGeneratorTests(FactoryTestCase):
             "    thug: str"
         )
 
-        with tempfile.NamedTemporaryFile(delete=True, suffix=".py") as temp_file:
+        with tempfile.NamedTemporaryFile(
+            delete=True, suffix=".py"
+        ) as temp_file:
             temp_file.write(src_code.encode())
             temp_file.seek(0)
 

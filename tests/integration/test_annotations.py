@@ -18,7 +18,11 @@ def test_annotations() -> None:
     runner = CliRunner()
     result = runner.invoke(
         cli,
-        ["generate", str(schema), f"--config={filepath.joinpath('pyxsdata.xml')!s}"],
+        [
+            "generate",
+            str(schema),
+            f"--config={filepath.joinpath('pyxsdata.xml')!s}",
+        ],
     )
 
     if result.exception:
@@ -28,7 +32,9 @@ def test_annotations() -> None:
         Measurement = load_class(result.output, "Measurement")
         unit = load_class(result.output, "unit")
     except Exception:
-        pytest.fail("Could not load class with member having the same name as type")
+        pytest.fail(
+            "Could not load class with member having the same name as type"
+        )
 
     filename = str(filepath.joinpath("sample.xml"))
     parser = XmlParser(context=XmlContext())

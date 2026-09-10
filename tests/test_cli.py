@@ -38,14 +38,18 @@ class CliTests(TestCase):
     @mock.patch.object(ResourceTransformer, "__init__", return_value=None)
     def test_generate(self, mock_init, mock_process) -> None:
         source = fixtures_dir.joinpath("defxmlschema/chapter03.xsd")
-        result = self.runner.invoke(cli, ["generate", str(source), "--package", "foo"])
+        result = self.runner.invoke(
+            cli, ["generate", str(source), "--package", "foo"]
+        )
         config = mock_init.call_args[1]["config"]
 
         self.assertIsNone(result.exception)
         self.assertEqual("foo", config.output.package)
         self.assertEqual("dataclasses", config.output.format.value)
         self.assertFalse(config.output.relative_imports)
-        self.assertEqual(StructureStyle.FILENAMES, config.output.structure_style)
+        self.assertEqual(
+            StructureStyle.FILENAMES, config.output.structure_style
+        )
         self.assertEqual([source.as_uri()], mock_process.call_args[0][0])
 
     @mock.patch.object(ResourceTransformer, "process")
@@ -53,14 +57,18 @@ class CliTests(TestCase):
         mock_process.side_effect = CodegenError("Testing", foo="bar")
 
         source = fixtures_dir.joinpath("defxmlschema/chapter03.xsd")
-        result = self.runner.invoke(cli, ["generate", str(source), "--package", "foo"])
+        result = self.runner.invoke(
+            cli, ["generate", str(source), "--package", "foo"]
+        )
         expected = "=========\nError: Testing\nfoo: bar\n"
 
         self.assertIn(expected, result.output)
 
     @mock.patch.object(ResourceTransformer, "process")
     @mock.patch.object(ResourceTransformer, "__init__", return_value=None)
-    def test_generate_with_configuration_file(self, mock_init, mock_process) -> None:
+    def test_generate_with_configuration_file(
+        self, mock_init, mock_process
+    ) -> None:
         file_path = Path(tempfile.mktemp())
         config = GeneratorConfig()
         config.output.package = "foo.bar"
@@ -80,14 +88,18 @@ class CliTests(TestCase):
         self.assertEqual("foo.bar", config.output.package)
         self.assertEqual("dataclasses", config.output.format.value)
         self.assertFalse(config.output.format.eq)
-        self.assertEqual(StructureStyle.NAMESPACES, config.output.structure_style)
+        self.assertEqual(
+            StructureStyle.NAMESPACES, config.output.structure_style
+        )
         self.assertEqual([source.as_uri()], mock_process.call_args[0][0])
         file_path.unlink()
 
     @mock.patch.object(ResourceTransformer, "process")
     @mock.patch.object(ResourceTransformer, "__init__", return_value=None)
     def test_generate_with_debug_mode(self, *args) -> None:
-        self.runner.invoke(cli, ["generate", "foo.xsd", "--package", "foo", "--debug"])
+        self.runner.invoke(
+            cli, ["generate", "foo.xsd", "--package", "foo", "--debug"]
+        )
         self.assertEqual(logging.DEBUG, logger.level)
 
     @mock.patch("pyxsdata.cli.logger.info")
@@ -97,7 +109,9 @@ class CliTests(TestCase):
         result = self.runner.invoke(cli, ["init-config", str(output_path)])
 
         self.assertIsNone(result.exception)
-        self.assertEqual(GeneratorConfig.create(), GeneratorConfig.read(output_path))
+        self.assertEqual(
+            GeneratorConfig.create(), GeneratorConfig.read(output_path)
+        )
         mock_info.assert_has_calls(
             [
                 mock.call(
@@ -106,7 +120,9 @@ class CliTests(TestCase):
                     platform.python_version(),
                     sys.platform,
                 ),
-                mock.call("Initializing configuration file %s", str(output_path)),
+                mock.call(
+                    "Initializing configuration file %s", str(output_path)
+                ),
             ]
         )
         output_path.unlink()
@@ -154,14 +170,20 @@ class CliTests(TestCase):
     def test_download_with_custom_output(self, mock_init, mock_wget) -> None:
         uri = "http://www.w3.org/2009/01/xml.xsd"
 
-        result = self.runner.invoke(cli, ["download", uri, "--output", "here/schemas"])
+        result = self.runner.invoke(
+            cli, ["download", uri, "--output", "here/schemas"]
+        )
 
         self.assertIsNone(result.exception)
-        mock_init.assert_called_once_with(output=Path("here/schemas").resolve())
+        mock_init.assert_called_once_with(
+            output=Path("here/schemas").resolve()
+        )
         mock_wget.assert_called_once_with(uri)
 
     def test_download_rejects_file_uri(self) -> None:
-        result = self.runner.invoke(cli, ["download", "file:///path/to/schema.xsd"])
+        result = self.runner.invoke(
+            cli, ["download", "file:///path/to/schema.xsd"]
+        )
 
         self.assertIsNotNone(result.exception)
         self.assertEqual(result.exit_code, 2)
@@ -193,12 +215,16 @@ class CliTests(TestCase):
         file = hello_path.joinpath("hello.xsd")
         url = "http://www.xsdata/schema.xsd"
 
-        self.assertEqual([file.as_uri()], list(resolve_source(str(file), False)))
+        self.assertEqual(
+            [file.as_uri()], list(resolve_source(str(file), False))
+        )
         self.assertEqual([url], list(resolve_source(url, False)))
         self.assertEqual(5, len(list(resolve_source(str(hello_path), False))))
 
         def_xml_path = fixtures_dir.joinpath("calculator")
-        self.assertEqual(3, len(list(resolve_source(str(def_xml_path), False))))
+        self.assertEqual(
+            3, len(list(resolve_source(str(def_xml_path), False)))
+        )
 
         actual = list(resolve_source(str(fixtures_dir), True))
         self.assertEqual(43, len(actual))

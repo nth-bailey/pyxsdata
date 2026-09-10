@@ -34,8 +34,9 @@ actively maintained with modern tooling.
 - **Python 3.12+ Architecture**: Exclusively leverages PEP 695 generics
   (`class Foo[T]: ...`), type union syntax (`X | Y`), pattern matching, and `kw_only`
   dataclasses.
-- **Native Rust Acceleration (`pyxsdata-core`)**: First-class zero-copy Rust parser
-  backend achieving **~300,000+ objects/sec** (`pip install "pyxsdata[core]"`).
+- **Native Rust Acceleration (`polyxml`)**: First-class zero-copy Rust parser and
+  serializer backend achieving **~300,000+ objects/sec**
+  (`pip install "pyxsdata[core]"`).
 - **Ultra-Fast C++ pugixml Support**: First-class support for constant-memory
   pull-parsing via [pugixml](https://pugixml.org/) (`pip install "pyxsdata[pugixml]"`).
 - **Modern Packaging & Tooling**: Managed and built with Astral
@@ -48,22 +49,20 @@ actively maintained with modern tooling.
 
 `pyxsdata` provides a decoupled, event-driven deserialization architecture supporting
 multiple parser backends. You can freely choose between zero-dependency standard library
-execution, C/C++ acceleration, or native Rust parsing via
-[`pyxsdata-core`](https://github.com/nth-bailey/pyxsdata-core).
+execution, C/C++ acceleration, or native Rust parsing and serialization via
+[`PolyXML`](https://github.com/nth-bailey/PolyXML).
 
 ### Deserialization Benchmarks (Standard Python `@dataclass`)
 
 Parsing **10,000 complex XML items** (3.36 MB payload) into nested Python `@dataclass`
 structures:
 
-| Deserializer / Handler                       | Engine                        | Extra Dependency    | Legacy `xsdata` | `pyxsdata`   | Throughput          | Speedup vs Legacy          |
-| :------------------------------------------- | :---------------------------- | :------------------ | :-------------- | :----------- | :------------------ | :------------------------- |
-| **`CoreEventHandler`** / **`CoreXmlParser`** | **Rust + PyO3 (`quick-xml`)** | `pyxsdata[core]`    | ~513.0 ms       | **34.4 ms**  | **~290,700 objs/s** | **~15.0x (1,490% faster)** |
-| **`NativeEventHandler`**                     | Python `xml.etree`            | _None (built-in)_   | 728.9 ms        | **332.5 ms** | ~30,075 objs/s      | **+54.4% (2.2x faster)**   |
-| **`LxmlEventHandler`**                       | C `libxml2` (`lxml`)          | `pyxsdata[lxml]`    | 753.2 ms        | **375.2 ms** | ~26,650 objs/s      | **+50.2% (2.0x faster)**   |
-| **`PugixmlEventHandler`**                    | C++ `pugixml` (`pygixml`)     | `pyxsdata[pugixml]` | 883.8 ms        | **509.4 ms** | ~19,630 objs/s      | **+42.4% (1.7x faster)**   |
-
-_(Benchmark run on Linux x86_64, CPython 3.12.14, lowest of 5 runs over 10,000 items)_
+| Deserializer / Handler                      | Engine                      | Extra Dependency    | Legacy `xsdata` | `pyxsdata`  | Throughput          | Speedup vs Legacy         |
+| :------------------------------------------ | :-------------------------- | :------------------ | :-------------- | :---------- | :------------------ | :------------------------ |
+| **`CoreXmlParser`** (`CoreEventHandler`)    | **Rust + PyO3 (`PolyXML`)** | `pyxsdata[core]`    | —               | **32.8 ms** | **~304,878 objs/s** | **~10.60x (960% faster)** |
+| **`PugixmlParser`** (`PugixmlEventHandler`) | C++ (`pugixml`)             | `pyxsdata[pugixml]` | 126.8 ms        | 92.4 ms     | ~108,225 objs/s     | ~3.76x (276% faster)      |
+| **`LxmlEventHandler`**                      | C (`lxml`)                  | `pyxsdata[lxml]`    | 245.5 ms        | 218.1 ms    | ~45,850 objs/s      | ~1.60x (60% faster)       |
+| **`XmlParser`** (`DefaultXmlHandler`)       | Pure Python (`xml.etree`)   | —                   | 347.8 ms        | 312.4 ms    | ~32,010 objs/s      | 1.0x (Baseline)           |
 
 ### Deserialization Benchmarks (Pydantic v2 `BaseModel`)
 
@@ -81,18 +80,19 @@ Parsing nested, production-grade **Universal Command and Control Interface (UCI 
 `Entity` telemetry messages (with security markings, timestamps, headers, metadata, and
 enums):
 
-| Deserializer                           | Engine                        | Latency / Message | Throughput         | Speedup                     |
-| :------------------------------------- | :---------------------------- | :---------------- | :----------------- | :-------------------------- |
-| **`pyxsdata-core`** (`pyxsdata[core]`) | **Rust + PyO3 (`quick-xml`)** | **16.5 µs**       | **~60,360 msgs/s** | **~11.47x (1,047% faster)** |
-| **`XmlParser`** (`pyxsdata` Standard)  | Pure Python (`xml.etree`)     | 190.0 µs          | ~5,262 msgs/s      | 1.0x (Baseline)             |
+| Deserializer                          | Engine                        | Latency / Message | Throughput         | Speedup                     |
+| :------------------------------------ | :---------------------------- | :---------------- | :----------------- | :-------------------------- |
+| **`PolyXML`** (`pyxsdata[core]`)      | **Rust + PyO3 (`quick-xml`)** | **16.5 µs**       | **~60,360 msgs/s** | **~11.47x (1,047% faster)** |
+| **`XmlParser`** (`pyxsdata` Standard) | Pure Python (`xml.etree`)     | 190.0 µs          | ~5,262 msgs/s      | 1.0x (Baseline)             |
 
 ### Which Deserializer Should You Use?
 
-- **`CoreXmlParser` / `CoreEventHandler` (`pip install "pyxsdata[core]"`):**
-  **Recommended for high-throughput production systems**, real-time APIs, webhooks, and
-  big data feeds. Driven by native Rust (`quick-xml`), it bypasses intermediate Python
-  DOM objects and maps tokens directly to Python dataclasses or Pydantic models via
-  CPython C-API at **~300,000 objects/second**.
+- **`CoreXmlParser` / `CoreEventHandler` / `CoreXmlSerializer`
+  (`pip install "pyxsdata[core]"`):** **Recommended for high-throughput production
+  systems**, real-time APIs, webhooks, and big data feeds. Driven by native Rust
+  (`PolyXML`), it bypasses intermediate Python DOM objects and maps tokens directly to
+  Python dataclasses or Pydantic models via CPython C-API at **~300,000
+  objects/second**.
 - **`NativeEventHandler` (Built-in standard library):** **Recommended for
   zero-dependency deployments**, lightweight microservices, and serverless environments
   (AWS Lambda, Google Cloud Run) where installing C/Rust compilers is undesirable.
@@ -176,9 +176,9 @@ Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more ✨�
 - XML and JSON parser, serializer
 - PyCode serializer
 - Multiple parser handlers: Native `xml.etree`, C `lxml`, C++ `pugixml`, and Rust
-  `pyxsdata-core`
-- Native Rust zero-copy acceleration (`pyxsdata-core`) for ~300k objs/sec
-  deserialization
+  `PolyXML`
+- Native Rust zero-copy acceleration (`PolyXML`) for ~300k objs/sec deserialization and
+  serialization
 - Support wildcard elements and attributes
 - Support xinclude statements and unknown properties
 - Native Pydantic v2 support (`pyxsdata.pydantic`)

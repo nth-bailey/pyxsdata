@@ -3,7 +3,9 @@ from pyxsdata.utils.testing import AttrTypeFactory, FactoryTestCase
 
 class AttrTypeTests(FactoryTestCase):
     def test_property_is_dependency(self) -> None:
-        attr_type = AttrTypeFactory.create(forward=True, native=True, circular=True)
+        attr_type = AttrTypeFactory.create(
+            forward=True, native=True, circular=True
+        )
         self.assertFalse(attr_type.is_dependency(False))
 
         attr_type.forward = False

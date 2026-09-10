@@ -96,6 +96,7 @@ Run `pyxsdata generate` pointing to your schema or sample XML:
     from dataclasses import dataclass, field
     from decimal import Decimal
 
+
     @dataclass(kw_only=True)
     class Catalog:
         @dataclass(kw_only=True)
@@ -117,6 +118,7 @@ Run `pyxsdata generate` pointing to your schema or sample XML:
     ```python
     from decimal import Decimal
     from pydantic import BaseModel, Field
+
 
     class Catalog(BaseModel):
         class Book(BaseModel):
@@ -153,7 +155,9 @@ Load and parse XML files, strings, or streams in just three lines:
     # Full IDE autocompletion & type safety
     for book in catalog.book:
         status = "In stock" if book.available else "Sold out"
-        print(f"[{book.id}] {book.title} by {book.author} - ${book.price} ({status})")
+        print(
+            f"[{book.id}] {book.title} by {book.author} - ${book.price} ({status})"
+        )
     ```
 
 === "Using Pydantic v2"

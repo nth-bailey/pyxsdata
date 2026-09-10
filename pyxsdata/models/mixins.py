@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field, fields
 from typing import Any
@@ -160,7 +162,7 @@ class ElementBase:
         """Return the restrictions dictionary of this element."""
         return {}
 
-    def children(self, condition: Callable = return_true) -> Iterator["ElementBase"]:
+    def children(self, condition: Callable = return_true) -> Iterator[ElementBase]:
         """Yield the children recursively that match the given condition."""
         for f in fields(self):
             value = getattr(self, f.name)

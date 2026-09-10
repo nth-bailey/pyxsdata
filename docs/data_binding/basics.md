@@ -259,19 +259,19 @@ types.
 === "city.py"
 
     ```python
-    --8<-- "tests/fixtures/typemapping/city.py"
+    --8 < --"tests/fixtures/typemapping/city.py"
     ```
 
 === "street.py"
 
     ```python
-    --8<-- "tests/fixtures/typemapping/street.py"
+    --8 < --"tests/fixtures/typemapping/street.py"
     ```
 
 === "house.py"
 
     ```python
-    --8<-- "tests/fixtures/typemapping/house.py"
+    --8 < --"tests/fixtures/typemapping/house.py"
     ```
 
 ```python

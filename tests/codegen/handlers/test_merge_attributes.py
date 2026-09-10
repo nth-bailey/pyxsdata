@@ -91,12 +91,16 @@ class MergeAttributesTests(FactoryTestCase):
         attr1 = AttrFactory.element(
             name="configOption",
             index=5,
-            restrictions=Restrictions(min_occurs=0, max_occurs=1, choice=choice1_id),
+            restrictions=Restrictions(
+                min_occurs=0, max_occurs=1, choice=choice1_id
+            ),
         )
         attr2 = AttrFactory.element(
             name="configOption",
             index=8,
-            restrictions=Restrictions(min_occurs=0, max_occurs=1, choice=choice2_id),
+            restrictions=Restrictions(
+                min_occurs=0, max_occurs=1, choice=choice2_id
+            ),
         )
 
         target = ClassFactory.create(attrs=[attr1, attr2])
@@ -121,12 +125,16 @@ class MergeAttributesTests(FactoryTestCase):
         attr1 = AttrFactory.element(
             name="b",
             index=10,
-            restrictions=Restrictions(min_occurs=0, max_occurs=1, choice=choice_id),
+            restrictions=Restrictions(
+                min_occurs=0, max_occurs=1, choice=choice_id
+            ),
         )
         attr2 = AttrFactory.element(
             name="b",
             index=11,
-            restrictions=Restrictions(min_occurs=1, max_occurs=1, choice=choice_id),
+            restrictions=Restrictions(
+                min_occurs=1, max_occurs=1, choice=choice_id
+            ),
         )
 
         target = ClassFactory.create(attrs=[attr1, attr2])

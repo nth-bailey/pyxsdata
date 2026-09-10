@@ -28,7 +28,9 @@ class DesignateClassPackagesTests(FactoryTestCase):
         xsi = Namespace.XSI.location
         xlink = Namespace.XLINK.location
 
-        core = ClassFactory.list(1, inner=[ClassFactory.create()], location=voc)
+        core = ClassFactory.list(
+            1, inner=[ClassFactory.create()], location=voc
+        )
         multi_one = ClassFactory.list(2, location=prpa)
         multi_two = ClassFactory.list(1, location=coct)
         http_one = ClassFactory.list(1, location=foo_bar)
@@ -129,7 +131,9 @@ class DesignateClassPackagesTests(FactoryTestCase):
         self.assertEqual("class_D", classes[2].module)
         self.assertEqual("class_E", classes[3].module)
 
-        classes[3].attrs.append(AttrFactory.reference(classes[1].qname, circular=True))
+        classes[3].attrs.append(
+            AttrFactory.reference(classes[1].qname, circular=True)
+        )
         self.handler.run()
         self.assertEqual("class_B", classes[0].module)
         self.assertEqual("class_E", classes[1].module)
@@ -147,7 +151,9 @@ class DesignateClassPackagesTests(FactoryTestCase):
         classes[0].attrs.append(AttrFactory.reference(classes[1].qname))
         classes[1].attrs.append(AttrFactory.reference(classes[2].qname))
         classes[2].attrs.append(AttrFactory.reference(classes[3].qname))
-        classes[3].attrs.append(AttrFactory.reference(classes[1].qname, circular=True))
+        classes[3].attrs.append(
+            AttrFactory.reference(classes[1].qname, circular=True)
+        )
 
         self.config.output.structure_style = StructureStyle.NAMESPACE_CLUSTERS
         self.config.output.package = "models"
@@ -175,7 +181,9 @@ class DesignateClassPackagesTests(FactoryTestCase):
         classes[0].attrs.append(AttrFactory.reference(classes[1].qname))
         classes[1].attrs.append(AttrFactory.reference(classes[2].qname))
         classes[2].attrs.append(AttrFactory.reference(classes[3].qname))
-        classes[3].attrs.append(AttrFactory.reference(classes[1].qname, circular=True))
+        classes[3].attrs.append(
+            AttrFactory.reference(classes[1].qname, circular=True)
+        )
 
         self.config.output.structure_style = StructureStyle.NAMESPACE_CLUSTERS
         self.config.output.package = "models"

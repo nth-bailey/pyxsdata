@@ -23,7 +23,9 @@ class NamespacesTests(TestCase):
         self.assertEqual("ns0", load_prefix("a", ns_map))
         self.assertEqual("ns0", load_prefix("a", ns_map))
         self.assertEqual("xs", load_prefix(Namespace.XS.uri, ns_map))
-        self.assertEqual("soapenv", load_prefix(Namespace.SOAP_ENV.uri, ns_map))
+        self.assertEqual(
+            "soapenv", load_prefix(Namespace.SOAP_ENV.uri, ns_map)
+        )
 
         expected = {
             "ns0": "a",
@@ -36,7 +38,9 @@ class NamespacesTests(TestCase):
         ns_map: dict = {}
         self.assertEqual("ns0", generate_prefix("a", ns_map))
         self.assertEqual("xs", generate_prefix(Namespace.XS.uri, ns_map))
-        self.assertEqual("soapenv", generate_prefix(Namespace.SOAP_ENV.uri, ns_map))
+        self.assertEqual(
+            "soapenv", generate_prefix(Namespace.SOAP_ENV.uri, ns_map)
+        )
         self.assertEqual("ns3", generate_prefix("b", ns_map))
 
         expected = {

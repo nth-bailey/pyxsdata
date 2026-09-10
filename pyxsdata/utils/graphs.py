@@ -1,7 +1,9 @@
 from collections.abc import Iterator
 
 
-def strongly_connected_components(edges: dict[str, list[str]]) -> Iterator[set[str]]:
+def strongly_connected_components(
+    edges: dict[str, list[str]],
+) -> Iterator[set[str]]:
     """Compute Strongly Connected Components of a directed graph.
 
     From https://code.activestate.com/recipes/578507/ From

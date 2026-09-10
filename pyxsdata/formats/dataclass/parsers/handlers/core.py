@@ -3,17 +3,17 @@ import pathlib
 from typing import Any
 from xml.etree import ElementTree as etree
 
-import pyxsdata_core
+import polyxml
 
 from pyxsdata.exceptions import ParserError
 from pyxsdata.formats.dataclass.parsers.mixins import XmlHandler
 
 
 class CoreEventHandler(XmlHandler):
-    """An ultra-fast native Rust XML deserialization handler powered by pyxsdata-core."""
+    """An ultra-fast native Rust XML deserialization handler powered by PolyXML."""
 
     def parse(self, source: Any, ns_map: dict[str | None, str]) -> Any:
-        """Parse the source XML document using pyxsdata-core.
+        """Parse the source XML document using PolyXML.
 
         Args:
             source: The xml source, can be a file resource, path, input stream,
@@ -59,6 +59,6 @@ class CoreEventHandler(XmlHandler):
             raise ParserError(f"Failed to create target class `{target}`")
 
         try:
-            return pyxsdata_core.deserialize(raw_bytes, clazz)
+            return polyxml.deserialize(raw_bytes, clazz)
         except Exception as e:
             raise ParserError(e) from e

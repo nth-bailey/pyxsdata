@@ -97,36 +97,54 @@ class SchemaMapperTests(FactoryTestCase):
         element = Element(ref="foo:something")
         element.ns_map["foo"] = "bar"
 
-        self.assertEqual("bar", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "bar", SchemaMapper.element_namespace(element, target_ns)
+        )
 
         element = Element(form=FormType.QUALIFIED)
-        self.assertEqual("foobar", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "foobar", SchemaMapper.element_namespace(element, target_ns)
+        )
 
         element = Element()
-        self.assertEqual("", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "", SchemaMapper.element_namespace(element, target_ns)
+        )
 
         element.target_namespace = "tns"
-        self.assertEqual("tns", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "tns", SchemaMapper.element_namespace(element, target_ns)
+        )
 
         attribute = Attribute()
         self.assertIsNone(SchemaMapper.element_namespace(attribute, target_ns))
 
         attribute.target_namespace = "tns"
-        self.assertEqual("tns", SchemaMapper.element_namespace(attribute, target_ns))
+        self.assertEqual(
+            "tns", SchemaMapper.element_namespace(attribute, target_ns)
+        )
 
         element = Element(ref="something")
-        self.assertEqual("foobar", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "foobar", SchemaMapper.element_namespace(element, target_ns)
+        )
 
         element.ns_map["foo"] = "foobar"
-        self.assertEqual("", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "", SchemaMapper.element_namespace(element, target_ns)
+        )
 
         element.ns_map[None] = "foobar"
-        self.assertEqual("foobar", SchemaMapper.element_namespace(element, target_ns))
+        self.assertEqual(
+            "foobar", SchemaMapper.element_namespace(element, target_ns)
+        )
 
     @mock.patch.object(SchemaMapper, "element_namespace")
     @mock.patch.object(SchemaMapper, "build_class_attributes")
     @mock.patch.object(SchemaMapper, "build_class_extensions")
-    @mock.patch.object(Element, "substitutions", new_callable=mock.PropertyMock)
+    @mock.patch.object(
+        Element, "substitutions", new_callable=mock.PropertyMock
+    )
     @mock.patch.object(Element, "is_abstract", new_callable=mock.PropertyMock)
     @mock.patch.object(Element, "is_nillable", new_callable=mock.PropertyMock)
     @mock.patch.object(Element, "display_help", new_callable=mock.PropertyMock)
@@ -151,7 +169,9 @@ class SchemaMapperTests(FactoryTestCase):
 
         element = Element()
         element.ns_map["sm"] = "sm_ns"
-        result = SchemaMapper.build_class(element, "container", "tests", "target_ns")
+        result = SchemaMapper.build_class(
+            element, "container", "tests", "target_ns"
+        )
 
         mock_build_class_attributes.assert_called_once_with(element, result)
         mock_build_class_extensions.assert_called_once_with(element, result)
@@ -204,7 +224,8 @@ class SchemaMapperTests(FactoryTestCase):
         sequence_two = Sequence(max_occurs=2, elements=[Element(), Element()])
         sequence_two.index = 2
         restriction = Restriction(
-            enumerations=[Enumeration(value=x) for x in "abc"], sequence=sequence_two
+            enumerations=[Enumeration(value=x) for x in "abc"],
+            sequence=sequence_two,
         )
         complex_type = ComplexType(
             attributes=[Attribute(), Attribute()],
@@ -215,15 +236,42 @@ class SchemaMapperTests(FactoryTestCase):
         restrictions = Restrictions.from_element(complex_type)
         children = SchemaMapper.element_children(complex_type, restrictions)
         expected = [
-            (sequence_two.elements[0], Restrictions.from_element(sequence_two)),
-            (sequence_two.elements[1], Restrictions.from_element(sequence_two)),
-            (restriction.enumerations[0], Restrictions.from_element(restriction)),
-            (restriction.enumerations[1], Restrictions.from_element(restriction)),
-            (restriction.enumerations[2], Restrictions.from_element(restriction)),
-            (sequence_one.elements[0], Restrictions.from_element(sequence_one)),
-            (sequence_one.elements[1], Restrictions.from_element(sequence_one)),
-            (complex_type.attributes[0], Restrictions.from_element(complex_type)),
-            (complex_type.attributes[1], Restrictions.from_element(complex_type)),
+            (
+                sequence_two.elements[0],
+                Restrictions.from_element(sequence_two),
+            ),
+            (
+                sequence_two.elements[1],
+                Restrictions.from_element(sequence_two),
+            ),
+            (
+                restriction.enumerations[0],
+                Restrictions.from_element(restriction),
+            ),
+            (
+                restriction.enumerations[1],
+                Restrictions.from_element(restriction),
+            ),
+            (
+                restriction.enumerations[2],
+                Restrictions.from_element(restriction),
+            ),
+            (
+                sequence_one.elements[0],
+                Restrictions.from_element(sequence_one),
+            ),
+            (
+                sequence_one.elements[1],
+                Restrictions.from_element(sequence_one),
+            ),
+            (
+                complex_type.attributes[0],
+                Restrictions.from_element(complex_type),
+            ),
+            (
+                complex_type.attributes[1],
+                Restrictions.from_element(complex_type),
+            ),
         ]
         self.assertIsInstance(children, GeneratorType)
         self.assertEqual(expected, list(children))
@@ -235,11 +283,16 @@ class SchemaMapperTests(FactoryTestCase):
         )
         complex_type.sequence.index = 2
         parent_restrictions = Restrictions.from_element(complex_type)
-        children = SchemaMapper.element_children(complex_type, parent_restrictions)
+        children = SchemaMapper.element_children(
+            complex_type, parent_restrictions
+        )
 
         _child, restrictions = next(children)
         expected = Restrictions(
-            path=[("s", id(complex_type.sequence), 0, 3), ("c", id(choice), 1, 1)]
+            path=[
+                ("s", id(complex_type.sequence), 0, 3),
+                ("c", id(choice), 1, 1),
+            ]
         )
         self.assertEqual(expected, restrictions)
 
@@ -272,9 +325,13 @@ class SchemaMapperTests(FactoryTestCase):
     @mock.patch.object(SchemaMapper, "element_namespace")
     @mock.patch.object(Attribute, "get_restrictions")
     @mock.patch.object(Attribute, "is_fixed", new_callable=mock.PropertyMock)
-    @mock.patch.object(Attribute, "default_value", new_callable=mock.PropertyMock)
+    @mock.patch.object(
+        Attribute, "default_value", new_callable=mock.PropertyMock
+    )
     @mock.patch.object(Attribute, "prefix", new_callable=mock.PropertyMock)
-    @mock.patch.object(Attribute, "display_help", new_callable=mock.PropertyMock)
+    @mock.patch.object(
+        Attribute, "display_help", new_callable=mock.PropertyMock
+    )
     @mock.patch.object(Attribute, "real_name", new_callable=mock.PropertyMock)
     def test_build_class_attribute(
         self,
@@ -289,7 +346,9 @@ class SchemaMapperTests(FactoryTestCase):
     ) -> None:
         item = ClassFactory.create(ns_map={"bar": "foo"})
 
-        mock_build_attr_types.return_value = AttrTypeFactory.list(1, qname="int")
+        mock_build_attr_types.return_value = AttrTypeFactory.list(
+            1, qname="int"
+        )
         mock_real_name.return_value = item.name
         mock_display_help.return_value = "sos"
         mock_prefix.return_value = "com"
@@ -317,11 +376,15 @@ class SchemaMapperTests(FactoryTestCase):
         self.assertEqual(expected, item.attrs[0])
         self.assertEqual({"bar": "foo", "foo": "bar"}, item.ns_map)
         mock_build_attr_types.assert_called_once_with(item, attribute)
-        mock_element_namespace.assert_called_once_with(attribute, item.target_namespace)
+        mock_element_namespace.assert_called_once_with(
+            attribute, item.target_namespace
+        )
 
     @mock.patch.object(Attribute, "attr_types", new_callable=mock.PropertyMock)
     @mock.patch.object(SchemaMapper, "build_inner_classes")
-    def test_build_attr_types(self, mock_build_inner_classes, mock_attr_types) -> None:
+    def test_build_attr_types(
+        self, mock_build_inner_classes, mock_attr_types
+    ) -> None:
         mock_attr_types.return_value = ["xs:integer", "xs:string"]
         mock_build_inner_classes.return_value = []
 
@@ -358,7 +421,9 @@ class SchemaMapperTests(FactoryTestCase):
         self.assertEqual(expected, actual)
         self.assertEqual([inner_class], item.inner)
 
-    @mock.patch.object(Attribute, "default_type", new_callable=mock.PropertyMock)
+    @mock.patch.object(
+        Attribute, "default_type", new_callable=mock.PropertyMock
+    )
     @mock.patch.object(Attribute, "attr_types", new_callable=mock.PropertyMock)
     @mock.patch.object(SchemaMapper, "build_inner_classes")
     def test_build_attr_types_when_obj_has_no_types(
@@ -393,7 +458,9 @@ class SchemaMapperTests(FactoryTestCase):
                 Alternative(simple_type=enumeration, id="c"),
             ]
         )
-        result = SchemaMapper.build_inner_classes(element, "module", "target_ns")
+        result = SchemaMapper.build_inner_classes(
+            element, "module", "target_ns"
+        )
         self.assertIsInstance(result, Iterator)
         self.assertEqual(inner_classes, list(result))
         self.assertEqual("a", complex_type.name)
@@ -401,13 +468,17 @@ class SchemaMapperTests(FactoryTestCase):
 
         mock_build_class.assert_has_calls(
             [
-                mock.call(complex_type, Tag.ALTERNATIVE, "module", "target_ns"),
+                mock.call(
+                    complex_type, Tag.ALTERNATIVE, "module", "target_ns"
+                ),
                 mock.call(enumeration, Tag.ALTERNATIVE, "module", "target_ns"),
             ]
         )
 
     @mock.patch.object(SchemaMapper, "build_class")
-    def test_build_inner_classes_with_enumeration(self, mock_build_class) -> None:
+    def test_build_inner_classes_with_enumeration(
+        self, mock_build_class
+    ) -> None:
         inner = ClassFactory.enumeration(2)
         mock_build_class.return_value = inner
 
@@ -415,7 +486,9 @@ class SchemaMapperTests(FactoryTestCase):
             restriction=Restriction(enumerations=[Enumeration(value="a")])
         )
 
-        result = SchemaMapper.build_inner_classes(enumeration, "module", "target_ns")
+        result = SchemaMapper.build_inner_classes(
+            enumeration, "module", "target_ns"
+        )
         self.assertIsInstance(result, Iterator)
         self.assertEqual([inner], list(result))
         self.assertIsNone(enumeration.name)

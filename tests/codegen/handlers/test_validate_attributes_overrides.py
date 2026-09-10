@@ -95,7 +95,9 @@ class ValidateAttributesOverridesTests(FactoryTestCase):
             class_a.attrs[1], class_c.attrs[1]
         )
 
-    def test_validate_attrs_remove_non_overriding_prohibited_attrs(self) -> None:
+    def test_validate_attrs_remove_non_overriding_prohibited_attrs(
+        self,
+    ) -> None:
         target = ClassFactory.elements(1)
         target.attrs[0].restrictions.max_occurs = 0
 

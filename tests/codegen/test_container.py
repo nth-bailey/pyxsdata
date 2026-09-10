@@ -17,7 +17,9 @@ class ClassContainerTests(FactoryTestCase):
         classes = [
             ClassFactory.create(qname="{pyxsdata}foo", tag=Tag.ELEMENT),
             ClassFactory.create(qname="{pyxsdata}foo", tag=Tag.COMPLEX_TYPE),
-            ClassFactory.create(qname="{pyxsdata}foobar", tag=Tag.COMPLEX_TYPE),
+            ClassFactory.create(
+                qname="{pyxsdata}foobar", tag=Tag.COMPLEX_TYPE
+            ),
         ]
         config = GeneratorConfig()
         container = ClassContainer(config)
@@ -72,7 +74,9 @@ class ClassContainerTests(FactoryTestCase):
 
         class_a = ClassFactory.create(qname="a")
         class_b = ClassFactory.create(qname="b", status=Status.FLATTENED)
-        class_c = ClassFactory.enumeration(2, qname="b", status=Status.FLATTENING)
+        class_c = ClassFactory.enumeration(
+            2, qname="b", status=Status.FLATTENING
+        )
         mock_process_class.side_effect = process_class
         self.container.extend([class_a, class_b, class_c])
         self.container.step = Steps.FLATTEN
@@ -81,7 +85,8 @@ class ClassContainerTests(FactoryTestCase):
         self.assertEqual(class_a, self.container.find(class_a.qname))
         self.assertEqual(class_b, self.container.find(class_b.qname))
         self.assertEqual(
-            class_c, self.container.find(class_b.qname, lambda x: x.is_enumeration)
+            class_c,
+            self.container.find(class_b.qname, lambda x: x.is_enumeration),
         )
         mock_process_class.assert_called_once_with(class_a, Steps.FLATTEN)
 

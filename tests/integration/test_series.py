@@ -18,7 +18,8 @@ def test_json_documents() -> None:
     package = "tests.fixtures.series"
     runner = CliRunner()
     result = runner.invoke(
-        cli, ["generate", str(filepath.joinpath("samples")), "--package", package]
+        cli,
+        ["generate", str(filepath.joinpath("samples")), "--package", package],
     )
 
     if result.exception:

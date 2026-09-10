@@ -10,7 +10,10 @@ from pyxsdata.formats.dataclass.models.elements import XmlMeta, XmlVar
 from pyxsdata.formats.dataclass.parsers import nodes
 from pyxsdata.formats.dataclass.parsers.config import ParserConfig
 from pyxsdata.formats.dataclass.parsers.mixins import XmlNode
-from pyxsdata.formats.dataclass.parsers.utils import ParserUtils, PendingCollection
+from pyxsdata.formats.dataclass.parsers.utils import (
+    ParserUtils,
+    PendingCollection,
+)
 from pyxsdata.logger import logger
 from pyxsdata.models.enums import DataType, Namespace
 from pyxsdata.utils.namespaces import target_uri

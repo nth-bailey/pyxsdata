@@ -31,21 +31,28 @@ class DependenciesResolverTest(FactoryTestCase):
         mock_create_class_map.return_value = {"b": classes[0]}
         create_class_list.return_value = classes[::-1]
 
-        self.resolver.imports.append(PackageFactory.create(name="foo", source="bar"))
+        self.resolver.imports.append(
+            PackageFactory.create(name="foo", source="bar")
+        )
         self.resolver.aliases = {"a": "a"}
 
         self.resolver.process(classes)
         self.assertEqual([], self.resolver.imports)
         self.assertEqual({}, self.resolver.aliases)
 
-        self.assertEqual(mock_create_class_map.return_value, self.resolver.class_map)
-        self.assertEqual(create_class_list.return_value, self.resolver.class_list)
+        self.assertEqual(
+            mock_create_class_map.return_value, self.resolver.class_map
+        )
+        self.assertEqual(
+            create_class_list.return_value, self.resolver.class_list
+        )
 
         mock_resolve_imports.assert_called_once_with()
 
     def test_sorted_imports(self) -> None:
         packages = [
-            PackageFactory.create(name=x, alias=None, source="foo") for x in "cab"
+            PackageFactory.create(name=x, alias=None, source="foo")
+            for x in "cab"
         ]
         self.resolver.imports = packages
 
@@ -61,7 +68,9 @@ class DependenciesResolverTest(FactoryTestCase):
         mock_apply_aliases.side_effect = lambda x: x
 
         self.resolver.class_list = ["a", "b", "c", "d"]
-        self.resolver.class_map = {x: ClassFactory.create(qname=x) for x in "ca"}
+        self.resolver.class_map = {
+            x: ClassFactory.create(qname=x) for x in "ca"
+        }
 
         result = self.resolver.sorted_classes()
         expected = [self.resolver.class_map[x] for x in "ac"]
@@ -96,7 +105,9 @@ class DependenciesResolverTest(FactoryTestCase):
                             name="compound",
                             types=[AttrTypeFactory.native(DataType.ANY_TYPE)],
                             choices=[
-                                AttrFactory.create(name="a", types=[type_a, type_d]),
+                                AttrFactory.create(
+                                    name="a", types=[type_a, type_d]
+                                ),
                             ],
                         ),
                     ],
@@ -123,8 +134,12 @@ class DependenciesResolverTest(FactoryTestCase):
         self.assertEqual(1, len(obj.inner[0].attrs[0].types))
         self.assertEqual(1, len(obj.inner[0].attrs[1].types))
 
-        self.assertEqual("IamA", obj.inner[0].attrs[2].choices[0].types[0].alias)
-        self.assertEqual("IamD", obj.inner[0].attrs[2].choices[0].types[1].alias)
+        self.assertEqual(
+            "IamA", obj.inner[0].attrs[2].choices[0].types[0].alias
+        )
+        self.assertEqual(
+            "IamD", obj.inner[0].attrs[2].choices[0].types[1].alias
+        )
 
         self.assertIsNone(obj.inner[0].attrs[0].types[0].alias)
         self.assertEqual("IamD", obj.inner[0].attrs[1].types[0].alias)
@@ -193,7 +208,9 @@ class DependenciesResolverTest(FactoryTestCase):
         class_a = ClassFactory.create()
         self.resolver.registry[class_a.qname] = "foo.bar"
 
-        self.assertEqual("foo.bar", self.resolver.get_class_module(class_a.qname))
+        self.assertEqual(
+            "foo.bar", self.resolver.get_class_module(class_a.qname)
+        )
         with self.assertRaises(CodegenError):
             self.resolver.get_class_module("nope")
 

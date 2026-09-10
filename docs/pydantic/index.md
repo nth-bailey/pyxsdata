@@ -77,18 +77,20 @@ serializer = XmlSerializer()
 output_xml = serializer.render(order)
 ```
 
-### High-Performance Native Rust Parsing (`CoreXmlParser`)
+### High-Performance Native Rust Parsing & Serialization (`CoreXmlParser`, `CoreXmlSerializer`)
 
 When maximum parsing throughput is required, install `pyxsdata[core]` to leverage
-`pyxsdata-core` written in Rust. `CoreXmlParser` natively creates Pydantic v2 model
-instances at over **310,000 objects/sec** (over 7.6x faster than standard Python
-parsing):
+`PolyXML` written in Rust. `CoreXmlParser` natively creates Pydantic v2 model instances
+at over **310,000 objects/sec** (over 7.6x faster than standard Python parsing):
 
 ```python
-from pyxsdata.pydantic import CoreXmlParser
+from pyxsdata.pydantic import CoreXmlParser, CoreXmlSerializer
 
 parser = CoreXmlParser()
 order = parser.from_string(xml_content, PurchaseOrder)
+
+serializer = CoreXmlSerializer()
+output_xml = serializer.render(order)
 ```
 
 ### Manual Context Configuration

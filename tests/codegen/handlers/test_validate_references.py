@@ -53,7 +53,9 @@ class ValidateReferencesTests(FactoryTestCase):
         first.inner.append(inner)
         first.attrs.append(
             AttrFactory.create(
-                types=[AttrTypeFactory.create(qname="foo", reference=inner.ref)]
+                types=[
+                    AttrTypeFactory.create(qname="foo", reference=inner.ref)
+                ]
             )
         )
         self.container.add(first)
@@ -61,7 +63,9 @@ class ValidateReferencesTests(FactoryTestCase):
         with self.assertRaises(CodegenError):
             self.handler.run()
 
-    def test_validate_parent_references_with_root_class_with_parent(self) -> None:
+    def test_validate_parent_references_with_root_class_with_parent(
+        self,
+    ) -> None:
         target = ClassFactory.create()
         target.parent = ClassFactory.create()
         self.container.add(target)

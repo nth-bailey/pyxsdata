@@ -168,7 +168,9 @@ class FiltersTests(FactoryTestCase):
 
         target.extensions.clear()
         expected = self.filters.class_annotations(target, "FooBar")
-        self.assertEqual(["@c", "@b", "@dataclass(kw_only=True)", "@d"], expected)
+        self.assertEqual(
+            ["@c", "@b", "@dataclass(kw_only=True)", "@d"], expected
+        )
 
         self.filters.default_class_annotation = None
         expected = self.filters.class_annotations(target, "FooBar")
@@ -188,7 +190,9 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("none", self.filters.field_name("None", "cls"))
         self.assertEqual("br_eak", self.filters.field_name("BrEak", "cls"))
         self.assertEqual("value_1", self.filters.field_name("1", "cls"))
-        self.assertEqual("value_minus_1_1", self.filters.field_name("-1.1", "cls"))
+        self.assertEqual(
+            "value_minus_1_1", self.filters.field_name("-1.1", "cls")
+        )
         self.assertEqual("cbad", self.filters.field_name("abcd", "cls"))
 
         self.filters.field_case = NameCase.ORIGINAL
@@ -199,12 +203,18 @@ class FiltersTests(FactoryTestCase):
 
         self.assertEqual("VALUE", self.filters.constant_name("", "cls"))
         self.assertEqual("FOO", self.filters.constant_name("foo", "cls"))
-        self.assertEqual("FOO_BAR", self.filters.constant_name("foo:bar", "cls"))
-        self.assertEqual("FOO_BAR", self.filters.constant_name("FooBar", "cls"))
+        self.assertEqual(
+            "FOO_BAR", self.filters.constant_name("foo:bar", "cls")
+        )
+        self.assertEqual(
+            "FOO_BAR", self.filters.constant_name("FooBar", "cls")
+        )
         self.assertEqual("NONE", self.filters.constant_name("None", "cls"))
         self.assertEqual("BR_EAK", self.filters.constant_name("BrEak", "cls"))
         self.assertEqual("VALUE_1", self.filters.constant_name("1", "cls"))
-        self.assertEqual("VALUE_MINUS_1", self.filters.constant_name("-1", "cls"))
+        self.assertEqual(
+            "VALUE_MINUS_1", self.filters.constant_name("-1", "cls")
+        )
         self.assertEqual("CBAD", self.filters.constant_name("ABCD", "cls"))
 
     def test_module_name(self) -> None:
@@ -216,10 +226,13 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("foo_bar_wtf", self.filters.module_name("fooBar.wtf"))
         self.assertEqual("mod_1111", self.filters.module_name("1111"))
         self.assertEqual("xs_string", self.filters.module_name("xs:string"))
-        self.assertEqual("foo_bar_bam", self.filters.module_name("foo:bar_bam"))
+        self.assertEqual(
+            "foo_bar_bam", self.filters.module_name("foo:bar_bam")
+        )
         self.assertEqual("bar_bam", self.filters.module_name("urn:bar_bam"))
         self.assertEqual(
-            "pyxsdata", self.filters.module_name("http://pypi.org/project/xsdata/")
+            "pyxsdata",
+            self.filters.module_name("http://pypi.org/project/xsdata/"),
         )
 
     def test_package_name(self) -> None:
@@ -229,7 +242,9 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual(
             "foo.bar_bar.pkg_1", self.filters.package_name("Foo.BAR_bar.1")
         )
-        self.assertEqual("foo.boom.pkg_1", self.filters.package_name("Foo.boom.1"))
+        self.assertEqual(
+            "foo.boom.pkg_1", self.filters.package_name("Foo.boom.1")
+        )
         self.assertEqual("", self.filters.package_name(""))
 
     def test_type_name(self) -> None:
@@ -247,7 +262,9 @@ class FiltersTests(FactoryTestCase):
         attr = AttrFactory.create(types=[AttrTypeFactory.create(qname="foo")])
         self.assertEqual("Foo", self.filters.constant_value(attr))
 
-        attr = AttrFactory.create(types=[AttrTypeFactory.create(alias="alias")])
+        attr = AttrFactory.create(
+            types=[AttrTypeFactory.create(alias="alias")]
+        )
         self.assertEqual("Alias", self.filters.constant_value(attr))
 
     def test_apply_substitutions_with_regexes(self) -> None:
@@ -324,7 +341,9 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual(expected, result)
 
     @mock.patch.object(Filters, "field_metadata")
-    def test_field_definition_without_metadata(self, mock_field_metadata) -> None:
+    def test_field_definition_without_metadata(
+        self, mock_field_metadata
+    ) -> None:
         mock_field_metadata.return_value = {}
         str_attr = AttrFactory.create(types=[type_str], tag=Tag.RESTRICTION)
         result = self.filters.field_definition(self.obj, str_attr, None)
@@ -343,7 +362,9 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("'foo'", self.filters.field_default_value(attr))
 
     def test_field_default_value_with_type_tokens(self) -> None:
-        attr = AttrFactory.create(types=[type_int, type_str], default="1  \n bar")
+        attr = AttrFactory.create(
+            types=[type_int, type_str], default="1  \n bar"
+        )
         attr.restrictions.tokens = True
         expected = """lambda: [
             1,
@@ -372,23 +393,35 @@ class FiltersTests(FactoryTestCase):
 
         attr.default = "inf"
         attr.types = [type_int, type_float]
-        self.assertEqual('float("inf")', self.filters.field_default_value(attr))
+        self.assertEqual(
+            'float("inf")', self.filters.field_default_value(attr)
+        )
 
         attr.default = "-inf"
-        self.assertEqual('float("-inf")', self.filters.field_default_value(attr))
+        self.assertEqual(
+            'float("-inf")', self.filters.field_default_value(attr)
+        )
 
         attr.default = "NaN"
-        self.assertEqual('float("nan")', self.filters.field_default_value(attr))
+        self.assertEqual(
+            'float("nan")', self.filters.field_default_value(attr)
+        )
 
     def test_field_default_value_with_type_decimal(self) -> None:
         attr = AttrFactory.create(types=[type_decimal], default="1.5")
-        self.assertEqual("Decimal('1.5')", self.filters.field_default_value(attr))
+        self.assertEqual(
+            "Decimal('1.5')", self.filters.field_default_value(attr)
+        )
 
         attr.default = "-inf"
-        self.assertEqual("Decimal('-Infinity')", self.filters.field_default_value(attr))
+        self.assertEqual(
+            "Decimal('-Infinity')", self.filters.field_default_value(attr)
+        )
 
         attr.default = "inf"
-        self.assertEqual("Decimal('Infinity')", self.filters.field_default_value(attr))
+        self.assertEqual(
+            "Decimal('Infinity')", self.filters.field_default_value(attr)
+        )
 
     def test_field_default_value_with_type_int(self) -> None:
         attr = AttrFactory.create(types=[type_int], default="1")
@@ -400,7 +433,8 @@ class FiltersTests(FactoryTestCase):
 
     def test_field_default_value_with_type_enum(self) -> None:
         attr = AttrFactory.create(
-            types=AttrTypeFactory.list(1, qname="{a}foo"), default="@enum@{a}foo::bar"
+            types=AttrTypeFactory.list(1, qname="{a}foo"),
+            default="@enum@{a}foo::bar",
         )
         self.assertEqual("Foo.BAR", self.filters.field_default_value(attr))
 
@@ -408,7 +442,9 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("FooBar.BAR", self.filters.field_default_value(attr))
 
         attr.default = "@enum@{a}foo::bar@thug"
-        self.assertEqual("FooBar.BAR_THUG", self.filters.field_default_value(attr))
+        self.assertEqual(
+            "FooBar.BAR_THUG", self.filters.field_default_value(attr)
+        )
 
         attr.restrictions.tokens = True
         expected = """lambda: [
@@ -432,7 +468,9 @@ class FiltersTests(FactoryTestCase):
     def test_field_default_value_with_xml_duration(self) -> None:
         attr = AttrFactory.create(types=[type_duration], default="P30M")
 
-        self.assertEqual('XmlDuration("P30M")', self.filters.field_default_value(attr))
+        self.assertEqual(
+            'XmlDuration("P30M")', self.filters.field_default_value(attr)
+        )
 
     def test_field_default_value_with_any_attribute(self) -> None:
         attr = AttrFactory.any_attribute()
@@ -447,7 +485,9 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("tuple", self.filters.field_default_value(attr))
 
     def test_field_default_value_with_multiple_types(self) -> None:
-        attr = AttrFactory.create(types=[type_bool, type_int, type_float], default="2")
+        attr = AttrFactory.create(
+            types=[type_bool, type_int, type_float], default="2"
+        )
         self.assertEqual("2", self.filters.field_default_value(attr))
 
         attr.default = 1.0
@@ -459,31 +499,52 @@ class FiltersTests(FactoryTestCase):
     def test_field_metadata(self) -> None:
         attr = AttrFactory.element()
         expected = {"name": "attr_B", "type": "Element"}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, None)
+        )
 
     def test_field_metadata_schema_default(self) -> None:
         attr = AttrFactory.element(types=[type_str], default=None)
         attr.schema_default = "abc"
         expected = {"name": "attr_B", "type": "Element", "default": "abc"}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, None)
+        )
 
         attr_bool = AttrFactory.element(types=[type_bool], default=None)
         attr_bool.schema_default = "false"
         expected_bool = {"name": "attr_C", "type": "Element", "default": False}
-        self.assertEqual(expected_bool, self.filters.field_metadata(self.obj, attr_bool, None))
+        self.assertEqual(
+            expected_bool,
+            self.filters.field_metadata(self.obj, attr_bool, None),
+        )
 
         # Test fallback when types is empty
         attr_empty = AttrFactory.element(default=None)
         attr_empty.types.clear()
         attr_empty.schema_default = "raw_val"
-        expected_empty = {"name": "attr_D", "type": "Element", "default": "raw_val"}
-        self.assertEqual(expected_empty, self.filters.field_metadata(self.obj, attr_empty, None))
+        expected_empty = {
+            "name": "attr_D",
+            "type": "Element",
+            "default": "raw_val",
+        }
+        self.assertEqual(
+            expected_empty,
+            self.filters.field_metadata(self.obj, attr_empty, None),
+        )
 
         # Test exception fallback when deserialization fails
         attr_invalid = AttrFactory.element(types=[type_int], default=None)
         attr_invalid.schema_default = "invalid_int"
-        expected_invalid = {"name": "attr_E", "type": "Element", "default": "invalid_int"}
-        self.assertEqual(expected_invalid, self.filters.field_metadata(self.obj, attr_invalid, None))
+        expected_invalid = {
+            "name": "attr_E",
+            "type": "Element",
+            "default": "invalid_int",
+        }
+        self.assertEqual(
+            expected_invalid,
+            self.filters.field_metadata(self.obj, attr_invalid, None),
+        )
 
     def test_field_metadata_namespace(self) -> None:
         attr = AttrFactory.element(namespace="foo")
@@ -535,31 +596,43 @@ class FiltersTests(FactoryTestCase):
         attr.restrictions.max_inclusive = "2"
 
         expected = {"min_occurs": 1, "max_occurs": 2, "max_inclusive": 2}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, None)
+        )
 
         attr.restrictions.min_occurs = 1
         attr.restrictions.max_occurs = 1
         expected = {"max_inclusive": 2}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, None)
+        )
 
         attr.tag = Tag.ATTRIBUTE
         attr.default = "foo"
-        self.assertIn("required", self.filters.field_metadata(self.obj, attr, None))
+        self.assertIn(
+            "required", self.filters.field_metadata(self.obj, attr, None)
+        )
 
         attr.tag = Tag.RESTRICTION
         attr.restrictions.nillable = True
         expected = {"nillable": True, "max_inclusive": 2}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, None)
+        )
 
         attr.default = None
         attr.restrictions.tokens = True
         expected = {"max_inclusive": 2, "nillable": True, "tokens": True}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, None))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, None)
+        )
 
     def test_field_metadata_mixed(self) -> None:
         attr = AttrFactory.element(mixed=True)
         expected = {"mixed": True, "name": "attr_B", "type": "Element"}
-        self.assertEqual(expected, self.filters.field_metadata(self.obj, attr, "foo"))
+        self.assertEqual(
+            expected, self.filters.field_metadata(self.obj, attr, "foo")
+        )
 
     def test_field_metadata_choices(self) -> None:
         attr = AttrFactory.create(choices=AttrFactory.list(2, tag=Tag.ELEMENT))
@@ -591,7 +664,9 @@ class FiltersTests(FactoryTestCase):
                 AttrFactory.element(namespace="bar"),
                 AttrFactory.any(namespace="##other"),
                 AttrFactory.element(name="bar", default="aa"),
-                AttrFactory.element(name="tok", restrictions=Restrictions(tokens=True)),
+                AttrFactory.element(
+                    name="tok", restrictions=Restrictions(tokens=True)
+                ),
             ]
         )
 
@@ -629,14 +704,20 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual("FooBar", self.filters.field_type(self.obj, attr))
 
         attr.restrictions.nillable = True
-        self.assertEqual("None | FooBar", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "None | FooBar", self.filters.field_type(self.obj, attr)
+        )
 
     def test_field_type_with_optional_value(self) -> None:
-        attr = AttrFactory.create(types=AttrTypeFactory.list(1, qname="foo_bar"))
+        attr = AttrFactory.create(
+            types=AttrTypeFactory.list(1, qname="foo_bar")
+        )
         self.assertEqual("FooBar", self.filters.field_type(self.obj, attr))
 
         attr.restrictions.min_occurs = 0
-        self.assertEqual("None | FooBar", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "None | FooBar", self.filters.field_type(self.obj, attr)
+        )
 
     def test_field_type_with_circular_reference(self) -> None:
         attr = AttrFactory.create(
@@ -652,7 +733,9 @@ class FiltersTests(FactoryTestCase):
         attr = AttrFactory.create(
             types=AttrTypeFactory.list(1, qname="b", forward=True)
         )
-        self.assertEqual("A.B", self.filters.field_type(self.obj_nested_nested, attr))
+        self.assertEqual(
+            "A.B", self.filters.field_type(self.obj_nested_nested, attr)
+        )
 
     def test_field_type_with_array_type(self) -> None:
         attr = AttrFactory.create(
@@ -665,36 +748,51 @@ class FiltersTests(FactoryTestCase):
         )
 
         self.filters.format.frozen = True
-        self.assertEqual("tuple[A.B.C, ...]", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "tuple[A.B.C, ...]", self.filters.field_type(self.obj, attr)
+        )
 
         self.filters.format.frozen = False
-        self.assertEqual("list[A.B.C]", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "list[A.B.C]", self.filters.field_type(self.obj, attr)
+        )
 
         self.filters.generic_collections = True
-        self.assertEqual("Sequence[A.B.C]", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "Sequence[A.B.C]", self.filters.field_type(self.obj, attr)
+        )
 
     def test_field_type_with_token_attr(self) -> None:
         attr = AttrFactory.create(
             types=AttrTypeFactory.list(1, qname="foo_bar"),
             restrictions=Restrictions(tokens=True),
         )
-        self.assertEqual("list[FooBar]", self.filters.field_type(self.obj, attr))
-
-        attr.restrictions.max_occurs = 2
-        self.assertEqual("list[list[FooBar]]", self.filters.field_type(self.obj, attr))
-
-        attr.restrictions.max_occurs = 1
-        self.filters.format.frozen = True
-        self.assertEqual("tuple[FooBar, ...]", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "list[FooBar]", self.filters.field_type(self.obj, attr)
+        )
 
         attr.restrictions.max_occurs = 2
         self.assertEqual(
-            "tuple[tuple[FooBar, ...], ...]", self.filters.field_type(self.obj, attr)
+            "list[list[FooBar]]", self.filters.field_type(self.obj, attr)
+        )
+
+        attr.restrictions.max_occurs = 1
+        self.filters.format.frozen = True
+        self.assertEqual(
+            "tuple[FooBar, ...]", self.filters.field_type(self.obj, attr)
+        )
+
+        attr.restrictions.max_occurs = 2
+        self.assertEqual(
+            "tuple[tuple[FooBar, ...], ...]",
+            self.filters.field_type(self.obj, attr),
         )
 
     def test_field_type_with_alias(self) -> None:
         attr = AttrFactory.create(
-            types=AttrTypeFactory.list(1, qname="b", forward=True, alias="Boss:Life")
+            types=AttrTypeFactory.list(
+                1, qname="b", forward=True, alias="Boss:Life"
+            )
         )
         attr.restrictions.max_occurs = 2
         self.assertEqual(
@@ -705,7 +803,9 @@ class FiltersTests(FactoryTestCase):
     def test_field_type_with_multiple_types(self) -> None:
         attr = AttrFactory.create(
             types=[
-                AttrTypeFactory.create(qname="c", alias="Boss:Life", forward=True),
+                AttrTypeFactory.create(
+                    qname="c", alias="Boss:Life", forward=True
+                ),
                 AttrTypeFactory.native(DataType.INT),
             ]
         )
@@ -718,10 +818,14 @@ class FiltersTests(FactoryTestCase):
     def test_field_type_with_any_attribute(self) -> None:
         attr = AttrFactory.any_attribute()
 
-        self.assertEqual("dict[str, str]", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "dict[str, str]", self.filters.field_type(self.obj, attr)
+        )
 
         self.filters.generic_collections = True
-        self.assertEqual("Mapping[str, str]", self.filters.field_type(self.obj, attr))
+        self.assertEqual(
+            "Mapping[str, str]", self.filters.field_type(self.obj, attr)
+        )
 
     def test_field_type_with_native_type(self) -> None:
         attr = AttrFactory.create(
@@ -788,8 +892,12 @@ class FiltersTests(FactoryTestCase):
         self.assertEqual('ForwardRef("A.Foobar")', actual)
 
     def test_choice_type_with_circular_reference(self) -> None:
-        choice = AttrFactory.create(types=[AttrTypeFactory.create("c", circular=True)])
-        actual = self.filters.choice_type(self.obj_nested_nested_nested, choice)
+        choice = AttrFactory.create(
+            types=[AttrTypeFactory.create("c", circular=True)]
+        )
+        actual = self.filters.choice_type(
+            self.obj_nested_nested_nested, choice
+        )
         self.assertEqual('ForwardRef("C")', actual)
 
     def test_choice_type_with_multiple_types(self) -> None:
@@ -819,24 +927,46 @@ class FiltersTests(FactoryTestCase):
     def test_default_imports_with_decimal(self) -> None:
         expected = "from decimal import Decimal"
 
-        self.assertIn(expected, self.filters.default_imports("Optional[Decimal]"))
-        self.assertIn(expected, self.filters.default_imports("Union[str, Decimal]"))
-        self.assertIn(expected, self.filters.default_imports("Union[Decimal, "))
-        self.assertIn(expected, self.filters.default_imports("Union[str, Decimal, int"))
-        self.assertIn(expected, self.filters.default_imports("number: Decimal = "))
+        self.assertIn(
+            expected, self.filters.default_imports("Optional[Decimal]")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[str, Decimal]")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[Decimal, ")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[str, Decimal, int")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("number: Decimal = ")
+        )
         self.assertIn(expected, self.filters.default_imports(" = Decimal("))
-        self.assertNotIn(expected, self.filters.default_imports("class fooDecimal"))
+        self.assertNotIn(
+            expected, self.filters.default_imports("class fooDecimal")
+        )
 
     def test_default_imports_with_qname(self) -> None:
         expected = "from xml.etree.ElementTree import QName"
 
-        self.assertIn(expected, self.filters.default_imports("Optional[QName]"))
-        self.assertIn(expected, self.filters.default_imports("Union[str, QName]"))
+        self.assertIn(
+            expected, self.filters.default_imports("Optional[QName]")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[str, QName]")
+        )
         self.assertIn(expected, self.filters.default_imports("Union[QName, "))
-        self.assertIn(expected, self.filters.default_imports("Union[str, QName, int"))
-        self.assertIn(expected, self.filters.default_imports("number: QName = "))
+        self.assertIn(
+            expected, self.filters.default_imports("Union[str, QName, int")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("number: QName = ")
+        )
         self.assertIn(expected, self.filters.default_imports(" = QName("))
-        self.assertNotIn(expected, self.filters.default_imports("class fooQName"))
+        self.assertNotIn(
+            expected, self.filters.default_imports("class fooQName")
+        )
 
     def test_default_imports_with_enum(self) -> None:
         output = " (Enum) "
@@ -861,13 +991,27 @@ class FiltersTests(FactoryTestCase):
     def test_default_imports_with_builtin_datatype(self) -> None:
         expected = "from pyxsdata.models.datatype import XmlDateTime"
 
-        self.assertIn(expected, self.filters.default_imports("Optional[XmlDateTime]"))
-        self.assertIn(expected, self.filters.default_imports("Union[str, XmlDateTime]"))
-        self.assertIn(expected, self.filters.default_imports("Union[XmlDateTime, "))
-        self.assertIn(expected, self.filters.default_imports("Union[a, XmlDateTime, a"))
-        self.assertIn(expected, self.filters.default_imports("number: XmlDateTime = "))
-        self.assertIn(expected, self.filters.default_imports(" = XmlDateTime("))
-        self.assertNotIn(expected, self.filters.default_imports("class fooXmlDateTime"))
+        self.assertIn(
+            expected, self.filters.default_imports("Optional[XmlDateTime]")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[str, XmlDateTime]")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[XmlDateTime, ")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("Union[a, XmlDateTime, a")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports("number: XmlDateTime = ")
+        )
+        self.assertIn(
+            expected, self.filters.default_imports(" = XmlDateTime(")
+        )
+        self.assertNotIn(
+            expected, self.filters.default_imports("class fooXmlDateTime")
+        )
 
     def test_default_imports_with_typing(self) -> None:
         output = ": ForwardRef("
@@ -911,7 +1055,9 @@ class FiltersTests(FactoryTestCase):
         result = self.filters.format_docstring('"""Has question?"""', level=1)
         self.assertEqual('"""\nHas question?\n"""', result)
 
-        result = self.filters.format_docstring('"""Has exclamation!"""', level=1)
+        result = self.filters.format_docstring(
+            '"""Has exclamation!"""', level=1
+        )
         self.assertEqual('"""\nHas exclamation!\n"""', result)
 
         result = self.filters.format_docstring('"""Has colon:"""', level=1)
@@ -921,9 +1067,7 @@ class FiltersTests(FactoryTestCase):
         """Test docstring with RST-style params."""
         doc = '"""Class description."""\n:ivar foo: Foo desc.\n:ivar bar: Bar desc.'
         result = self.filters.format_docstring(doc, level=1)
-        expected = (
-            '"""\nClass description.\n\n:ivar foo: Foo desc.\n:ivar bar: Bar desc.\n"""'
-        )
+        expected = '"""\nClass description.\n\n:ivar foo: Foo desc.\n:ivar bar: Bar desc.\n"""'
         self.assertEqual(expected, result)
 
     def test_format_docstring_empty_with_params(self) -> None:
@@ -947,7 +1091,9 @@ class FiltersTests(FactoryTestCase):
 
         # Result should be multi-line
         lines = result.split("\n")
-        self.assertGreater(len(lines), 3)  # Opening, at least 2 content lines, closing
+        self.assertGreater(
+            len(lines), 3
+        )  # Opening, at least 2 content lines, closing
 
         # Each content line should respect max_line_length minus indentation
         for line in lines[1:-1]:  # Skip opening and closing quotes
@@ -979,17 +1125,13 @@ class FiltersTests(FactoryTestCase):
         """Test that first sentence becomes summary, rest becomes description."""
         doc = '"""First sentence here. Second sentence follows. Third one too."""'
         result = self.filters.format_docstring(doc, level=1)
-        expected = (
-            '"""\nFirst sentence here.\n\nSecond sentence follows. Third one too.\n"""'
-        )
+        expected = '"""\nFirst sentence here.\n\nSecond sentence follows. Third one too.\n"""'
         self.assertEqual(expected, result)
 
         # With params
         doc = '"""Summary sentence. Description here."""\n:ivar x: X desc.'
         result = self.filters.format_docstring(doc, level=1)
-        expected = (
-            '"""\nSummary sentence.\n\nDescription here.\n\n:ivar x: X desc.\n"""'
-        )
+        expected = '"""\nSummary sentence.\n\nDescription here.\n\n:ivar x: X desc.\n"""'
         self.assertEqual(expected, result)
 
         # Single sentence - no split
@@ -1072,11 +1214,15 @@ class FiltersTests(FactoryTestCase):
         transform = self.filters.import_module
         self.filters.relative_imports = False
         for case in cases:
-            self.assertEqual(case.module, transform(case.module, case.from_module))
+            self.assertEqual(
+                case.module, transform(case.module, case.from_module)
+            )
 
         self.filters.relative_imports = True
         for case in cases:
-            self.assertEqual(case.result, transform(case.module, case.from_module))
+            self.assertEqual(
+                case.result, transform(case.module, case.from_module)
+            )
 
     def test_build_class_annotation(self) -> None:
         config = GeneratorConfig()

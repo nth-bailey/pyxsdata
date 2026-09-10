@@ -71,11 +71,15 @@ class XmlContextTests(FactoryTestCase):
         field_names = {"id", "name", "sort-name"}
         self.assertEqual(BeginArea, self.ctx.find_type_by_fields(field_names))
 
-        field_names.update({"please", "dont", "exist"})  # Test matching with more
+        field_names.update(
+            {"please", "dont", "exist"}
+        )  # Test matching with more
         self.assertIsNone(self.ctx.find_type_by_fields(field_names))
 
     def test_local_names_match_remove_clazz_from_cache_on_error(self) -> None:
-        undefined = make_dataclass("UndefinedType", [("content", "Literal['yes']")])
+        undefined = make_dataclass(
+            "UndefinedType", [("content", "Literal['yes']")]
+        )
         unsupported = make_dataclass("UndefinedType", [("content", Path)])
         uncached = make_dataclass("Uncached", [("content", Path)])
 

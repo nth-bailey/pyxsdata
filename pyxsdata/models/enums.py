@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import sys
 from collections.abc import Callable
 from decimal import Decimal
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 from xml.etree.ElementTree import QName
 
 from pyxsdata.models.datatype import (
@@ -45,12 +47,12 @@ class Namespace(Enum):
         return local_path.as_uri() if local_path.exists() else None
 
     @classmethod
-    def get_enum(cls, uri: str | None) -> Optional["Namespace"]:
+    def get_enum(cls, uri: str | None) -> Namespace | None:
         """Get the enum member instance from the uri."""
         return __STANDARD_NAMESPACES__.get(uri) if uri else None
 
     @classmethod
-    def common(cls) -> tuple["Namespace", ...]:
+    def common(cls) -> tuple[Namespace, ...]:
         """Return the common namespaces."""
         return Namespace.XS, Namespace.XSI, Namespace.XML, Namespace.XLINK
 
@@ -186,7 +188,7 @@ class DataType(Enum):
         return f"{prefix}:{self.code}" if prefix else self.code
 
     @classmethod
-    def from_value(cls, value: Any) -> "DataType":
+    def from_value(cls, value: Any) -> DataType:
         """Load from a literal value."""
         _type = type(value)
         calculate = __DataTypeInferIndex__.get(_type)
@@ -196,17 +198,17 @@ class DataType(Enum):
         return cls.from_type(_type)
 
     @classmethod
-    def from_type(cls, tp: type) -> "DataType":
+    def from_type(cls, tp: type) -> DataType:
         """Load from a python type."""
         return __DataTypeIndex__.get(tp, DataType.STRING)
 
     @classmethod
-    def from_qname(cls, qname: str) -> Optional["DataType"]:
+    def from_qname(cls, qname: str) -> DataType | None:
         """Load from a qualified name."""
         return __DataTypeQNameIndex__.get(qname)
 
     @classmethod
-    def from_code(cls, code: str) -> "DataType":
+    def from_code(cls, code: str) -> DataType:
         """Load from the code name."""
         return __DataTypeCodeIndex__.get(code, DataType.STRING)
 

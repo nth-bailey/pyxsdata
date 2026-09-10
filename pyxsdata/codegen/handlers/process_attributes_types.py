@@ -1,6 +1,9 @@
 from collections.abc import Callable
 
-from pyxsdata.codegen.mixins import ContainerInterface, RelativeHandlerInterface
+from pyxsdata.codegen.mixins import (
+    ContainerInterface,
+    RelativeHandlerInterface,
+)
 from pyxsdata.codegen.models import Attr, AttrType, Class
 from pyxsdata.codegen.utils import ClassUtils
 from pyxsdata.logger import logger

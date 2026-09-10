@@ -42,7 +42,14 @@ class PydanticTests(TestCase):
         schema = XmlModel.model_json_schema()
         self.assertEqual(schema["type"], "object")
         properties = schema["properties"]
-        for field_name in ("date", "datetime", "time", "duration", "period", "qname"):
+        for field_name in (
+            "date",
+            "datetime",
+            "time",
+            "duration",
+            "period",
+            "qname",
+        ):
             prop = properties[field_name]
             types = [item.get("type") for item in prop.get("anyOf", [prop])]
             self.assertIn("string", types)

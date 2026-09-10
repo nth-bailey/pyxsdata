@@ -18,11 +18,17 @@ class CollectionsTests(TestCase):
         self.assertEqual([4, 5, 6, 1, 2, 3], target)
 
     def test_remove(self) -> None:
-        self.assertEqual([1, 3], collections.remove([1, 2, 2, 3], lambda x: x == 2))
+        self.assertEqual(
+            [1, 3], collections.remove([1, 2, 2, 3], lambda x: x == 2)
+        )
 
-        self.assertEqual([2, 2, 3], collections.remove([1, 2, 2, 3], lambda x: x == 1))
+        self.assertEqual(
+            [2, 2, 3], collections.remove([1, 2, 2, 3], lambda x: x == 1)
+        )
 
-        self.assertEqual([3], collections.remove([1, 2, 2, 3], lambda x: x < 3))
+        self.assertEqual(
+            [3], collections.remove([1, 2, 2, 3], lambda x: x < 3)
+        )
 
     def test_is_array(self) -> None:
         fixture = namedtuple("fixture", ["a", "b"])

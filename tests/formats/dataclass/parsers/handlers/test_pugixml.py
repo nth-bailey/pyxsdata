@@ -92,7 +92,9 @@ class PugixmlEventHandlerTests(TestCase):
         path = fixtures_dir.joinpath("books/books-xinclude.xml")
         self.parser.config.process_xinclude = True
         self.parser.config.base_url = str(path)
-        self.assertEqual(books, self.parser.from_string(path.read_text(), Books))
+        self.assertEqual(
+            books, self.parser.from_string(path.read_text(), Books)
+        )
 
     def test_parse_context_with_unhandled_event(self) -> None:
         handler = PugixmlEventHandler(clazz=Books, parser=self.parser)
@@ -139,5 +141,8 @@ class PugixmlEventHandlerTests(TestCase):
             attrib = {}
             prefix = ""
 
-        events = [(EventType.START, DummyElement()), (EventType.END, DummyElement())]
+        events = [
+            (EventType.START, DummyElement()),
+            (EventType.END, DummyElement()),
+        ]
         handler.process_context(events, {})

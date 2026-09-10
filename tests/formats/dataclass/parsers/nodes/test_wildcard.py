@@ -21,7 +21,9 @@ class WildcardNodeTests(TestCase):
             children=[1, 2, 3],
         )
 
-        var = XmlVarFactory.create(xml_type=XmlType.TEXT, name="foo", local_name="a")
+        var = XmlVarFactory.create(
+            xml_type=XmlType.TEXT, name="foo", local_name="a"
+        )
         node = WildcardNode(
             position=0, var=var, attrs=attrs, ns_map=ns_map, factory=AnyElement
         )
@@ -63,4 +65,6 @@ class WildcardNodeTests(TestCase):
 
     def test_fetch_any_children(self) -> None:
         objects = [(x, x) for x in "abc"]
-        self.assertEqual(["b", "c"], WildcardNode.fetch_any_children(1, objects))
+        self.assertEqual(
+            ["b", "c"], WildcardNode.fetch_any_children(1, objects)
+        )

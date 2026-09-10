@@ -72,12 +72,16 @@ class FixedType:
 class ExtendedType:
     a: TypeA | None = field(default=None)
     any: object | None = field(default=None)
-    wildcard: object | None = field(default=None, metadata={"type": "Wildcard"})
+    wildcard: object | None = field(
+        default=None, metadata={"type": "Wildcard"}
+    )
 
 
 @dataclass
 class ExtendedListType:
-    wildcard: list[object] = field(default_factory=list, metadata={"type": "Wildcard"})
+    wildcard: list[object] = field(
+        default_factory=list, metadata={"type": "Wildcard"}
+    )
 
 
 @dataclass
@@ -91,7 +95,11 @@ class ChoiceType:
                 {"name": "int", "type": int},
                 {"name": "float", "type": float},
                 {"name": "qname", "type": QName},
-                {"name": "union", "type": type["UnionType"], "namespace": "foo"},
+                {
+                    "name": "union",
+                    "type": type["UnionType"],
+                    "namespace": "foo",
+                },
                 {
                     "name": "tokens",
                     "type": list[Decimal],
@@ -147,14 +155,20 @@ class BaseType:
 @dataclass
 class AttrsType:
     index: int = field(metadata={"type": "Attribute"})
-    attrs: dict[str, str] = field(metadata={"type": "Attributes", "namespace": "##any"})
-    fixed: str = field(init=False, default="ignored", metadata={"type": "Attribute"})
+    attrs: dict[str, str] = field(
+        metadata={"type": "Attributes", "namespace": "##any"}
+    )
+    fixed: str = field(
+        init=False, default="ignored", metadata={"type": "Attribute"}
+    )
 
 
 @dataclass
 class SequentialType:
     a0: str | None = field(default=None, metadata={"type": "Attribute"})
-    a1: dict[str, str] = field(default_factory=dict, metadata={"type": "Attributes"})
+    a1: dict[str, str] = field(
+        default_factory=dict, metadata={"type": "Attributes"}
+    )
     a2: list[str] = field(
         default_factory=list, metadata={"type": "Attribute", "tokens": True}
     )
@@ -168,8 +182,12 @@ class SequentialType:
     x3: list[int] = field(
         default_factory=list, metadata={"type": "Element", "sequence": 2}
     )
-    x4: int | None = field(default=None, metadata={"type": "Element", "sequence": 2})
-    x5: str | None = field(default=None, metadata={"type": "Element", "nillable": True})
+    x4: int | None = field(
+        default=None, metadata={"type": "Element", "sequence": 2}
+    )
+    x5: str | None = field(
+        default=None, metadata={"type": "Element", "nillable": True}
+    )
 
 
 @dataclass

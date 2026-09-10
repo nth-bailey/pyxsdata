@@ -147,7 +147,9 @@ class DefinitionsMapper:
                 message_type = message_class.name.split("_")[-1]
                 attrs.append(
                     cls.build_attr(
-                        message_type, message_class.qname, reference=id(message_class)
+                        message_type,
+                        message_class.qname,
+                        reference=id(message_class),
                     )
                 )
 
@@ -199,10 +201,20 @@ class DefinitionsMapper:
 
         if binding_operation.output:
             messages.append(
-                ("output", binding_operation.output, port_type_operation.output, None)
+                (
+                    "output",
+                    binding_operation.output,
+                    port_type_operation.output,
+                    None,
+                )
             )
 
-        for suffix, binding_message, port_type_message, operation_name in messages:
+        for (
+            suffix,
+            binding_message,
+            port_type_message,
+            operation_name,
+        ) in messages:
             if style == "rpc":
                 yield cls.build_message_class(definitions, port_type_message)
 
@@ -435,7 +447,11 @@ class DefinitionsMapper:
 
     @classmethod
     def map_binding_message_parts(
-        cls, definitions: Definitions, message: str, extended: AnyElement, ns_map: dict
+        cls,
+        definitions: Definitions,
+        message: str,
+        extended: AnyElement,
+        ns_map: dict,
     ) -> Iterator[Attr]:
         """Find a Message instance and map its parts to attrs.
 
@@ -569,7 +585,10 @@ class DefinitionsMapper:
             default=default,
             types=[
                 AttrType(
-                    qname=qname, forward=forward, native=native, reference=reference
+                    qname=qname,
+                    forward=forward,
+                    native=native,
+                    reference=reference,
                 )
             ],
             restrictions=Restrictions(min_occurs=occurs, max_occurs=occurs),

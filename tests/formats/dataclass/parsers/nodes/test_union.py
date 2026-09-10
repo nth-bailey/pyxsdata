@@ -62,11 +62,27 @@ class UnionNodeTests(TestCase):
     def test_filter_fixed_attrs(self) -> None:
         a = make_dataclass(
             "A",
-            [("x", int, field(init=False, default=1, metadata={"type": "Attribute"}))],
+            [
+                (
+                    "x",
+                    int,
+                    field(
+                        init=False, default=1, metadata={"type": "Attribute"}
+                    ),
+                )
+            ],
         )
         b = make_dataclass(
             "A",
-            [("x", int, field(init=False, default=2, metadata={"type": "Attribute"}))],
+            [
+                (
+                    "x",
+                    int,
+                    field(
+                        init=False, default=2, metadata={"type": "Attribute"}
+                    ),
+                )
+            ],
         )
 
         root = make_dataclass("Root", [("value", a | b | int)])
@@ -96,7 +112,8 @@ class UnionNodeTests(TestCase):
 
     def test_bind_returns_best_matching_object(self) -> None:
         item = make_dataclass(
-            "Item", [("value", str), ("a", int, attribute()), ("b", int, attribute())]
+            "Item",
+            [("value", str), ("a", int, attribute()), ("b", int, attribute())],
         )
         item2 = make_dataclass("Item2", [("a", int, attribute())])
         root = make_dataclass("Root", [("item", str | int | item2 | item)])
@@ -161,4 +178,6 @@ class UnionNodeTests(TestCase):
         with self.assertRaises(ParserError) as cm:
             node.bind("element", None, None, [])
 
-        self.assertEqual("Failed to parse union node: element", str(cm.exception))
+        self.assertEqual(
+            "Failed to parse union node: element", str(cm.exception)
+        )

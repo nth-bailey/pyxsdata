@@ -50,6 +50,7 @@ class XmlSerializerTests(TestCase):
     def test_render_and_parse_newtype(self) -> None:
         from dataclasses import dataclass, field
         from typing import NewType
+
         from pyxsdata.formats.dataclass.parsers import XmlParser
 
         UserId = NewType("UserId", int)

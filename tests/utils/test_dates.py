@@ -5,7 +5,9 @@ from pyxsdata.utils.dates import parse_date_args, validate_date, validate_time
 
 class DatesUtilsTests(TestCase):
     def test_parse_date_args(self) -> None:
-        args = parse_date_args("2002-01-02T12:14:30-01:22", "%Y-%m-%dT%H:%M:%S%z")
+        args = parse_date_args(
+            "2002-01-02T12:14:30-01:22", "%Y-%m-%dT%H:%M:%S%z"
+        )
 
         self.assertEqual(2002, next(args))
         self.assertEqual(1, next(args))
@@ -95,7 +97,8 @@ class DatesUtilsTests(TestCase):
                 list(parse_date_args(value, fmt))
 
             self.assertEqual(
-                f"String '{value}' does not match format '{fmt}'", str(cm.exception)
+                f"String '{value}' does not match format '{fmt}'",
+                str(cm.exception),
             )
 
     def test_validate_date(self) -> None:
@@ -123,7 +126,12 @@ class DatesUtilsTests(TestCase):
             (23, 59, -1, 1): "Second must be in 0..59",
             (23, 59, 60, 1): "Second must be in 0..59",
             (23, 59, 59, -1): "Fractional second must be in 0..999999999",
-            (23, 59, 59, 1000000000): "Fractional second must be in 0..999999999",
+            (
+                23,
+                59,
+                59,
+                1000000000,
+            ): "Fractional second must be in 0..999999999",
         }
 
         for args, msg in invalid.items():
