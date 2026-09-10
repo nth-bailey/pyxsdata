@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/nth-bailey/pyxsdata/compare/1.3.1...1.4.0) (2026-09-10)
+
+
+### Bug Fixes
+
+* **core:** require polyxml>=0.2.0 and achieve 100% test coverage ([07c0a9f](https://github.com/nth-bailey/pyxsdata/commit/07c0a9f11f9962dd9ee91edc59974ccea51a2599))
+
+
+### Features
+
+* **core:** migrate native backend from pyxsdata-core to polyxml with serializer support ([3d4a15d](https://github.com/nth-bailey/pyxsdata/commit/3d4a15dfad9081e6d6ffeb9894d43df36b17c1bc))
+
 ## [1.3.1](https://github.com/nth-bailey/pyxsdata/compare/1.3.0...1.3.1) (2026-09-08)
 
 
