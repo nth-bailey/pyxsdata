@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/nth-bailey/pyxsdata/compare/1.4.0...1.5.0) (2026-09-12)
+
+
+### Features
+
+* **codegen:** add --lazy-load flag with PEP 562 on-demand package imports ([c9db08e](https://github.com/nth-bailey/pyxsdata/commit/c9db08e03844e820b0daf92b69818c060e14ca4a))
+
 # [1.4.0](https://github.com/nth-bailey/pyxsdata/compare/1.3.1...1.4.0) (2026-09-10)
 
 
