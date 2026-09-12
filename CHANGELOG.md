@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/nth-bailey/pyxsdata/compare/1.6.0...1.6.1) (2026-09-12)
+
+
+### Bug Fixes
+
+* **codegen:** validate dotted identifiers when formatting string defaults ([1fcdaef](https://github.com/nth-bailey/pyxsdata/commit/1fcdaef82611a0986436a131bfc824cca5480a26))
+
 # [1.6.0](https://github.com/nth-bailey/pyxsdata/compare/1.5.0...1.6.0) (2026-09-12)
 
 
