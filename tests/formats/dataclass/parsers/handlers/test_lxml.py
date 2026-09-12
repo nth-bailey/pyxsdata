@@ -51,9 +51,7 @@ class LxmlEventHandlerTests(TestCase):
 
         self.parser.config.process_xinclude = True
         self.parser.config.base_url = path.as_uri()
-        self.assertEqual(
-            books, self.parser.from_bytes(path.read_bytes(), Books)
-        )
+        self.assertEqual(books, self.parser.from_bytes(path.read_bytes(), Books))
         self.assertEqual(ns_map, self.parser.ns_map)
 
     def test_parse_context_with_unhandled_event(self) -> None:
@@ -86,3 +84,42 @@ class LxmlEventHandlerTests(TestCase):
         # Verify that the external entity is empty/None and not resolved to file content
         self.assertNotEqual(result.book[0].author, "localhost")
         self.assertFalse(result.book[0].author)
+
+    def test_parse_allows_entity_when_resolve_entities_enabled(self) -> None:
+        xml = b"""<?xml version="1.0"?>
+        <!DOCTYPE foo [<!ENTITY custom "Resolved Value">]>
+        <Books>
+            <book id="1">
+                <author>&custom;</author>
+                <title>Title</title>
+                <genre>Genre</genre>
+                <price>10.0</price>
+                <pub_date>2020-01-01</pub_date>
+                <review>Review</review>
+            </book>
+        </Books>"""
+
+        self.parser.config.resolve_entities = True
+        result = self.parser.from_bytes(xml, Books)
+        self.assertEqual(result.book[0].author, "Resolved Value")
+
+    def test_parse_allows_entity_with_xinclude_when_resolve_entities_enabled(
+        self,
+    ) -> None:
+        xml = b"""<?xml version="1.0"?>
+        <!DOCTYPE foo [<!ENTITY custom "Resolved Value">]>
+        <Books>
+            <book id="1">
+                <author>&custom;</author>
+                <title>Title</title>
+                <genre>Genre</genre>
+                <price>10.0</price>
+                <pub_date>2020-01-01</pub_date>
+                <review>Review</review>
+            </book>
+        </Books>"""
+
+        self.parser.config.process_xinclude = True
+        self.parser.config.resolve_entities = True
+        result = self.parser.from_bytes(xml, Books)
+        self.assertEqual(result.book[0].author, "Resolved Value")
