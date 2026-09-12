@@ -1,3 +1,47 @@
+{%- if lazy_load -%}
+import importlib
+
+__all__ = [
+{%- for source, items in imports|groupby("source") -%}
+{%- for item in items %}
+    "
+    {%- if item.alias %}
+        {{- item.alias|class_name -}}
+    {% else %}
+        {{- item.name|class_name -}}
+    {% endif -%}
+    ",
+{%- endfor %}
+{%- endfor %}
+]
+
+_LAZY_MODULES: dict[str, str] = {
+{%- for source, items in imports|groupby("source") -%}
+{%- for item in items %}
+    "
+    {%- if item.alias %}
+        {{- item.alias|class_name -}}
+    {% else %}
+        {{- item.name|class_name -}}
+    {% endif -%}
+    ": "{{ source | import_module(module) }}",
+{%- endfor %}
+{%- endfor %}
+}
+
+
+def __getattr__(name: str):
+    if name in _LAZY_MODULES:
+        module = importlib.import_module(_LAZY_MODULES[name], package=__name__)
+        attr = getattr(module, name)
+        globals()[name] = attr
+        return attr
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__():
+    return __all__
+{%- else -%}
 {% include "imports.jinja2" %}
 __all__ = [
 {%- for source, items in imports|groupby("source") -%}
@@ -12,3 +56,4 @@ __all__ = [
 {%- endfor %}
 {%- endfor %}
 ]
+{%- endif %}

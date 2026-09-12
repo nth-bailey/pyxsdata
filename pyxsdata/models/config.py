@@ -224,6 +224,7 @@ class GeneratorOutput:
         ignore_patterns: Ignore pattern restrictions
         include_header: Include a header with codegen information in the output
         str_enums: Generate StrEnum for string enumerations
+        lazy_load: Enable PEP 562 lazy loading for package __init__.py
     """
 
     package: str = field(default="generated", metadata={"type": "Element"})
@@ -249,6 +250,9 @@ class GeneratorOutput:
     include_header: bool = field(default=False, metadata={"type": "Element"})
     str_enums: bool = field(
         default=False, metadata={"type": "Attribute", "cli": "str-enums"}
+    )
+    lazy_load: bool = field(
+        default=False, metadata={"type": "Element", "cli": "lazy-load"}
     )
 
     def __post_init__(self):

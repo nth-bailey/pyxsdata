@@ -129,6 +129,7 @@ class DataclassGenerator(AbstractGenerator):
         return self.env.get_template(self.package_template).render(
             imports=imports,
             module=module,
+            lazy_load=self.config.output.lazy_load,
         )
 
     def render_module(

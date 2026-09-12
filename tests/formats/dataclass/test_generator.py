@@ -60,9 +60,7 @@ class DataclassGeneratorTests(FactoryTestCase):
                 mock.call([classes[2]], "thug.life"),
             ]
         )
-        mock_render_module.assert_has_calls(
-            [mock.call(mock.ANY, [x]) for x in classes]
-        )
+        mock_render_module.assert_has_calls([mock.call(mock.ANY, [x]) for x in classes])
         mock_validate_imports.assert_called_once()
 
     def test_render_package(self) -> None:
@@ -92,6 +90,77 @@ class DataclassGeneratorTests(FactoryTestCase):
             "]"
         )
         self.assertEqual(expected, actual)
+
+    def test_render_package_lazy_load(self) -> None:
+        self.generator.config.output.lazy_load = True
+        classes = [
+            ClassFactory.create(qname="a", package="foo", module="tests"),
+            ClassFactory.create(qname="b", package="foo", module="tests"),
+            ClassFactory.create(qname="c", package="foo", module="tests"),
+            ClassFactory.create(qname="a", package="foo", module="bar"),
+        ]
+
+        random.shuffle(classes)
+
+        actual = self.generator.render_package(classes, "foo.tests")
+        self.assertIn("import importlib", actual)
+        self.assertIn("def __getattr__(name: str):", actual)
+        self.assertIn("def __dir__():", actual)
+        self.assertIn("_LAZY_MODULES: dict[str, str] = {", actual)
+        self.assertIn('"BarA": "foo.bar"', actual)
+        self.assertIn('"TestsA": "foo.tests"', actual)
+        self.assertIn('"B": "foo.tests"', actual)
+        self.assertIn('"C": "foo.tests"', actual)
+        self.assertIn(
+            '__all__ = [\n    "BarA",\n    "TestsA",\n    "B",\n    "C",\n]', actual
+        )
+        # Reset for subsequent tests
+        self.generator.config.output.lazy_load = False
+
+    def test_lazy_load_runtime_execution(self) -> None:
+        import importlib
+        import sys
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            pkg_dir = Path(tmpdir).joinpath("lazy_sample_pkg")
+            pkg_dir.mkdir(parents=True, exist_ok=True)
+
+            sub_file = pkg_dir.joinpath("sub.py")
+            sub_file.write_text("class MyLazyClass:\n    pass\n", encoding="utf-8")
+
+            classes = [
+                ClassFactory.create(
+                    qname="MyLazyClass", package="lazy_sample_pkg", module="sub"
+                )
+            ]
+            self.generator.config.output.lazy_load = True
+            init_code = self.generator.render_package(classes, "lazy_sample_pkg")
+            self.generator.config.output.lazy_load = False
+
+            init_file = pkg_dir.joinpath("__init__.py")
+            init_file.write_text(init_code, encoding="utf-8")
+
+            sys.path.insert(0, tmpdir)
+            try:
+                mod = importlib.import_module("lazy_sample_pkg")
+                # sub is not in sys.modules yet
+                self.assertNotIn("lazy_sample_pkg.sub", sys.modules)
+
+                # Attribute access loads on demand
+                cls = getattr(mod, "MyLazy" + "Class")
+                self.assertEqual("MyLazyClass", cls.__name__)
+                self.assertIn("lazy_sample_pkg.sub", sys.modules)
+
+                # __dir__ returns __all__
+                self.assertIn("MyLazyClass", dir(mod))
+
+                # Non-existent attribute raises AttributeError
+                with self.assertRaises(AttributeError):
+                    _ = getattr(mod, "Non" + "Existent")
+            finally:
+                sys.path.remove(tmpdir)
+                sys.modules.pop("lazy_sample_pkg", None)
+                sys.modules.pop("lazy_sample_pkg.sub", None)
 
     def test_render_module(self) -> None:
         classes = [
@@ -193,14 +262,10 @@ class DataclassGeneratorTests(FactoryTestCase):
 
     def test_module_name(self) -> None:
         self.assertEqual("foo_bar", self.generator.module_name("fooBar"))
-        self.assertEqual(
-            "foo_bar_wtf", self.generator.module_name("fooBar.wtf")
-        )
+        self.assertEqual("foo_bar_wtf", self.generator.module_name("fooBar.wtf"))
         self.assertEqual("mod_1111", self.generator.module_name("1111"))
         self.assertEqual("xs_string", self.generator.module_name("xs:string"))
-        self.assertEqual(
-            "foo_bar_bam", self.generator.module_name("foo:bar_bam")
-        )
+        self.assertEqual("foo_bar_bam", self.generator.module_name("foo:bar_bam"))
         self.assertEqual("bar_bam", self.generator.module_name("urn:bar_bam"))
 
     def test_package_name(self) -> None:
@@ -224,9 +289,7 @@ class DataclassGeneratorTests(FactoryTestCase):
             "    thug: str"
         )
 
-        with tempfile.NamedTemporaryFile(
-            delete=True, suffix=".py"
-        ) as temp_file:
+        with tempfile.NamedTemporaryFile(delete=True, suffix=".py") as temp_file:
             temp_file.write(src_code.encode())
             temp_file.seek(0)
 
