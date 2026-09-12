@@ -1198,10 +1198,17 @@ class FiltersTests(FactoryTestCase):
             "}"
         )
         self.assertEqual(expected, self.filters.format_metadata(data))
-        self.assertEqual('""', self.filters.format_metadata(""))
         self.assertEqual(
             '{\n    "default": "optional",\n}',
             self.filters.format_metadata({"default": "optional"}),
+        )
+        self.assertEqual(
+            '{\n    "default": "false.",\n}',
+            self.filters.format_metadata({"default": "false."}),
+        )
+        self.assertEqual(
+            '{\n    "default": Color.RED,\n}',
+            self.filters.format_metadata({"default": "Color.RED"}),
         )
 
     def test_import_module(self) -> None:

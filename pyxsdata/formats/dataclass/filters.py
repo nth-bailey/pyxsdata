@@ -585,7 +585,10 @@ class Filters:
                 data.startswith(('"', "'", "r'", 'r"', "b'", 'b"'))
                 or data in ("True", "False", "None")
                 or data.startswith("lambda")
-                or "." in data
+                or (
+                    len(data.split(".")) > 1
+                    and all(part.isidentifier() for part in data.split("."))
+                )
             ):
                 return data
             try:
