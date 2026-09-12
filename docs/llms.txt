@@ -1,0 +1,65 @@
+# pyxsdata
+
+> Modern Python 3.12+ XML & JSON Data Binding with Pydantic v2 and Dataclasses support.
+
+pyxsdata is a modern, high-performance data binding library and code generator for Python 3.12+. It allows developers and AI coding assistants to access and use XML and JSON documents as simple, strongly-typed Python objects (standard dataclasses or Pydantic v2 models) rather than dealing directly with the DOM.
+
+## Key Rules for AI Coding Assistants
+- **CLI Name**: Strictly use `pyxsdata generate <schema>`. Never use `xsdata`.
+- **Pydantic v2**: Consolidated natively under `pyxsdata.pydantic.bindings` (`XmlParser`, `XmlSerializer`). Do NOT use `xsdata-pydantic`.
+- **Dataclasses**: Use `from pyxsdata.formats.dataclass.parsers import XmlParser` (or top-level `from pyxsdata import XmlParser`).
+- **Python Standard**: Python 3.12+ exclusively (PEP 695 generics `class Foo[T]: ...`, `X | None` union syntax).
+
+## Core API Recipes
+
+### 1. Parse XML into Dataclass
+```python
+from pyxsdata.formats.dataclass.parsers import XmlParser
+
+parser = XmlParser()
+
+# From raw XML string:
+instance = parser.from_string("<User><name>Alice</name></User>", User)
+
+# From file path:
+from pathlib import Path
+
+instance = parser.from_path(Path("data.xml"), User)
+```
+
+### 2. Serialize Dataclass to XML
+```python
+from pyxsdata.formats.dataclass.serializers import XmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+
+config = SerializerConfig(pretty_print=True, xml_declaration=True)
+serializer = XmlSerializer(config=config)
+xml_output = serializer.render(instance)
+```
+
+### 3. Pydantic v2 Models
+```python
+from pyxsdata.pydantic.bindings import XmlParser, XmlSerializer
+
+parser = XmlParser()
+model = parser.from_string(xml_str, MyPydanticModel)
+
+serializer = XmlSerializer()
+xml_output = serializer.render(model)
+```
+
+### 4. CLI Code Generation
+```bash
+# Generate Python dataclasses
+pyxsdata generate schema.xsd --output dataclasses
+
+# Generate Pydantic v2 models
+pyxsdata generate schema.xsd --output pydantic
+```
+
+## Documentation Links
+- [5-Minute Quickstart](quickstart.md): Complete end-to-end walk-through.
+- [Code Generator](codegen/intro.md): Command-line options and configuration.
+- [Pydantic v2](pydantic/index.md): Complete guide for Pydantic models.
+- [XML Parsing](data_binding/xml_parsing.md): Handlers, security, and streaming.
+- [XML Serializing](data_binding/xml_serializing.md): Pretty printing, namespaces, and filters.
