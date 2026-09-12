@@ -252,6 +252,17 @@ Generate `StrEnum` instead of standard `Enum` for string-based enumerations
 
 **CLI Option:** `--str-enums / --no-str-enums`
 
+### LazyLoad
+
+Generate PEP 562 `__getattr__` and `__dir__` package loaders to defer importing
+individual member modules until classes or types are explicitly accessed. This reduces
+cold-start package import overhead for large schemas (e.g., NeTEx, ISO 20022 with 2,000+
+dataclasses) from seconds to milliseconds.
+
+**Default Value:** `False`
+
+**CLI Option:** `--lazy-load / --no-lazy-load`
+
 ## Convention Settings
 
 Apply different naming convention per identifier.

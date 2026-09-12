@@ -175,6 +175,7 @@ Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more âœ¨âœ
 - Directly from XML and JSON Documents
 - Extensive configuration to customize output
 - Pluggable code writer for custom output formats (Standard Dataclasses, Pydantic v2)
+- Zero cold-start package overhead with `--lazy-load` (PEP 562 on-demand class loading)
 
 **Default Output**
 
