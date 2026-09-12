@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/nth-bailey/pyxsdata/compare/1.5.0...1.6.0) (2026-09-12)
+
+
+### Features
+
+* **parsers:** add resolve_entities option to ParserConfig ([38d2b93](https://github.com/nth-bailey/pyxsdata/commit/38d2b9377ccc973f35ed9256dd5251bd42015f35))
+
 # [1.5.0](https://github.com/nth-bailey/pyxsdata/compare/1.4.0...1.5.0) (2026-09-12)
 
 
