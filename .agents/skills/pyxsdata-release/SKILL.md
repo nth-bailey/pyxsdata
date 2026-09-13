@@ -16,6 +16,10 @@ workflow for `pyxsdata`.
 Before publishing or tagging a release, all quality gates must pass without exceptions:
 
 ```bash
+# Quick one-shot automated verification:
+./scripts/gate.sh
+
+# Or step-by-step:
 # Ensure .venv/bin is in PATH
 PATH="$PWD/.venv/bin:$PATH"
 

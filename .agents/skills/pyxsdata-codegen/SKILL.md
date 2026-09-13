@@ -84,3 +84,18 @@ When adding support for a new schema or typing feature:
      ```bash
      PATH="$PWD/.venv/bin:$PATH" .venv/bin/pytest --cov=./pyxsdata --cov-branch --cov-fail-under=100
      ```
+
+## 4. Helper Inspection & Validation Scripts
+
+Use these repository helper scripts to speed up development and pinpoint issues:
+
+```bash
+# 1. Inspect parsed AST, metadata flags, and rendered Jinja output for a schema:
+./scripts/inspect_codegen.py tests/fixtures/books/schema.xsd Books
+
+# 2. Pinpoint exact missing statement lines and unhit branch arcs:
+./scripts/coverage_diff.py tests/formats/dataclass/test_filters.py
+
+# 3. Run the full quality gate:
+./scripts/gate.sh
+```
