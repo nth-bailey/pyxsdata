@@ -25,7 +25,7 @@ See `AGENT_GUIDE.md` or https://nth-bailey.github.io/pyxsdata/ for full guides.
 from pyxsdata.formats.dataclass.parsers import XmlParser
 from pyxsdata.formats.dataclass.serializers import XmlSerializer
 
-__version__ = "1.8.0"
+__version__ = "1.9.0"
 
 __all__ = [
     "XmlParser",

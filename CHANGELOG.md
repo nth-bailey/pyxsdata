@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/nth-bailey/pyxsdata/compare/1.8.0...1.9.0) (2026-09-13)
+
+
+### Features
+
+* **pydantic:** add AI tree pruning, model projection utilities, and README revamp ([45e5ca6](https://github.com/nth-bailey/pyxsdata/commit/45e5ca609acb7ec9a789cfd869c072406755e7e7))
+
 # [1.8.0](https://github.com/nth-bailey/pyxsdata/compare/1.7.0...1.8.0) (2026-09-13)
 
 
