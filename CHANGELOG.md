@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/nth-bailey/pyxsdata/compare/1.6.1...1.7.0) (2026-09-13)
+
+
+### Features
+
+* support computed fields, custom resolvers, wrapper disambiguation, and subclass meta ([d504a3e](https://github.com/nth-bailey/pyxsdata/commit/d504a3ea2595636a92bc127ab51e9caa3b78cda4)), closes [tefra/xsdata#1229](https://github.com/tefra/xsdata/issues/1229) [tefra/xsdata#1213](https://github.com/tefra/xsdata/issues/1213) [tefra/xsdata#1130](https://github.com/tefra/xsdata/issues/1130) [tefra/xsdata#1118](https://github.com/tefra/xsdata/issues/1118)
+
 ## [1.6.1](https://github.com/nth-bailey/pyxsdata/compare/1.6.0...1.6.1) (2026-09-12)
 
 
