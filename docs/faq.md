@@ -10,8 +10,9 @@
 1. **Native Pydantic v2 Support**: `xsdata-pydantic` has been consolidated directly into
    `pyxsdata.pydantic`. You do not need to install or configure external plugins.
 2. **Strict CLI**: The CLI command is strictly `pyxsdata` with zero legacy shims.
-3. **Pugixml Streaming Parser**: Built-in `PugixmlEventHandler` powered by `pygixml`
-   provides ultra-fast C++ pull-parsing.
+3. **Rust PolyXML & C++ Pugixml Engines**: Built-in `CoreXmlParser` powered by `PolyXML`
+   delivers ~300,000+ objects/sec (up to 15x faster than legacy), and
+   `PugixmlEventHandler` powered by `pygixml` provides ultra-fast C++ pull-parsing.
 4. **Python 3.12+ Standards**: All generated dataclasses use `kw_only=True` by default,
    full type annotations use `X | Y` union syntax, and the codebase is statically
    checked with Astral `ty`.
@@ -74,9 +75,22 @@ with open("huge_data.xml", "rb") as fp:
     record = parser.parse(fp, Record)
 ```
 
-For maximum throughput on large files, use `PugixmlEventHandler`:
+For maximum throughput, use `CoreXmlParser` (powered by native Rust `PolyXML`) or
+`PugixmlEventHandler`:
 
 ```python
+from pyxsdata.formats.dataclass.parsers import CoreXmlParser
+from myapp.models import FeedModel
+
+# Native Rust acceleration (~300,000+ objects/sec)
+parser = CoreXmlParser()
+data = parser.parse("huge_feed.xml", FeedModel)
+```
+
+Or for constant-memory C++ pull-parsing:
+
+```python
+from pyxsdata.formats.dataclass.parsers import XmlParser
 from pyxsdata.formats.dataclass.parsers.handlers import PugixmlEventHandler
 
 parser = XmlParser(handler=PugixmlEventHandler)

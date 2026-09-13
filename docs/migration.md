@@ -12,20 +12,20 @@ differences and provides a step-by-step checklist.
 
 ## Key Architectural Differences
 
-| Feature                 | Legacy `xsdata`                                  | `pyxsdata`                                           |
-| :---------------------- | :----------------------------------------------- | :--------------------------------------------------- |
-| **Supported Python**    | Python 3.8 – 3.12                                | **Python 3.12+ exclusively**                         |
-| **CLI Command**         | `xsdata`                                         | **Strictly `pyxsdata`**                              |
-| **Pydantic Support**    | External plugin (`xsdata-pydantic`)              | **Built-in (`pyxsdata.pydantic`)**                   |
-| **Dataclass Semantics** | Positional defaults (optional workarounds)       | **Native `kw_only=True` everywhere**                 |
-| **Type Annotations**    | `typing.Union`, `typing.Optional`, `typing.List` | **`X \| Y`, `list[T]`, PEP 695 Generics**            |
-| **Code Formatting**     | Unformatted or black                             | **Astral Ruff (`ruff>=0.9.8`)**                      |
-| **XML Parser Engines**  | `xml.etree`, `lxml`                              | **`xml.etree`, `lxml`, and C++ `pugixml`**           |
-| **Performance**         | Baseline xsdata                                  | **Up to 54% faster deserialization (2x throughput)** |
-| **Type Checking**       | mypy                                             | **Astral `ty` with zero diagnostics**                |
-| **String Enumerations** | Standard `Enum` only                             | **Native `StrEnum` support (`--str-enums`)**         |
-| **Schema Defaults**     | Replaced or discarded                            | **Preserved in `metadata["default"]`**               |
-| **Root Element Safety** | Silently skips mismatched root elements          | **Strict root checking (`fail_on_root_mismatch`)**   |
+| Feature                 | Legacy `xsdata`                                  | `pyxsdata`                                                 |
+| :---------------------- | :----------------------------------------------- | :--------------------------------------------------------- |
+| **Supported Python**    | Python 3.8 – 3.12                                | **Python 3.12+ exclusively**                               |
+| **CLI Command**         | `xsdata`                                         | **Strictly `pyxsdata`**                                    |
+| **Pydantic Support**    | External plugin (`xsdata-pydantic`)              | **Built-in (`pyxsdata.pydantic`)**                         |
+| **Dataclass Semantics** | Positional defaults (optional workarounds)       | **Native `kw_only=True` everywhere**                       |
+| **Type Annotations**    | `typing.Union`, `typing.Optional`, `typing.List` | **`X \| Y`, `list[T]`, PEP 695 Generics**                  |
+| **Code Formatting**     | Unformatted or black                             | **Astral Ruff (`ruff>=0.9.8`)**                            |
+| **XML Parser Engines**  | `xml.etree`, `lxml`                              | **`xml.etree`, `lxml`, C++ `pugixml`, and Rust `PolyXML`** |
+| **Performance**         | Baseline xsdata                                  | **Up to 15x faster with PolyXML (~300k objs/s)**           |
+| **Type Checking**       | mypy                                             | **Astral `ty` with zero diagnostics**                      |
+| **String Enumerations** | Standard `Enum` only                             | **Native `StrEnum` support (`--str-enums`)**               |
+| **Schema Defaults**     | Replaced or discarded                            | **Preserved in `metadata["default"]`**                     |
+| **Root Element Safety** | Silently skips mismatched root elements          | **Strict root checking (`fail_on_root_mismatch`)**         |
 
 ---
 
@@ -40,14 +40,14 @@ and replace them with `pyxsdata`:
 
     ```console
     $ uv remove xsdata xsdata-pydantic
-    $ uv add "pyxsdata[cli,pydantic]"
+    $ uv add "pyxsdata[cli,pydantic,core]"
     ```
 
 === "Using pip"
 
     ```console
     $ pip uninstall xsdata xsdata-pydantic
-    $ pip install "pyxsdata[cli,pydantic]"
+    $ pip install "pyxsdata[cli,pydantic,core]"
     ```
 
 ### 2. Update Import Statements
@@ -100,10 +100,47 @@ class Person:
 
 This guarantees that required schema elements remain strictly required in Python.
 
-### 5. Take Advantage of pugixml
+### 5. Take Advantage of PolyXML & pugixml Acceleration
 
-If you parse large XML feeds or high-throughput API responses, install the `pugixml`
-extra:
+`pyxsdata` offers next-generation parsing backends for applications handling
+high-throughput XML feeds, message queues, or massive bulk files:
+
+#### Option A: Native Rust Core Engine (`PolyXML`)
+
+The `core` extra leverages [`PolyXML`](https://github.com/nth-bailey/PolyXML), a
+zero-copy Rust extension that bypasses intermediate Python DOM trees and instantiates
+models directly via C-API at **~300,000+ objects/sec** (up to **15x faster** than legacy
+`xsdata`):
+
+```console
+$ uv add "pyxsdata[core]"
+```
+
+Use `CoreXmlParser` directly:
+
+```python
+from pyxsdata.formats.dataclass.parsers import CoreXmlParser
+
+parser = CoreXmlParser()
+data = parser.parse("huge_feed.xml", FeedModel)
+```
+
+Or pass `handler=CoreEventHandler`:
+
+```python
+from pyxsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.parsers.handlers import CoreEventHandler
+
+parser = XmlParser(handler=CoreEventHandler)
+data = parser.parse("huge_feed.xml", FeedModel)
+```
+
+Works identically with Pydantic v2 via
+`from pyxsdata.pydantic.bindings import CoreXmlParser` or `CoreXmlSerializer`!
+
+#### Option B: C++ Streaming (`pugixml`)
+
+If you require constant-memory C++ pull-parsing, install the `pugixml` extra:
 
 ```console
 $ uv add "pyxsdata[pugixml]"

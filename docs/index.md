@@ -27,7 +27,7 @@ dealing directly with the DOM.
 
 !!! info "A Modern Successor to xsdata"
 
-    **pyxsdata** is an actively maintained, modernized fork of [`xsdata`](https://github.com/tefra/xsdata) designed exclusively for Python 3.12+. It consolidates ecosystem extensions like `xsdata-pydantic` directly into the unified core, introduces ultra-fast C++ **pugixml** pull-parsing support, leverages modern PEP 695 generics, and is built with modern tooling ([uv](https://github.com/astral-sh/uv), [ty](https://docs.astral.sh/ty/), and [ruff](https://docs.astral.sh/ruff/)).
+    **pyxsdata** is an actively maintained, modernized fork of [`xsdata`](https://github.com/tefra/xsdata) designed exclusively for Python 3.12+. It consolidates ecosystem extensions like `xsdata-pydantic` directly into the unified core, introduces native Rust **PolyXML** zero-copy acceleration, ultra-fast C++ **pugixml** pull-parsing support, leverages modern PEP 695 generics, and is built with modern tooling ([uv](https://github.com/astral-sh/uv), [ty](https://docs.astral.sh/ty/), and [ruff](https://docs.astral.sh/ruff/)).
 
 ---
 
@@ -36,13 +36,15 @@ dealing directly with the DOM.
 === "1. Installation"
 
     ```console
-    $ pip install "pyxsdata[cli,lxml,soap,pydantic]"
+    $ pip install "pyxsdata[cli,pydantic,core]"
     ```
 
     !!! tip "Installation Extras"
         - `cli`: Command-line interface and code generator
         - `pydantic`: Native Pydantic v2 bindings and code generation
-        - `lxml`: High-performance C-based XML parsing
+        - `core`: Native Rust `PolyXML` engine for ultra-fast throughput (~300k objs/s)
+        - `pugixml`: C++ streaming pull parser for low latency
+        - `lxml`: High-performance C-based XML parsing with DTD/XInclude support
         - `soap`: SOAP client webservice transport
 
 === "2. Code Generation"
@@ -105,8 +107,8 @@ dealing directly with the DOM.
   1.1, DTD definitions, and raw XML or JSON documents.
 - **Native Pydantic v2**: Built-in first-class Pydantic v2 code generator and binding
   layer (`pyxsdata.pydantic`). No external plugins required.
-- **Blazing Fast Performance**: Up to **54% faster** XML deserialization (over **2x
-  throughput**) than legacy `xsdata` through direct scalar and proxy converter fast
+- **Blazing Fast Performance**: Up to **15x faster** XML deserialization (~300k
+  objs/sec) with native Rust **PolyXML**, plus direct scalar and proxy converter fast
   paths, MRO caching, cached child metadata lookups, short-circuited attribute checks,
   and native support for `xml.etree`, `lxml`, and C++ `pugixml`.
 - **Modern Python 3.12+**: Strictly built for Python 3.12+. Fully type-annotated, PEP
@@ -139,7 +141,7 @@ application code, developers simply need clean, intuitive data structures.
 - [Data Binding Guide](data_binding/basics.md) - Learn XML/JSON parsing, serialization,
   and tree manipulation.
 - [Parser Backends](data_binding/backends.md) - Compare performance between standard
-  library, `lxml`, and `pugixml`.
+  library, `lxml`, `pugixml`, and Rust `PolyXML`.
 - [Pydantic v2 Integration](pydantic/index.md) - Deep dive into native Pydantic v2
   models and JSON schema support.
 - [Frequently Asked Questions](faq.md) - Solutions to common questions, large file

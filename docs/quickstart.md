@@ -13,13 +13,13 @@ Install `pyxsdata` with the CLI and your preferred features:
 === "Using uv"
 
     ```console
-    $ uv add "pyxsdata[cli,pydantic,pugixml]"
+    $ uv add "pyxsdata[cli,pydantic,core]"
     ```
 
 === "Using pip"
 
     ```console
-    $ pip install "pyxsdata[cli,pydantic,pugixml]"
+    $ pip install "pyxsdata[cli,pydantic,core]"
     ```
 
 ---
@@ -236,7 +236,7 @@ print(xml_output)
 Now that you have seen the basics, explore the rest of the documentation:
 
 - [Parser Backends Guide](data_binding/backends.md) — Learn how to speed up XML parsing
-  with C++ **pugixml** or **lxml**.
+  with Rust **PolyXML** (~15x speedup), C++ **pugixml**, or **lxml**.
 - [Pydantic v2 Guide](pydantic/index.md) — Integrate pyxsdata with FastAPI, JSON schema
   export, and data validation.
 - [Code Generator Guide](codegen/intro.md) — Customize package naming, class filters,

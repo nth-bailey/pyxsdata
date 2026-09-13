@@ -134,14 +134,47 @@ all the imported modules to find a matching dataclass.
 ## Alternative handlers
 
 XmlHandlers read the xml source and push build events to create the target class.
-pyxsdata ships with handlers based on pugixml, lxml, and native python that vary in
-performance and features.
+pyxsdata ships with handlers based on PolyXML (Rust), pugixml (C++), lxml (C), and
+native python that vary in performance and features.
 
 !!! Hint
 
-    If you installed pyxsdata with lxml the default handler is set to
+    If you installed pyxsdata with `pyxsdata[core]`, the ultra-fast native Rust engine is available via
+    [CoreXmlParser][pyxsdata.formats.dataclass.parsers.CoreXmlParser] or
+    [CoreEventHandler][pyxsdata.formats.dataclass.parsers.handlers.CoreEventHandler].
+    If you installed pyxsdata with `lxml`, the default handler is set to
     [LxmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.LxmlEventHandler] otherwise
     [XmlEventHandler][pyxsdata.formats.dataclass.parsers.handlers.XmlEventHandler] will be used.
+
+### PolyXML (Rust Core)
+
+Using [`PolyXML`](https://github.com/nth-bailey/PolyXML) via
+[`CoreEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.CoreEventHandler] or
+[`CoreXmlParser`][pyxsdata.formats.dataclass.parsers.CoreXmlParser] for zero-copy native
+Rust parsing at **~300,000+ objects/second** (up to 15x faster than legacy `xsdata`):
+
+```python
+>>> from tests.fixtures.primer.order import PurchaseOrder
+>>> from pyxsdata.formats.dataclass.parsers import CoreXmlParser
+>>> parser = CoreXmlParser()
+>>> order = parser.parse("tests/fixtures/primer/sample.xml", PurchaseOrder)
+>>> order.bill_to.street
+'8 Oak Avenue'
+
+```
+
+Or specify `handler=CoreEventHandler` with standard `XmlParser`:
+
+```python
+>>> from tests.fixtures.primer.order import PurchaseOrder
+>>> from pyxsdata.formats.dataclass.parsers import XmlParser
+>>> from pyxsdata.formats.dataclass.parsers.handlers import CoreEventHandler
+>>> parser = XmlParser(handler=CoreEventHandler)
+>>> order = parser.parse("tests/fixtures/primer/sample.xml", PurchaseOrder)
+>>> order.bill_to.street
+'8 Oak Avenue'
+
+```
 
 ### pugixml (pygixml)
 
@@ -175,8 +208,9 @@ for ultra-fast, constant-memory C++ pull-parsing:
 !!! Hint
 
     It's recommended to give all of them a try; based on your use case you
-    might get different results. Pugixml excels at raw parsing throughput
-    with minimal memory overhead.
+    might get different results. PolyXML provides the absolute highest throughput
+    (~300k objs/sec), while pugixml excels at streaming constant-memory XML parsing,
+    and lxml is ideal for DTD and XInclude validation.
 
     You can also extend one of them if you want to do any optimizations or
     customize the default behaviour.

@@ -116,7 +116,7 @@ catalog = parser.parse("catalog.xml", Catalog)
 
 ---
 
-## 2. lxml Backend (`LxmlEventHandler`)
+## 3. lxml Backend (`LxmlEventHandler`)
 
 The `lxml` backend is powered by Python's popular `lxml` package wrapping C `libxml2`.
 
@@ -146,7 +146,7 @@ catalog = parser.parse("catalog.xml", Catalog)
 
 ---
 
-## 3. Standard Library Backend (`NativeEventHandler`)
+## 4. Standard Library Backend (`NativeEventHandler`)
 
 The standard library backend uses Python's built-in `xml.etree.ElementTree.iterparse`.
 
