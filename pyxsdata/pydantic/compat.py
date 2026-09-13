@@ -32,6 +32,7 @@ class FieldInfo:
     metadata: MappingProxyType[Any, Any]
     default: Any
     default_factory: Any
+    type_hint: Any = None
 
 
 class AnyElement(BaseModel):
@@ -107,6 +108,26 @@ class Pydantic(Dataclasses):
                 default_factory=info.default_factory
                 if info.default_factory
                 else MISSING,
+            )
+
+        for name, comp_info in getattr(clazz, "model_computed_fields", {}).items():
+            raw_meta = getattr(comp_info, "xsdata_metadata", None)
+            if not raw_meta and isinstance(comp_info.json_schema_extra, dict):
+                raw_meta = comp_info.json_schema_extra.get(
+                    "metadata", comp_info.json_schema_extra.get("xsdata_metadata")
+                )
+            raw_meta = dict(raw_meta) if raw_meta else {}
+
+            if comp_info.alias and "name" not in raw_meta:
+                raw_meta["name"] = comp_info.alias
+
+            yield FieldInfo(
+                name=name,
+                init=False,
+                metadata=MappingProxyType(raw_meta),
+                default=MISSING,
+                default_factory=MISSING,
+                type_hint=comp_info.return_type,
             )
 
 

@@ -388,6 +388,20 @@ avoid having a dedicated wrapper class.
 
 **Default:** `None`
 
+Sibling wrapped fields sharing identical child element names and types are reliably
+disambiguated by the parser tracking the active wrapper context:
+
+```python
+@dataclass
+class Container:
+    first_items: list[Item] = field(
+        metadata={"wrapper": "FirstWrapper", "name": "item", "type": "Element"}
+    )
+    second_items: list[Item] = field(
+        metadata={"wrapper": "SecondWrapper", "name": "item", "type": "Element"}
+    )
+```
+
 ### `mixed`
 
 Specifies whether the field supports mixed content. The flag is indented for `Wildcard`

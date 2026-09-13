@@ -77,6 +77,49 @@ serializer = XmlSerializer()
 output_xml = serializer.render(order)
 ```
 
+### Computed Fields Support (`@computed_field`)
+
+Pydantic v2's `@computed_field` decorator is fully supported. Properties decorated with
+`@computed_field` are automatically included during serialization to XML, JSON, and
+dictionaries:
+
+```python
+from pydantic import BaseModel, computed_field
+from pyxsdata.pydantic.bindings import XmlSerializer
+
+
+class Product(BaseModel):
+    unit_price: float
+    quantity: int
+
+    @computed_field(alias="TotalPrice")
+    @property
+    def total(self) -> float:
+        return round(self.unit_price * self.quantity, 2)
+
+
+product = Product(unit_price=19.99, quantity=3)
+serializer = XmlSerializer()
+print(serializer.render(product))
+# <Product>
+#   <unit_price>19.99</unit_price>
+#   <quantity>3</quantity>
+#   <TotalPrice>59.97</TotalPrice>
+# </Product>
+```
+
+You can also customize the XML field metadata for computed fields via
+`json_schema_extra`:
+
+```python
+@computed_field(
+    json_schema_extra={"metadata": {"type": "Attribute", "name": "sku"}}
+)
+@property
+def item_sku(self) -> str:
+    return f"SKU-{self.id}"
+```
+
 ### High-Performance Native Rust Parsing & Serialization (`CoreXmlParser`, `CoreXmlSerializer`)
 
 When maximum parsing throughput is required, install `pyxsdata[core]` to leverage

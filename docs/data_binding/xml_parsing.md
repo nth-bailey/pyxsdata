@@ -203,3 +203,31 @@ to load the included documents correctly.
 BookForm(author='Nagata, Suanne', title='Becoming Somebody', genre='Biography', price=33.95, pub_date=XmlDate(2001, 1, 10), review='A masterpiece of the fine art of gossiping.', id='bk002', lang='en')
 
 ```
+
+## Custom Entity and DTD Resolvers
+
+When working with XML documents referencing external DTDs, entities, or schemas, you can
+supply custom resolvers (such as `lxml.etree.Resolver` instances) directly via
+`ParserConfig.resolvers`:
+
+```python
+from lxml import etree
+from pyxsdata.formats.dataclass.parsers import XmlParser
+from pyxsdata.formats.dataclass.parsers.config import ParserConfig
+from pyxsdata.formats.dataclass.parsers.handlers import LxmlEventHandler
+
+
+class CustomDTDResolver(etree.Resolver):
+    def resolve(self, system_url, public_id, context):
+        if system_url == "catalog.dtd":
+            return self.resolve_string(b'<!ENTITY author "Jane Doe">', context)
+        return None
+
+
+config = ParserConfig(
+    load_dtd=True,
+    resolve_entities=True,
+    resolvers=[CustomDTDResolver()],
+)
+parser = XmlParser(config=config, handler=LxmlEventHandler)
+```

@@ -243,6 +243,9 @@ class ParserUtils:
             - comparing raw str values
         """
         default_value = var.default() if callable(var.default) else var.default
+        if default_value is None:
+            return
+
         if (
             isinstance(default_value, float)
             and isinstance(value, float)

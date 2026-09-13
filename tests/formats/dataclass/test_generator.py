@@ -7,7 +7,7 @@ from pyxsdata.codegen.exceptions import CodegenError
 from pyxsdata.codegen.resolver import DependenciesResolver
 from pyxsdata.formats.dataclass.generator import DataclassGenerator
 from pyxsdata.models.config import GeneratorConfig
-from pyxsdata.utils.testing import ClassFactory, FactoryTestCase
+from pyxsdata.utils.testing import ClassFactory, ExtensionFactory, FactoryTestCase
 
 
 class DataclassGeneratorTests(FactoryTestCase):
@@ -309,3 +309,28 @@ class DataclassGeneratorTests(FactoryTestCase):
         actual = self.generator.render_module(resolver, classes)
         self.assertIn("from enum import Enum", actual)
         self.assertIn("class MyEnum(Enum):", actual)
+
+    def test_render_subclass_meta_inherits_parent_meta(self) -> None:
+        """Regression test for tefra/xsdata#1118."""
+        parent = ClassFactory.elements(
+            1,
+            qname="{http://example.com}Parent",
+            namespace="http://example.com",
+        )
+        child = ClassFactory.elements(
+            1,
+            qname="{http://example.com}Child",
+            namespace="http://example.com",
+            extensions=[
+                ExtensionFactory.reference(
+                    "{http://example.com}Parent", reference=parent.ref
+                )
+            ],
+        )
+        classes = [parent, child]
+        resolver = DependenciesResolver({})
+        actual = self.generator.render_module(resolver, classes)
+        self.assertIn("class Parent:", actual)
+        self.assertIn("class Child(Parent):", actual)
+        self.assertIn("class Meta(Parent.Meta):", actual)
+        self.assertIn('name = "Child"', actual)

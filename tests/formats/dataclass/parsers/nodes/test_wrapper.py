@@ -117,3 +117,69 @@ class WrapperTests(TestCase):
         obj = self.parser.from_string(xml, clazz=Response)
         self.assertEqual([Foo(foo_id=1), Foo(foo_id=2)], obj.foos)
         self.assertEqual([Bar(bar_id="3"), Bar(bar_id="4")], obj.bars)
+
+    def test_reused_item_element_and_identical_type(self) -> None:
+        """Regression test for tefra/xsdata#1213.
+
+        Two wrapped collections on the same dataclass that share the same
+        item class type and element name (e.g. ldeps and ddeps both contain
+        <dep id="...">) must collect into their respective fields.
+        """
+
+        @dataclass
+        class Dep:
+            id: str = field(metadata={"name": "id", "type": "Attribute"})
+
+        @dataclass
+        class TestModel:
+            ldeps: list[Dep] = field(
+                default_factory=list,
+                metadata={"name": "dep", "wrapper": "ldeps", "type": "Element"},
+            )
+            ddeps: list[Dep] = field(
+                default_factory=list,
+                metadata={"name": "dep", "wrapper": "ddeps", "type": "Element"},
+            )
+
+        xml = """
+        <test>
+            <ldeps>
+                <dep id="f07ee071-f39d-4bc6-8125-b3076274673f"/>
+                <dep id="9b2c9bc2-d946-4aa0-a63f-0aa6d4d19115"/>
+            </ldeps>
+            <ddeps>
+                <dep id="18945345-1d1d-4bf7-8887-69e00d4a972d"/>
+                <dep id="4519dfca-94cd-42de-9eb8-2c282435d3e2"/>
+            </ddeps>
+        </test>
+        """
+        obj = self.parser.from_string(xml, clazz=TestModel)
+        self.assertEqual(
+            [
+                Dep(id="f07ee071-f39d-4bc6-8125-b3076274673f"),
+                Dep(id="9b2c9bc2-d946-4aa0-a63f-0aa6d4d19115"),
+            ],
+            obj.ldeps,
+        )
+        self.assertEqual(
+            [
+                Dep(id="18945345-1d1d-4bf7-8887-69e00d4a972d"),
+                Dep(id="4519dfca-94cd-42de-9eb8-2c282435d3e2"),
+            ],
+            obj.ddeps,
+        )
+
+        # Test partial/missing wrapper
+        xml_partial = """
+        <test>
+            <ddeps>
+                <dep id="18945345-1d1d-4bf7-8887-69e00d4a972d"/>
+            </ddeps>
+        </test>
+        """
+        obj_partial = self.parser.from_string(xml_partial, clazz=TestModel)
+        self.assertEqual([], obj_partial.ldeps)
+        self.assertEqual(
+            [Dep(id="18945345-1d1d-4bf7-8887-69e00d4a972d")],
+            obj_partial.ddeps,
+        )

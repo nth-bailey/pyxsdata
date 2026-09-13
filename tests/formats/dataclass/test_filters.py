@@ -114,6 +114,29 @@ class FiltersTests(FactoryTestCase):
         expected = self.filters.class_bases(target, "FooBar")
         self.assertEqual(["d", "c", "b"], expected)
 
+    def test_class_meta_bases(self) -> None:
+        parent = ClassFactory.create(qname="Parent", meta_name="custom_parent")
+        parent_enum = ClassFactory.enumeration(2, qname="ParentEnum")
+        service_class = ClassFactory.create(tag=Tag.BINDING_OPERATION)
+        no_mod_class = ClassFactory.create(qname="NoMod", package=None, module=None)
+        child = ClassFactory.create(
+            qname="Child",
+            extensions=[
+                ExtensionFactory.native(DataType.STRING),
+                ExtensionFactory.reference("Parent", reference=parent.ref),
+                ExtensionFactory.reference(
+                    "ParentEnum", reference=parent_enum.ref
+                ),
+                ExtensionFactory.reference("Unknown"),
+            ],
+        )
+        self.filters.set_classes([parent, parent_enum, no_mod_class])
+        self.assertEqual(
+            ["Parent.Meta"], self.filters.class_meta_bases(child, "Child")
+        )
+        self.assertFalse(self.filters.class_has_meta(parent_enum))
+        self.assertFalse(self.filters.class_has_meta(service_class))
+
     def test_class_annotations(self) -> None:
         etp = ExtensionType.DECORATOR
         self.filters.extensions[etp] = [

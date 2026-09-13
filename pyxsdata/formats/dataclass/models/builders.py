@@ -200,10 +200,11 @@ class XmlMetaBuilder:
             if real_clazz is not clazz and "Meta" in real_clazz.__dict__:
                 parent_namespace = getattr(real_clazz.Meta, "namespace", namespace)
 
+            type_hint = type_hints.get(field.name) or getattr(field, "type_hint", None)
             var = builder.build(
                 clazz,
                 field.name,
-                type_hints[field.name],
+                type_hint,
                 field.metadata,
                 field.init,
                 parent_namespace,
@@ -230,17 +231,18 @@ class XmlMetaBuilder:
             A class meta instance.
         """
         meta = clazz.Meta if "Meta" in clazz.__dict__ else None
-        element_name_generator = getattr(
-            meta, "element_name_generator", self.element_name_generator
+        meta_dict = meta.__dict__ if meta else {}
+        element_name_generator = meta_dict.get(
+            "element_name_generator", self.element_name_generator
         )
-        attribute_name_generator = getattr(
-            meta, "attribute_name_generator", self.attribute_name_generator
+        attribute_name_generator = meta_dict.get(
+            "attribute_name_generator", self.attribute_name_generator
         )
-        global_type = getattr(meta, "global_type", True)
-        local_name = getattr(meta, "name", None)
+        global_type = meta_dict.get("global_type", True)
+        local_name = meta_dict.get("name", None)
         local_name = local_name or element_name_generator(clazz.__name__)
-        nillable = getattr(meta, "nillable", False)
-        namespace = getattr(meta, "namespace", parent_namespace)
+        nillable = meta_dict.get("nillable", False)
+        namespace = meta_dict.get("namespace", parent_namespace)
         qname = build_qname(namespace, local_name)
 
         if self.is_inner_class(clazz) or not global_type:
@@ -272,6 +274,9 @@ class XmlMetaBuilder:
             if ann and name in ann:
                 return base
 
+            if name in base.__dict__:
+                return base
+
         raise XmlContextError(f"Failed to detect the declared class for field {name}")
 
     @classmethod
@@ -282,7 +287,8 @@ class XmlMetaBuilder:
     @classmethod
     def target_namespace(cls, module: Any, meta: Any) -> str | None:
         """The target namespace this class metadata was defined in."""
-        namespace = getattr(meta, "target_namespace", None)
+        meta_dict = meta.__dict__ if meta else {}
+        namespace = meta_dict.get("target_namespace", None)
         if namespace is not None:
             return namespace
 
@@ -290,7 +296,7 @@ class XmlMetaBuilder:
         if namespace is not None:
             return namespace
 
-        return getattr(meta, "namespace", None)
+        return meta_dict.get("namespace", None)
 
     def default_xml_type(self, clazz: type) -> str:
         """Return the default xml type for the fields of the given dataclass.

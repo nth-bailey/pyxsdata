@@ -161,3 +161,28 @@ A callable to convert attribute names when no explicit names are defined.
 **Type:** `Callable[[str], str]`
 
 **Default:** `lambda x: x`
+
+## Subclass `Meta` Inheritance
+
+When classes inherit from a parent class that defines an inner `Meta` class, the
+generated subclass `Meta` automatically subclasses `Parent.Meta`:
+
+```python
+@dataclass
+class Superclass:
+    class Meta:
+        name = "Super"
+        namespace = "urn:myapp"
+
+
+@dataclass
+class Subclass(Superclass):
+    class Meta(Superclass.Meta):
+        name = "Sub"
+```
+
+This guarantees static type check compatibility across `ty`, `mypy`, and `pyright`
+without class shadowing or loss of typing context. At runtime, data-binding models
+inspect each class's local declarations to isolate element-specific metadata (such as
+element names or local namespaces) without unintended leakage between inheritance
+levels.

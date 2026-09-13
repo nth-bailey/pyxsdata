@@ -1,3 +1,4 @@
+from typing import Any
 from unittest.case import TestCase
 
 from lxml import etree
@@ -123,3 +124,68 @@ class LxmlEventHandlerTests(TestCase):
         self.parser.config.resolve_entities = True
         result = self.parser.from_bytes(xml, Books)
         self.assertEqual(result.book[0].author, "Resolved Value")
+
+    def test_parse_with_custom_resolver(self) -> None:
+        """Regression test for tefra/xsdata#1130."""
+
+        class DTDResolver(etree.Resolver):
+            def resolve(
+                self, system_url: Any, public_id: Any, context: Any
+            ) -> Any:
+                if system_url == "custom.dtd":
+                    return self.resolve_string(
+                        b'<!ENTITY resolved_author "External Resolved Author">', context
+                    )
+                return None
+
+        xml = b"""<?xml version="1.0"?>
+        <!DOCTYPE Books SYSTEM "custom.dtd">
+        <Books>
+            <book id="1">
+                <author>&resolved_author;</author>
+                <title>Title</title>
+                <genre>Genre</genre>
+                <price>10.0</price>
+                <pub_date>2020-01-01</pub_date>
+                <review>Review</review>
+            </book>
+        </Books>"""
+
+        self.parser.config.load_dtd = True
+        self.parser.config.resolve_entities = True
+        self.parser.config.resolvers = [DTDResolver()]
+        result = self.parser.from_bytes(xml, Books)
+        self.assertEqual("External Resolved Author", result.book[0].author)
+
+    def test_parse_with_custom_resolver_and_xinclude(self) -> None:
+        """Test custom resolver with xinclude path."""
+
+        class DTDResolver(etree.Resolver):
+            def resolve(
+                self, system_url: Any, public_id: Any, context: Any
+            ) -> Any:
+                if system_url == "custom_xi.dtd":
+                    return self.resolve_string(
+                        b'<!ENTITY resolved_xi_author "External XInclude Author">', context
+                    )
+                return None
+
+        xml = b"""<?xml version="1.0"?>
+        <!DOCTYPE Books SYSTEM "custom_xi.dtd">
+        <Books>
+            <book id="1">
+                <author>&resolved_xi_author;</author>
+                <title>Title</title>
+                <genre>Genre</genre>
+                <price>10.0</price>
+                <pub_date>2020-01-01</pub_date>
+                <review>Review</review>
+            </book>
+        </Books>"""
+
+        self.parser.config.load_dtd = True
+        self.parser.config.resolve_entities = True
+        self.parser.config.process_xinclude = True
+        self.parser.config.resolvers = [DTDResolver()]
+        result = self.parser.from_bytes(xml, Books)
+        self.assertEqual("External XInclude Author", result.book[0].author)

@@ -49,10 +49,18 @@ class Filters:
         "package_safe_prefix",
         "relative_imports",
         "substitutions",
+        "classes",
+        "classes_by_ref",
+        "module_namespaces",
+        "current_module_namespace",
     )
 
     def __init__(self, config: GeneratorConfig):
         """Initialize the filters."""
+        self.classes: dict[str, Class] = {}
+        self.classes_by_ref: dict[int, Class] = {}
+        self.module_namespaces: dict[str, str | None] = {}
+        self.current_module_namespace: str | None = None
         self.substitutions: dict[ObjectType, dict[str, str]] = defaultdict(dict)
         for sub in config.substitutions.substitution:
             self.substitutions[sub.type][sub.search] = sub.replace
@@ -131,6 +139,7 @@ class Filters:
                 "import_module": self.import_module,
                 "import_class": self.import_class,
                 "post_meta_hook": self.post_meta_hook,
+                "class_meta_bases": self.class_meta_bases,
             }
         )
 
@@ -198,6 +207,68 @@ class Filters:
                     bases.append(ext.func_name)
 
         return collections.unique_sequence(bases)
+
+    def set_classes(self, classes: Iterable[Class]) -> None:
+        """Register the set of classes to be generated."""
+        for c in classes:
+            self.classes[c.qname] = c
+            self.classes_by_ref[c.ref] = c
+
+        by_module: dict[str, list[Class]] = defaultdict(list)
+        for c in self.classes.values():
+            if c.module:
+                by_module[c.target_module].append(c)
+
+        for mod, mod_classes in by_module.items():
+            ns_set = {x.target_namespace for x in mod_classes}
+            self.module_namespaces[mod] = (
+                mod_classes[0].target_namespace if len(ns_set) == 1 else None
+            )
+
+    def class_has_meta(self, obj: Class, level: int = 0) -> bool:
+        """Return whether the class generates a Meta class."""
+        if obj.is_enumeration or obj.is_service:
+            return False
+
+        class_name = self.class_name(obj.name)
+        global_type = level == 0 and not obj.local_type
+        local_name = obj.meta_name or obj.name
+        local_name = None if class_name == local_name or not global_type else local_name
+
+        mod = obj.target_module if obj.module else None
+        mod_ns = (
+            self.module_namespaces.get(mod) if mod else self.current_module_namespace
+        )
+        target_namespace = (
+            obj.target_namespace
+            if global_type and mod_ns != obj.target_namespace
+            else None
+        )
+        return bool(
+            local_name
+            or obj.is_nillable
+            or obj.namespace is not None
+            or target_namespace
+            or (obj.local_type and level == 0)
+        )
+
+    def class_meta_bases(self, obj: Class, class_name: str) -> list[str]:
+        """Return a list of base Meta class names."""
+        meta_bases = []
+        for ext in obj.extensions:
+            if ext.type.native:
+                continue
+
+            base_cls = self.classes_by_ref.get(ext.type.reference) or self.classes.get(
+                ext.type.qname
+            )
+            if base_cls is None or not self.class_has_meta(base_cls):
+                continue
+
+            base_type = self.type_name(ext.type)
+            meta_bases.append(f"{base_type}.Meta")
+
+        return collections.unique_sequence(meta_bases)
 
     @classmethod
     def _parent_match(cls, ext: GeneratorExtension, obj: Class) -> bool:

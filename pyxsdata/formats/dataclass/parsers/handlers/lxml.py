@@ -32,6 +32,9 @@ class LxmlEventHandler(XmlHandler):
                 load_dtd=self.parser.config.load_dtd,
                 remove_comments=True,
             )
+            for resolver in self.parser.config.resolvers:
+                parser.resolvers.add(resolver)
+
             tree = etree.parse(
                 source, parser=parser, base_url=self.parser.config.base_url
             )  # nosec
@@ -46,6 +49,8 @@ class LxmlEventHandler(XmlHandler):
                 resolve_entities=self.parser.config.resolve_entities,
                 load_dtd=self.parser.config.load_dtd,
             )
+            for resolver in self.parser.config.resolvers:
+                ctx.resolvers.add(resolver)
 
         return self.process_context(ctx, ns_map)  # ty: ignore[invalid-argument-type]
 

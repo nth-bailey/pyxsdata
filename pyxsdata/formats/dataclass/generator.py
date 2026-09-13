@@ -58,6 +58,7 @@ class DataclassGenerator(AbstractGenerator):
         Yields:
             An iterator of generator result instances.
         """
+        self.filters.set_classes(classes)
         packages = {obj.qname: obj.target_module for obj in classes}
         resolver = DependenciesResolver(registry=packages)
         package_dirs = set()
@@ -146,6 +147,7 @@ class DataclassGenerator(AbstractGenerator):
         Returns:
             The rendered module output.
         """
+        self.filters.set_classes(classes)
         if len({x.target_namespace for x in classes}) == 1:
             module_namespace = classes[0].target_namespace
         else:
@@ -179,6 +181,9 @@ class DataclassGenerator(AbstractGenerator):
         Returns:
             The rendered classes source code output.
         """
+
+        self.filters.set_classes(classes)
+        self.filters.current_module_namespace = module_namespace
 
         def render_class(obj: Class) -> str:
             """Render class or enumeration."""
