@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/nth-bailey/pyxsdata/compare/1.7.0...1.8.0) (2026-09-13)
+
+
+### Features
+
+* **scripts:** add gate, coverage diff, and codegen inspector utilities ([d11fa08](https://github.com/nth-bailey/pyxsdata/commit/d11fa08ae181fabbb3f914373d7f49af22ab727f))
+
 # [1.7.0](https://github.com/nth-bailey/pyxsdata/compare/1.6.1...1.7.0) (2026-09-13)
 
 
