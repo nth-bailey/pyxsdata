@@ -13,6 +13,8 @@ __all__ = [
     "XmlParser",
     "XmlSerializer",
     "field",
+    "project_model",
+    "prune_dump",
 ]
 
 
@@ -21,6 +23,10 @@ def __getattr__(name: str) -> Any:
         from pyxsdata.pydantic.fields import field
 
         return field
+    if name in ("project_model", "prune_dump"):
+        import pyxsdata.pydantic.prune as prune
+
+        return getattr(prune, name)
     if name in __all__:
         import pyxsdata.pydantic.bindings as bindings
 

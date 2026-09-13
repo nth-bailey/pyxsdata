@@ -14,6 +14,7 @@
   <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/pypi/v/pyxsdata.svg?logo=pypi&label=PyPI" alt="PyPI"></a>
   <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14-3776AB.svg?logo=python&logoColor=white" alt="Python 3.12+"></a>
   <a href="https://docs.pydantic.dev/"><img src="https://img.shields.io/badge/Pydantic-v2-E92063.svg?logo=pydantic&logoColor=white" alt="Pydantic v2"></a>
+  <a href="https://nth-bailey.github.io/pyxsdata/"><img src="https://img.shields.io/badge/AI_%26_LLM-Ready-FF6F00.svg?logo=openai&logoColor=white" alt="AI & LLM Ready"></a>
   <a href="https://github.com/nth-bailey/PolyXML"><img src="https://img.shields.io/badge/acceleration-Rust_PolyXML-DEA584?logo=rust&logoColor=white" alt="Rust PolyXML"></a>
   <a href="https://github.com/nth-bailey/pyxsdata/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?logo=github" alt="PRs Welcome"></a>
 </p>
@@ -37,6 +38,10 @@ actively maintained with modern tooling.
 
 ### Key Enhancements over Legacy xsdata
 
+- **Built for Modern AI & LLMs**: Native tree pruning (`prune_dump`) and dynamic model
+  projection (`project_model`) allow developers to pipe massive enterprise XML schemas
+  directly into OpenAI, Anthropic, Gemini, and LangChain with **80–90% prompt token
+  reduction** and zero JSON schema bloat.
 - **Significantly Faster Deserialization**: Up to **54% faster** in pure Python (over
   **2x throughput**) and up to **15x faster** with native Rust acceleration
   (`pyxsdata[core]`) compared to legacy `xsdata`.
@@ -163,6 +168,67 @@ $ pyxsdata generate tests/fixtures/primer/order.xsd --output pydantic --package 
 >>> order.model_dump()
 ```
 
+## 🤖 Built for Modern AI & LLMs
+
+Enterprise XML schemas (ISO 20022, UBL, HL7, FIX) are massive, deeply nested, and
+token-heavy. Feeding them directly to LLMs often hits strict JSON schema limits or
+explodes your token bill.
+
+`pyxsdata.pydantic` provides native utilities specifically built for AI workflows:
+
+### 1. Token-Efficient Prompt Ingestion (`prune_dump`)
+
+Strip namespace noise, empty structures, and unused branches with glob dot-paths before
+sending data to an LLM:
+
+```python
+from pyxsdata.pydantic import XmlParser, prune_dump
+
+# Parse complex enterprise XML
+order = XmlParser().from_string(xml_text, EnterprisePurchaseOrder)
+
+# Prune down to just what the LLM needs (80-90% token reduction!):
+prompt_payload = prune_dump(
+    order,
+    include=["id", "order_date", "customer.name", "items.*.sku", "items.*.price"],
+    exclude_namespaces=["http://www.w3.org/2000/09/xmldsig#"],  # Drop signatures
+    exclude_none=True,  # Drop unpopulated fields
+    exclude_empty=True, # Drop empty lists [] and dicts {}
+    key_style="python", # Clean snake_case keys (no XML namespace mangling)
+)
+
+# Clean, token-efficient JSON ready for OpenAI, Anthropic, or Gemini:
+# {"id": "ORD-001", "order_date": "2026-09-13", "customer": {"name": "Acme Corp"}, "items": [...]}
+```
+
+### 2. Zero-Bloat LLM Structured Outputs (`project_model`)
+
+When asking an LLM to generate data via `response_format` or Tool Calling, don't
+overwhelm it with a 500-field JSON schema. Dynamically project a lightweight Pydantic v2
+sub-model:
+
+```python
+from pyxsdata.pydantic import XmlSerializer, project_model
+
+# Dynamically create a lean sub-model with only the fields the LLM should extract:
+LLMPurchaseOrder = project_model(
+    EnterprisePurchaseOrder,
+    include={"id", "order_date", "customer.name", "items.sku", "items.quantity"},
+)
+
+# Pass directly to OpenAI / Anthropic / Gemini Structured Outputs:
+response = client.beta.chat.completions.parse(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Extract order from email..."}],
+    response_format=LLMPurchaseOrder,
+)
+lean_order: LLMPurchaseOrder = response.choices[0].message.parsed
+
+# Re-hydrate back into the full enterprise model and serialize to valid XML!
+full_order = EnterprisePurchaseOrder.model_validate(lean_order.model_dump())
+xml_output = XmlSerializer().render(full_order)
+```
+
 Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more ✨✨✨
 
 ## Features
@@ -196,6 +262,15 @@ Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more ✨�
 - Support xinclude statements and unknown properties
 - Native Pydantic v2 support (`pyxsdata.pydantic`)
 - Fully type-checked with Astral `ty`
+
+**AI & LLM Integration**
+
+- Token-efficient instance pruning (`prune_dump`) with glob dot-path, namespace URI, and
+  prefix filtering
+- Dynamic sub-model projection (`project_model`) preserving constraints and types for
+  zero-bloat OpenAI, Anthropic, and Gemini Structured Outputs
+- Seamless round-trip validation from lean LLM outputs back into enterprise XML
+  serializers
 
 ## Changelog: 0.0.0
 

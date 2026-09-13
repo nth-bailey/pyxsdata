@@ -150,3 +150,77 @@ context = XmlContext(class_type="pydantic")
 parser = XmlParser(context=context)
 serializer = XmlSerializer(context=context)
 ```
+
+## AI & LLM Workflows: Token Pruning & Sub-Model Projections
+
+Enterprise XML documents and schemas (such as ISO 20022, UBL, HL7, and FIX) can contain
+hundreds of deeply nested classes, optional extensions, and namespace noise. Passing
+them raw to Large Language Models (OpenAI, Anthropic, Google Gemini, LangChain,
+Instructor) quickly blows past token budgets and JSON schema validation limits.
+
+`pyxsdata.pydantic` provides two powerful, dedicated utilities to eliminate this
+friction:
+
+### 1. `prune_dump`: Token-Efficient Prompt Ingestion
+
+Before inserting an XML-derived Pydantic model instance into an LLM prompt, use
+`prune_dump` to strip namespace noise, empty structures, and unwanted fields with glob
+dot-paths:
+
+```python
+from pyxsdata.pydantic import XmlParser, prune_dump
+
+# Parse complex 5,000-line enterprise XML
+order = XmlParser().from_string(xml_text, EnterprisePurchaseOrder)
+
+# Prune down to only what the prompt needs:
+prompt_data = prune_dump(
+    order,
+    # Retain specific branches or leaf fields with glob dot-paths:
+    include=["id", "order_date", "customer.name", "items.*.sku", "items.*.price"],
+    # Or exclude heavy internal structures anywhere in the tree:
+    exclude=["*.signature", "*.audit_trail"],
+    # Exclude entire XML namespaces:
+    exclude_namespaces=["http://www.w3.org/2000/09/xmldsig#"],
+    # Automatically drop unpopulated data:
+    exclude_none=True,   # Drops None values
+    exclude_empty=True,  # Drops empty lists [] and dicts {}
+    # Output key style:
+    key_style="python",  # Clean snake_case keys (default)
+)
+```
+
+### 2. `project_model`: Lean LLM Structured Outputs
+
+When requesting structured data from an LLM (`response_format` in OpenAI or Tool Calling
+in Anthropic/Gemini), sending a 500-field schema causes hallucination, token bloat, or
+schema length errors.
+
+`project_model` creates a real, lightweight Pydantic v2 sub-model that preserves all
+field validation constraints (`ge`, `le`, `pattern`, `min_length`, etc.) while exposing
+only the requested fields in the JSON schema:
+
+```python
+from openai import OpenAI
+from pyxsdata.pydantic import XmlSerializer, project_model
+
+client = OpenAI()
+
+# 1. Dynamically create a lean sub-model with only the fields to extract:
+LLMOrder = project_model(
+    EnterprisePurchaseOrder,
+    include={"id", "order_date", "customer.name", "items.sku", "items.quantity"},
+)
+
+# 2. Pass directly to OpenAI Structured Outputs:
+completion = client.beta.chat.completions.parse(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Extract purchase order from email..."}],
+    response_format=LLMOrder,
+)
+lean_instance: LLMOrder = completion.choices[0].message.parsed
+
+# 3. Re-hydrate back into the full enterprise model and serialize to valid XML!
+full_order = EnterprisePurchaseOrder.model_validate(lean_instance.model_dump())
+xml_output = XmlSerializer().render(full_order)
+```
