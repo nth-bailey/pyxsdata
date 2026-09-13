@@ -165,3 +165,22 @@ Before finishing any task:
 5. **Docs**: If docs are touched, verify `.venv/bin/zensical build` succeeds.
 6. **No Stale Artifacts**: Clean up temporary test directories (`generated/`, scratch
    files).
+
+---
+
+## 6. Workspace Skills Maintenance
+
+Custom agent runbooks and procedures are stored as skills in
+`.agents/skills/<skill_name>/SKILL.md`.
+
+When working in this repository:
+
+1. **Consult & Use Skills**: When performing specialized workflows (releasing, benchmark
+   profiling, or modifying the code generation pipeline), refer to the corresponding
+   skill in `.agents/skills/`.
+2. **Keep Skills Up to Date**: If you discover a bug, an undocumented requirement, a
+   changed CLI flag, or an improved workflow while working on a task, **you MUST update
+   the relevant `SKILL.md`** so subsequent agents benefit from the fix.
+3. **Capture New Workflows**: When introducing a new complex, multi-step, or repeatable
+   workflow, create a new skill directory in `.agents/skills/<skill_name>/SKILL.md`
+   following standard frontmatter conventions.
