@@ -1,3 +1,16 @@
+# [1.10.0](https://github.com/nth-bailey/pyxsdata/compare/1.9.0...1.10.0) (2026-09-17)
+
+
+### Bug Fixes
+
+* **core:** bump polyxml>=0.11.0 with unknown element depth tracking and namespace fixes ([e73be2c](https://github.com/nth-bailey/pyxsdata/commit/e73be2cc285cb60a0108840bf660103bb576240a))
+* **core:** bump polyxml>=0.11.1 with published PyPI wheels ([7188ad4](https://github.com/nth-bailey/pyxsdata/commit/7188ad442492e649d8dc5b6049e11ed32ec52041))
+
+
+### Features
+
+* **serializers:** add namespace map support to CoreXmlSerializer and docs updates ([88bf929](https://github.com/nth-bailey/pyxsdata/commit/88bf92925a4b77961efbe4556885d2eab674839c))
+
 # [1.9.0](https://github.com/nth-bailey/pyxsdata/compare/1.8.0...1.9.0) (2026-09-13)
 
 
