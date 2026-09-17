@@ -154,6 +154,32 @@ class CoreEventHandlerTests(TestCase):
         parsed = self.parser.from_string(xml_output, Books)
         self.assertEqual(books, parsed)
 
+    def test_serialize_namespaced_model(self) -> None:
+        from dataclasses import dataclass, field
+
+        @dataclass
+        class NamespacedBook:
+            class Meta:
+                name = "item"
+                namespace = "http://example.com/catalog"
+
+            title: str = field(
+                metadata={"type": "Element", "namespace": "http://example.com/catalog"}
+            )
+            sku: str = field(
+                metadata={"type": "Attribute", "namespace": "http://example.com/inv"}
+            )
+
+        book = NamespacedBook(title="Rust for High Performance", sku="ISBN-999")
+        ns_map = {None: "http://example.com/catalog", "inv": "http://example.com/inv"}
+        xml_out = self.serializer.render(book, ns_map=ns_map)
+
+        self.assertIn('xmlns="http://example.com/catalog"', xml_out)
+        self.assertIn('xmlns:inv="http://example.com/inv"', xml_out)
+        self.assertIn('inv:sku="ISBN-999"', xml_out)
+        self.assertIn("<title>Rust for High Performance</title>", xml_out)
+
+
 
     def test_serializer_without_polyxml(self) -> None:
         import pyxsdata.formats.dataclass.serializers.xml as xml_mod

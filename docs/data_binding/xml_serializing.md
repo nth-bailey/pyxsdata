@@ -297,6 +297,45 @@ choices.
 <doc>
   <a/>
   <b/>
-</doc>
+```
 
+---
+
+## Native High-Throughput Serializer (`CoreXmlSerializer`)
+
+For high-throughput applications, `pyxsdata` provides `CoreXmlSerializer`, powered by
+the native Rust [PolyXML](https://github.com/nth-bailey/PolyXML) engine. It eliminates
+intermediate Python SAX event tuples and streams XML directly in Rust, running **12× to
+15× faster** than `lxml` on complex namespaced payloads.
+
+### Installation
+
+```bash
+pip install "pyxsdata[core]"
+```
+
+### Usage
+
+```python
+from pyxsdata.formats.dataclass.serializers import CoreXmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+
+# Direct instantiation
+serializer = CoreXmlSerializer(config=SerializerConfig(indent="  "))
+
+# Render to XML string with custom namespace mapping
+xml_text = serializer.render(books, ns_map={None: "urn:books"})
+
+# Write directly to text stream
+with open("output.xml", "w") as f:
+    serializer.write(f, books, ns_map={None: "urn:books"})
+```
+
+`CoreXmlSerializer` is also available for Pydantic v2 models:
+
+```python
+from pyxsdata.pydantic.bindings import CoreXmlSerializer
+
+serializer = CoreXmlSerializer()
+xml_text = serializer.render(pydantic_model)
 ```

@@ -102,17 +102,28 @@ enums):
 | **`PolyXML`** (`pyxsdata[core]`)      | **Rust + PyO3 (`quick-xml`)** | **16.5 µs**       | **~60,360 msgs/s** | **~11.47x (1,047% faster)** |
 | **`XmlParser`** (`pyxsdata` Standard) | Pure Python (`xml.etree`)     | 190.0 µs          | ~5,262 msgs/s      | 1.0x (Baseline)             |
 
-### Which Deserializer Should You Use?
+### Serialization Benchmarks (Standard Python `@dataclass`)
 
-- **`CoreXmlParser` / `CoreEventHandler` / `CoreXmlSerializer`
-  (`pip install "pyxsdata[core]"`):** **Recommended for high-throughput production
-  systems**, real-time APIs, webhooks, and big data feeds. Driven by native Rust
-  (`PolyXML`), it bypasses intermediate Python DOM objects and maps tokens directly to
-  Python dataclasses or Pydantic models via CPython C-API at **~300,000
-  objects/second**.
-- **`NativeEventHandler` (Built-in standard library):** **Recommended for
-  zero-dependency deployments**, lightweight microservices, and serverless environments
-  (AWS Lambda, Google Cloud Run) where installing C/Rust compilers is undesirable.
+Serializing **5,000 complex XML items** with W3C XML namespaces into formatted XML
+strings:
+
+| Serializer                                | Engine                      | Extra Dependency | Latency (5,000 items) | Throughput          | Speedup vs Standard  |
+| :---------------------------------------- | :-------------------------- | :--------------- | :-------------------- | :------------------ | :------------------- |
+| **`CoreXmlSerializer`**                   | **Rust + PyO3 (`PolyXML`)** | `pyxsdata[core]` | **8.39 ms**           | **~595,950 objs/s** | **~12.26x (1,126%)** |
+| **`XmlSerializer`** (`DefaultXmlHandler`) | Pure Python (`xml.etree`)   | —                | 102.89 ms             | ~48,600 objs/s      | 1.0x (Baseline)      |
+| **`XmlSerializer`** (`LxmlEventWriter`)   | C (`lxml` Cython)           | `pyxsdata[lxml]` | 125.10 ms             | ~39,970 objs/s      | 0.82x (14.9x slower) |
+
+### Which Deserializer & Serializer Should You Use?
+
+- **`CoreXmlParser` / `CoreXmlSerializer` (`pip install "pyxsdata[core]"`):**
+  **Recommended for high-throughput production systems**, real-time APIs, webhooks, and
+  big data feeds. Driven by native Rust (`PolyXML`), it bypasses intermediate Python DOM
+  objects and maps tokens directly to Python dataclasses or Pydantic models via CPython
+  C-API at **~300,000 to ~600,000 objects/second**.
+- **`NativeEventHandler` / `XmlSerializer` (Built-in standard library):** **Recommended
+  for zero-dependency deployments**, lightweight microservices, and serverless
+  environments (AWS Lambda, Google Cloud Run) where installing C/Rust compilers is
+  undesirable.
 - **`LxmlEventHandler` (`pip install "pyxsdata[lxml]"`):** Ideal for legacy XML
   workflows requiring schema DTD validation (`load_dtd=True`), XInclude resolution
   (`process_xinclude=True`), or direct parsing from `lxml.etree.Element` trees.
@@ -134,16 +145,21 @@ $ pyxsdata generate tests/fixtures/primer/order.xsd --package tests.fixtures.pri
 ```python
 >>> from tests.fixtures.primer import PurchaseOrder
 >>> from pyxsdata.formats.dataclass.parsers import XmlParser, CoreXmlParser
+>>> from pyxsdata.formats.dataclass.serializers import XmlSerializer, CoreXmlSerializer
 >>>
->>> # Standard pure Python parser:
+>>> # Standard pure Python parser & serializer:
 >>> parser = XmlParser()
 >>> order = parser.parse("tests/fixtures/primer/sample.xml", PurchaseOrder)
 >>> order.bill_to
 Usaddress(name='Robert Smith', street='8 Oak Avenue', city='Old Town', state='PA', zip=Decimal('95819'), country='US')
 >>>
->>> # Or ultra-fast Rust-accelerated parser (~290,000+ objs/sec):
+>>> # Ultra-fast Rust-accelerated parser (~290,000+ objs/sec):
 >>> core_parser = CoreXmlParser()
 >>> order = core_parser.parse("tests/fixtures/primer/sample.xml", PurchaseOrder)
+>>>
+>>> # Ultra-fast Rust-accelerated serializer (~595,000+ objs/sec):
+>>> core_serializer = CoreXmlSerializer()
+>>> xml_text = core_serializer.render(order, ns_map={None: "http://example.com/po"})
 ```
 
 ### Pydantic Support
@@ -155,17 +171,16 @@ $ pyxsdata generate tests/fixtures/primer/order.xsd --output pydantic --package 
 ```
 
 ```python
->>> from pyxsdata.pydantic.bindings import XmlParser, CoreXmlParser
+>>> from pyxsdata.pydantic.bindings import XmlParser, CoreXmlParser, CoreXmlSerializer
 >>>
->>> # Standard pure Python parser:
->>> parser = XmlParser()
->>> order = parser.from_string(xml_text, PurchaseOrder)
->>> order.model_dump()
->>>
->>> # Or ultra-fast Rust-accelerated parser (~310,000+ objs/sec):
+>>> # Ultra-fast Rust-accelerated parser (~310,000+ objs/sec):
 >>> core_parser = CoreXmlParser()
 >>> order = core_parser.from_string(xml_text, PurchaseOrder)
 >>> order.model_dump()
+>>>
+>>> # Ultra-fast Rust-accelerated serializer:
+>>> core_serializer = CoreXmlSerializer()
+>>> xml_text = core_serializer.render(order)
 ```
 
 ## 🤖 Built for Modern AI & LLMs

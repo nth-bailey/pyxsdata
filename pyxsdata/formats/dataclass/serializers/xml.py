@@ -31,7 +31,7 @@ class CoreXmlSerializer:
 
         Args:
             obj: The input model instance to serialize
-            ns_map: Optional namespace prefix-URI map (not required by native engine)
+            ns_map: Optional namespace prefix-URI map
 
         Returns:
             The serialized xml string output.
@@ -42,7 +42,7 @@ class CoreXmlSerializer:
                 "Install it via `pip install 'pyxsdata[core]'`."
             )
         indent = len(self.config.indent) if self.config.indent else None
-        return polyxml.serialize(obj, indent=indent).decode("utf-8")
+        return polyxml.serialize(obj, indent=indent, ns_map=ns_map).decode("utf-8")
 
     def write(self, out: TextIOBase, obj: Any, ns_map: dict | None = None) -> None:
         """Serialize the given object to the output text stream.

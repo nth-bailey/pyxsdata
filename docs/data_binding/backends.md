@@ -70,6 +70,29 @@ parser = CoreXmlParser()
 catalog = parser.parse("catalog.xml", Catalog)
 ```
 
+### Serialization with `CoreXmlSerializer`
+
+Use `CoreXmlSerializer` for ultra-fast native XML serialization with full W3C XML
+namespace support:
+
+```python
+from pyxsdata.formats.dataclass.serializers import CoreXmlSerializer
+from pyxsdata.formats.dataclass.serializers.config import SerializerConfig
+from myapp.models import Catalog
+
+serializer = CoreXmlSerializer(config=SerializerConfig(indent="  "))
+xml_output = serializer.render(catalog, ns_map={None: "http://example.com/ns1"})
+```
+
+Works identically with Pydantic v2:
+
+```python
+from pyxsdata.pydantic.bindings import CoreXmlSerializer
+
+serializer = CoreXmlSerializer()
+xml_output = serializer.render(pydantic_catalog)
+```
+
 ---
 
 ## 2. Pugixml Backend (`PugixmlEventHandler`)
@@ -199,6 +222,18 @@ faster than legacy `xsdata`:
 | **`PugixmlEventHandler`** | 883.8 ms        | 509.4 ms    | **+42.4% (1.7x)**   |
 
 _(Benchmark: 10,000 complex XML items parsed into dataclasses, lowest of 5 runs)_
+
+### Serialization Performance
+
+`CoreXmlSerializer` delivers dramatic speedups over pure-Python and `lxml` serializers
+by eliminating intermediate Python SAX events and streaming tokens directly in native
+Rust:
+
+| Serializer Backend                        | Time (5,000 items) | Throughput             | vs PolyXML             |
+| :---------------------------------------- | :----------------- | :--------------------- | :--------------------- |
+| **`CoreXmlSerializer` (PolyXML)**         | **8.4 ms**         | **~595,000 items/sec** | **Baseline (Fastest)** |
+| `XmlSerializer` (Native `XmlEventWriter`) | 102.9 ms           | ~48,500 items/sec      | **12.3× slower**       |
+| `XmlSerializer` (Lxml `LxmlEventWriter`)  | 125.1 ms           | ~40,000 items/sec      | **14.9× slower**       |
 
 ### Thread Safety & Context Reuse
 
