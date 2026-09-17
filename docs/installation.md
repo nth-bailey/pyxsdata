@@ -43,7 +43,7 @@
 | :------------- | :---------------------------------------------------------------------------- | :----------------------------------------------------------------- |
 | **`cli`**      | Code generator command-line interface (`click`, `jinja2`, `toposort`, `ruff`) | Whenever generating Python models from schemas or documents        |
 | **`pydantic`** | Native Pydantic v2 support (`pydantic>=2.10.0`)                               | To generate Pydantic models and use `pyxsdata.pydantic.bindings`   |
-| **`core`**     | Native Rust `PolyXML` zero-copy engine (`polyxml>=0.2.0`)                     | For ultra-high throughput (~300k objs/sec, up to 15x speedup)      |
+| **`core`**     | Native Rust `PolyXML` zero-copy engine (`polyxml>=0.11.0`)                    | For ultra-high throughput (~300k objs/sec, up to 15x speedup)      |
 | **`pugixml`**  | C++ `pugixml` fast pull parser (`pygixml>=0.12.0`)                            | For streaming constant-memory XML parsing and lowest latency       |
 | **`lxml`**     | C `libxml2` binding (`lxml>=5.3.0`)                                           | For DTD loading, XInclude processing, or parsing from `lxml` trees |
 | **`soap`**     | SOAP web services client transport (`requests>=2.32.3`)                       | When consuming SOAP/WSDL web services                              |

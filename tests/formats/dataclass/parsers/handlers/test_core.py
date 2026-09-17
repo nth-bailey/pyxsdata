@@ -179,7 +179,69 @@ class CoreEventHandlerTests(TestCase):
         self.assertIn('inv:sku="ISBN-999"', xml_out)
         self.assertIn("<title>Rust for High Performance</title>", xml_out)
 
+    def test_parse_with_unmodeled_unknown_elements(self) -> None:
+        from dataclasses import dataclass, field
 
+        @dataclass
+        class Order:
+            class Meta:
+                name = "Order"
+
+            order_id: str = field(metadata={"name": "OrderID", "type": "Element"})
+            customer: str = field(metadata={"name": "Customer", "type": "Element"})
+            amount: float = field(metadata={"name": "Amount", "type": "Element"})
+
+        xml_with_unknowns = """<Order>
+            <OrderID>ORD-101</OrderID>
+            <UnknownMeta>
+                <InternalFlag>ignore_me</InternalFlag>
+                <NestedData value="x" />
+            </UnknownMeta>
+            <Customer>Alice</Customer>
+            <UnmodeledAuditTrail timestamp="2026-09-17">audit log</UnmodeledAuditTrail>
+            <Amount>250.75</Amount>
+        </Order>"""
+
+        order = self.parser.from_string(xml_with_unknowns, Order)
+        self.assertEqual("ORD-101", order.order_id)
+        self.assertEqual("Alice", order.customer)
+        self.assertEqual(250.75, order.amount)
+
+    def test_namespaced_roundtrip(self) -> None:
+        from dataclasses import dataclass, field
+
+        @dataclass
+        class Product:
+            class Meta:
+                name = "product"
+                namespace = "http://example.com/store"
+
+            title: str = field(
+                metadata={
+                    "name": "Title",
+                    "type": "Element",
+                    "namespace": "http://example.com/store",
+                }
+            )
+            code: str = field(
+                metadata={
+                    "name": "code",
+                    "type": "Attribute",
+                    "namespace": "http://example.com/meta",
+                }
+            )
+
+        prod = Product(title="Super Widget", code="SW-01")
+        ns_map = {None: "http://example.com/store", "m": "http://example.com/meta"}
+        xml_out = self.serializer.render(prod, ns_map=ns_map)
+        self.assertIn('xmlns="http://example.com/store"', xml_out)
+        self.assertIn('xmlns:m="http://example.com/meta"', xml_out)
+        self.assertIn('m:code="SW-01"', xml_out)
+        self.assertIn("<Title>Super Widget</Title>", xml_out)
+
+        parsed = self.parser.from_string(xml_out, Product)
+        self.assertEqual("Super Widget", parsed.title)
+        self.assertEqual("SW-01", parsed.code)
 
     def test_serializer_without_polyxml(self) -> None:
         import pyxsdata.formats.dataclass.serializers.xml as xml_mod
