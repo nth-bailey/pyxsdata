@@ -130,6 +130,22 @@ class GeneratorConfigTests(TestCase):
         with self.assertRaises(ParserError):
             GeneratorConfig.read(file_path)
 
+    def test_read_with_custom_header(self) -> None:
+        existing = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<Config xmlns="http://pypi.org/project/xsdata" version="21.7">\n'
+            '  <Output maxLineLength="79">\n'
+            "    <Package>foo.bar</Package>\n"
+            "    <CustomHeader># @generated</CustomHeader>\n"
+            "  </Output>\n"
+            "</Config>\n"
+        )
+        file_path = Path(tempfile.mktemp())
+        file_path.write_text(existing, encoding="utf-8")
+        config = GeneratorConfig.read(file_path)
+        self.assertEqual("# @generated", config.output.custom_header)
+        file_path.unlink()
+
     def test_format_with_invalid_eq_config(self) -> None:
         with warnings.catch_warnings(record=True) as w:
             OutputFormat(eq=False, order=True)

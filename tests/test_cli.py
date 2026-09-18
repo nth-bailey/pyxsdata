@@ -53,6 +53,31 @@ class CliTests(TestCase):
         self.assertEqual([source.as_uri()], mock_process.call_args[0][0])
 
     @mock.patch.object(ResourceTransformer, "process")
+    @mock.patch.object(ResourceTransformer, "__init__", return_value=None)
+    def test_generate_with_custom_header(
+        self, mock_init, mock_process
+    ) -> None:
+        source = fixtures_dir.joinpath("defxmlschema/chapter03.xsd")
+        result = self.runner.invoke(
+            cli,
+            [
+                "generate",
+                str(source),
+                "--package",
+                "foo",
+                "--custom-header",
+                "# @generated\n# mypy: ignore-errors",
+            ],
+        )
+        config = mock_init.call_args[1]["config"]
+
+        self.assertIsNone(result.exception)
+        self.assertEqual(
+            "# @generated\n# mypy: ignore-errors", config.output.custom_header
+        )
+        self.assertEqual([source.as_uri()], mock_process.call_args[0][0])
+
+    @mock.patch.object(ResourceTransformer, "process")
     def test_generate_with_error(self, mock_process) -> None:
         mock_process.side_effect = CodegenError("Testing", foo="bar")
 

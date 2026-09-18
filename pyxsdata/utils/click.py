@@ -1,12 +1,16 @@
 import enum
 import inspect
 import logging
+import types
 from collections.abc import Callable, Iterator
 from dataclasses import fields, is_dataclass
 from typing import (
     Any,
     ClassVar,
     TypeVar,
+    Union,
+    get_args,
+    get_origin,
     get_type_hints,
 )
 from urllib.parse import urlparse
@@ -47,6 +51,13 @@ def build_options(obj: Any, parent: str) -> Iterator[Callable[[FC], FC]]:
 
         qname = f"{parent}.{field.name}".strip(".")
 
+        origin = get_origin(type_hint)
+        if origin in (Union, types.UnionType):
+            type_hint = next(
+                (arg for arg in get_args(type_hint) if arg is not type(None)),
+                type_hint,
+            )
+
         if is_dataclass(type_hint):
             yield from build_options(type_hint, qname)
         else:
@@ -61,7 +72,7 @@ def build_options(obj: Any, parent: str) -> Iterator[Callable[[FC], FC]]:
                 name = text.kebab_case(name)
                 names = [f"--{name}/--no-{name}"]
             else:
-                if issubclass(type_hint, enum.Enum):
+                if isinstance(type_hint, type) and issubclass(type_hint, enum.Enum):
                     opt_type = EnumChoice(type_hint)
 
                 parts = text.split_words(name)

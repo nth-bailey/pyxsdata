@@ -223,6 +223,7 @@ class GeneratorOutput:
         unnest_classes: Move inner classes to upper level
         ignore_patterns: Ignore pattern restrictions
         include_header: Include a header with codegen information in the output
+        custom_header: Custom header text to prepend to generated files
         str_enums: Generate StrEnum for string enumerations
         lazy_load: Enable PEP 562 lazy loading for package __init__.py
     """
@@ -248,6 +249,9 @@ class GeneratorOutput:
     unnest_classes: bool = field(default=False, metadata={"type": "Element"})
     ignore_patterns: bool = field(default=False, metadata={"type": "Element"})
     include_header: bool = field(default=False, metadata={"type": "Element"})
+    custom_header: str | None = field(
+        default=None, metadata={"type": "Element", "cli": "custom-header"}
+    )
     str_enums: bool = field(
         default=False, metadata={"type": "Attribute", "cli": "str-enums"}
     )
