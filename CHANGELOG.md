@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/nth-bailey/pyxsdata/compare/1.10.0...1.11.0) (2026-09-18)
+
+
+### Features
+
+* **codegen:** add [@generated](https://github.com/generated) tag and custom_header configuration ([0eec931](https://github.com/nth-bailey/pyxsdata/commit/0eec931ac23174490fe1cde13d57cfb75b60c998))
+
 # [1.10.0](https://github.com/nth-bailey/pyxsdata/compare/1.9.0...1.10.0) (2026-09-17)
 
 
