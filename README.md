@@ -12,7 +12,7 @@
 
 <p align="center">
   <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/pypi/v/pyxsdata.svg?logo=pypi&label=PyPI" alt="PyPI"></a>
-  <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14-3776AB.svg?logo=python&logoColor=white" alt="Python 3.12+"></a>
+  <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14%20%7C%203.15-3776AB.svg?logo=python&logoColor=white" alt="Python 3.12+"></a>
   <a href="https://docs.pydantic.dev/"><img src="https://img.shields.io/badge/Pydantic-v2-E92063.svg?logo=pydantic&logoColor=white" alt="Pydantic v2"></a>
   <a href="https://nth-bailey.github.io/pyxsdata/"><img src="https://img.shields.io/badge/AI_%26_LLM-Ready-FF6F00.svg?logo=openai&logoColor=white" alt="AI & LLM Ready"></a>
   <a href="https://github.com/nth-bailey/PolyXML"><img src="https://img.shields.io/badge/acceleration-Rust_PolyXML-DEA584?logo=rust&logoColor=white" alt="Rust PolyXML"></a>

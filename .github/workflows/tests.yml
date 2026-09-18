@@ -17,6 +17,7 @@ jobs:
           - {name: Python 3.12, python: '3.12'}
           - {name: Python 3.13, python: '3.13'}
           - {name: Python 3.14, python: '3.14'}
+          - {name: Python 3.15, python: '3.15'}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -32,7 +33,7 @@ jobs:
       - name: Test
         run: |
           pytest --cov=./pyxsdata --cov-report=term-missing:skip-covered --cov-branch --doctest-glob="docs/*.md"
-        continue-on-error: ${{ matrix.python == '3.14' }}
+        continue-on-error: ${{ matrix.python == '3.14' || matrix.python == '3.15' }}
       - name: Generate Coverage Summary
         if: matrix.python == '3.12'
         run: |
