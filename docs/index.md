@@ -29,6 +29,10 @@ dealing directly with the DOM.
 
     **pyxsdata** is an actively maintained, modernized fork of [`xsdata`](https://github.com/tefra/xsdata) designed exclusively for Python 3.12+. It consolidates ecosystem extensions like `xsdata-pydantic` directly into the unified core, introduces native Rust **PolyXML** zero-copy acceleration, ultra-fast C++ **pugixml** pull-parsing support, leverages modern PEP 695 generics, and is built with modern tooling ([uv](https://github.com/astral-sh/uv), [ty](https://docs.astral.sh/ty/), and [ruff](https://docs.astral.sh/ruff/)).
 
+!!! tip "Looking for Next-Generation Multi-Language Tooling? Check out PolyXML"
+
+    For greenfield projects, microsecond-latency telemetry, or polyglot architectures (Python, Rust, C++, Java, TypeScript, Go, C#), we recommend **[PolyXML](https://github.com/nth-bailey/PolyXML)**—a unified safe-Rust compiler (`protoc` for XML) and streaming runtime executing 10x–24x faster with zero intermediate DOM allocations and architectural immunity to XXE vulnerabilities.
+
 ---
 
 ## ⚡ Quick Start

@@ -21,6 +21,18 @@
 
 ---
 
+> [!TIP]
+>
+> ### 🚀 Looking for the Next Generation? Check out [PolyXML](https://github.com/nth-bailey/PolyXML)
+>
+> While `pyxsdata` is an actively maintained Python 3.12+ modernization of `xsdata`, for
+> new projects, high-throughput microsecond streaming, or polyglot architectures
+> (Python, Rust, C++, Java, TypeScript, Go, C#), we strongly recommend
+> **[PolyXML](https://github.com/nth-bailey/PolyXML)**—a unified safe-Rust compiler and
+> streaming runtime executing **10x–24x faster** with zero intermediate DOM overhead,
+> native XML ↔ JSON transcoding, and inherent structural immunity to XXE vulnerabilities
+> (CWE-611).
+
 pyxsdata is a complete, modern data binding library for Python 3.12+ allowing developers
 to access and use XML and JSON documents as simple objects rather than using DOM.
 
@@ -286,6 +298,27 @@ Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more ✨�
   zero-bloat OpenAI, Anthropic, and Gemini Structured Outputs
 - Seamless round-trip validation from lean LLM outputs back into enterprise XML
   serializers
+
+## 🚀 Next-Generation XML Architecture: Moving to PolyXML
+
+For teams building new services or seeking maximum throughput, we recommend evaluating
+**[PolyXML](https://github.com/nth-bailey/PolyXML)**—the standalone safe-Rust schema
+compiler and streaming runtime:
+
+- **Unified Schema Compiler (`polyxml`)**: Compiles W3C XML Schema (XSD 1.0 & 1.1) into
+  strongly typed data models across **7 modern languages** (Python, Rust, C++20, Java
+  21+, TypeScript, Go, and C# 12).
+- **10x–24x Faster Python Codecs**: Direct Rust-to-struct streaming via PyO3, executing
+  at **3.2 µs per telemetry packet** and up to **23.5x faster serialization** than
+  standard Python data binding.
+- **Structural Immunity to XXE (CWE-611)**: Pure-Rust non-validating pull engine with
+  zero filesystem or network capabilities, completely eliminating XML External Entity
+  Injection by design.
+- **Zero-Copy Transcoder**: Bidirectional CLI and runtime streaming converter
+  (`polyxml transcode`) between XML and JSON without intermediate DOM overhead.
+- **Permissive MIT License**: 100% open source with zero commercial licensing paywalls.
+
+👉 **[Get Started with PolyXML →](https://github.com/nth-bailey/PolyXML)**
 
 ## Changelog: 0.0.0
 

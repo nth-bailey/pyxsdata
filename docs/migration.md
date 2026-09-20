@@ -217,3 +217,40 @@ parser = XmlParser(config=config)
 When generating models where optional fields receive `None` defaults in Python,
 `pyxsdata` preserves the original XML Schema default value in field
 `metadata={"default": ...}` for seamless introspection and downstream schema validation.
+
+---
+
+## 🚀 Moving to PolyXML (Next-Generation XML Architecture)
+
+If you are beginning a greenfield project, require cross-language data contracts, or
+need extreme parsing performance, we strongly recommend evaluating
+**[PolyXML](https://github.com/nth-bailey/PolyXML)**.
+
+### Why PolyXML?
+
+| Dimension                 | `pyxsdata`                                   | `PolyXML`                                                                  |
+| :------------------------ | :------------------------------------------- | :------------------------------------------------------------------------- |
+| **Language Ecosystem**    | Python 3.12+ exclusively                     | **7 Languages** (Python, Rust, C++20, Java 21+, TypeScript, Go, C# 12)     |
+| **Compiler Engine**       | Python AST code generator                    | **Single-binary safe Rust compiler** (`protoc` for XML)                    |
+| **Parsing Engine**        | Python interpreter loop / C++ / Rust hook    | **Zero-allocation monomorphized Rust streaming runtime**                   |
+| **Throughput & Latency**  | ~300k objs/s with `pyxsdata[core]`           | **10x–24x faster than pure Python**, 3.2 µs telemetry packet latency       |
+| **Security (XXE / SSRF)** | Relies on backend flags (e.g. `lxml` config) | **Structurally immune by design** (pure Rust, zero filesystem/network I/O) |
+| **JSON Interchange**      | Separate serializers / JSON converters       | **Zero-copy streaming XML ↔ JSON transcoder** (`polyxml transcode`)        |
+
+### When to stay with `pyxsdata`:
+
+- Existing codebases heavily integrated with `xsdata`'s legacy handler architecture,
+  custom plugins, or WSDL/SOAP webservices.
+- Workflows that require fine-grained dynamic AST manipulation in pure Python.
+
+### When to migrate to `PolyXML`:
+
+- Projects processing gigabytes of XML data or high-frequency telemetry where Python CPU
+  overhead is a bottleneck.
+- Polyglot organizations needing identical, synchronized schema data contracts across
+  multiple services (e.g. Python microservice + Rust engine + Java backend + TypeScript
+  UI).
+- Environments requiring rock-solid, zero-configuration security against XXE attacks.
+
+👉
+**[Explore the PolyXML Documentation & Quickstart →](https://nth-bailey.github.io/PolyXML/)**
