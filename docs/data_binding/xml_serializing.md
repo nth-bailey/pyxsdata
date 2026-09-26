@@ -304,7 +304,7 @@ choices.
 ## Native High-Throughput Serializer (`CoreXmlSerializer`)
 
 For high-throughput applications, `pyxsdata` provides `CoreXmlSerializer`, powered by
-the native Rust [PolyXML](https://github.com/nth-bailey/PolyXML) engine. It eliminates
+the native Rust [PolyXML](https://github.com/polyxml/PolyXML) engine. It eliminates
 intermediate Python SAX event tuples and streams XML directly in Rust, running **12× to
 15× faster** than `lxml` on complex namespaced payloads.
 

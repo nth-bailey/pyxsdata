@@ -107,9 +107,9 @@ high-throughput XML feeds, message queues, or massive bulk files:
 
 #### Option A: Native Rust Core Engine (`PolyXML`)
 
-The `core` extra leverages [`PolyXML`](https://github.com/nth-bailey/PolyXML), a
-zero-copy Rust extension that bypasses intermediate Python DOM trees and instantiates
-models directly via C-API at **~300,000+ objects/sec** (up to **15x faster** than legacy
+The `core` extra leverages [`PolyXML`](https://github.com/polyxml/PolyXML), a zero-copy
+Rust extension that bypasses intermediate Python DOM trees and instantiates models
+directly via C-API at **~300,000+ objects/sec** (up to **15x faster** than legacy
 `xsdata`):
 
 ```console
@@ -224,7 +224,7 @@ When generating models where optional fields receive `None` defaults in Python,
 
 If you are beginning a greenfield project, require cross-language data contracts, or
 need extreme parsing performance, we strongly recommend evaluating
-**[PolyXML](https://github.com/nth-bailey/PolyXML)**.
+**[PolyXML](https://github.com/polyxml/PolyXML)**.
 
 ### Why PolyXML?
 

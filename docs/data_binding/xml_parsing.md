@@ -148,7 +148,7 @@ native python that vary in performance and features.
 
 ### PolyXML (Rust Core)
 
-Using [`PolyXML`](https://github.com/nth-bailey/PolyXML) via
+Using [`PolyXML`](https://github.com/polyxml/PolyXML) via
 [`CoreEventHandler`][pyxsdata.formats.dataclass.parsers.handlers.CoreEventHandler] or
 [`CoreXmlParser`][pyxsdata.formats.dataclass.parsers.CoreXmlParser] for zero-copy native
 Rust parsing at **~300,000+ objects/second** (up to 15x faster than legacy `xsdata`):

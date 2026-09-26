@@ -21,7 +21,7 @@ parser backends depending on your performance, memory, and feature requirements.
 
 ## 1. Native Rust Core (`CoreEventHandler` / `CoreXmlParser` / `CoreXmlSerializer`)
 
-The `core` backend is powered by [`PolyXML`](https://github.com/nth-bailey/PolyXML), a
+The `core` backend is powered by [`PolyXML`](https://github.com/polyxml/PolyXML), a
 dedicated native extension built with [PyO3](https://pyo3.rs) and
 [`quick-xml`](https://github.com/tafia/quick-xml). It bypasses Python intermediate DOM
 trees and event queues entirely, converting XML tokens directly into Python dataclass

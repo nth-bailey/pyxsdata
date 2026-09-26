@@ -14,7 +14,7 @@
   <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/pypi/v/pyxsdata.svg?logo=pypi&label=PyPI" alt="PyPI"></a>
   <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14%20%7C%203.15-3776AB.svg?logo=python&logoColor=white" alt="Python 3.12+"></a>
   <a href="https://docs.pydantic.dev/"><img src="https://img.shields.io/badge/Pydantic-v2-E92063.svg?logo=pydantic&logoColor=white" alt="Pydantic v2"></a>
-  <a href="https://github.com/nth-bailey/PolyXML"><img src="https://img.shields.io/badge/acceleration-Rust_PolyXML-DEA584?logo=rust&logoColor=white" alt="Rust PolyXML"></a>
+  <a href="https://github.com/polyxml/PolyXML"><img src="https://img.shields.io/badge/acceleration-Rust_PolyXML-DEA584?logo=rust&logoColor=white" alt="Rust PolyXML"></a>
   <a href="https://github.com/nth-bailey/pyxsdata/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?logo=github" alt="PRs Welcome"></a>
 </p>
 
@@ -31,7 +31,7 @@ dealing directly with the DOM.
 
 !!! tip "Looking for Next-Generation Multi-Language Tooling? Check out PolyXML"
 
-    For greenfield projects, microsecond-latency telemetry, or polyglot architectures (Python, Rust, C++, Java, TypeScript, Go, C#), we recommend **[PolyXML](https://github.com/nth-bailey/PolyXML)**—a unified safe-Rust compiler (`protoc` for XML) and streaming runtime executing 10x–24x faster with zero intermediate DOM allocations and architectural immunity to XXE vulnerabilities.
+    For greenfield projects, microsecond-latency telemetry, or polyglot architectures (Python, Rust, C++, Java, TypeScript, Go, C#), we recommend **[PolyXML](https://github.com/polyxml/PolyXML)**—a unified safe-Rust compiler (`protoc` for XML) and streaming runtime executing 10x–24x faster with zero intermediate DOM allocations and architectural immunity to XXE vulnerabilities.
 
 ---
 

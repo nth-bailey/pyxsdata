@@ -15,7 +15,7 @@
   <a href="https://pypi.org/project/pyxsdata/"><img src="https://img.shields.io/badge/Python-3.12%20%7C%203.13%20%7C%203.14%20%7C%203.15-3776AB.svg?logo=python&logoColor=white" alt="Python 3.12+"></a>
   <a href="https://docs.pydantic.dev/"><img src="https://img.shields.io/badge/Pydantic-v2-E92063.svg?logo=pydantic&logoColor=white" alt="Pydantic v2"></a>
   <a href="https://nth-bailey.github.io/pyxsdata/"><img src="https://img.shields.io/badge/AI_%26_LLM-Ready-FF6F00.svg?logo=openai&logoColor=white" alt="AI & LLM Ready"></a>
-  <a href="https://github.com/nth-bailey/PolyXML"><img src="https://img.shields.io/badge/acceleration-Rust_PolyXML-DEA584?logo=rust&logoColor=white" alt="Rust PolyXML"></a>
+  <a href="https://github.com/polyxml/PolyXML"><img src="https://img.shields.io/badge/acceleration-Rust_PolyXML-DEA584?logo=rust&logoColor=white" alt="Rust PolyXML"></a>
   <a href="https://github.com/nth-bailey/pyxsdata/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?logo=github" alt="PRs Welcome"></a>
 </p>
 
@@ -23,12 +23,12 @@
 
 > [!TIP]
 >
-> ### 🚀 Looking for the Next Generation? Check out [PolyXML](https://github.com/nth-bailey/PolyXML)
+> ### 🚀 Looking for the Next Generation? Check out [PolyXML](https://github.com/polyxml/PolyXML)
 >
 > While `pyxsdata` is an actively maintained Python 3.12+ modernization of `xsdata`, for
 > new projects, high-throughput microsecond streaming, or polyglot architectures
 > (Python, Rust, C++, Java, TypeScript, Go, C#), we strongly recommend
-> **[PolyXML](https://github.com/nth-bailey/PolyXML)**—a unified safe-Rust compiler and
+> **[PolyXML](https://github.com/polyxml/PolyXML)**—a unified safe-Rust compiler and
 > streaming runtime executing **10x–24x faster** with zero intermediate DOM overhead,
 > native XML ↔ JSON transcoding, and inherent structural immunity to XXE vulnerabilities
 > (CWE-611).
@@ -79,7 +79,7 @@ actively maintained with modern tooling.
 `pyxsdata` provides a decoupled, event-driven deserialization architecture supporting
 multiple parser backends. You can freely choose between zero-dependency standard library
 execution, C/C++ acceleration, or native Rust parsing and serialization via
-[`PolyXML`](https://github.com/nth-bailey/PolyXML).
+[`PolyXML`](https://github.com/polyxml/PolyXML).
 
 ### Deserialization Benchmarks (Standard Python `@dataclass`)
 
@@ -302,7 +302,7 @@ Check the [documentation](https://nth-bailey.github.io/pyxsdata/) for more ✨�
 ## 🚀 Next-Generation XML Architecture: Moving to PolyXML
 
 For teams building new services or seeking maximum throughput, we recommend evaluating
-**[PolyXML](https://github.com/nth-bailey/PolyXML)**—the standalone safe-Rust schema
+**[PolyXML](https://github.com/polyxml/PolyXML)**—the standalone safe-Rust schema
 compiler and streaming runtime:
 
 - **Unified Schema Compiler (`polyxml`)**: Compiles W3C XML Schema (XSD 1.0 & 1.1) into
@@ -318,7 +318,7 @@ compiler and streaming runtime:
   (`polyxml transcode`) between XML and JSON without intermediate DOM overhead.
 - **Permissive MIT License**: 100% open source with zero commercial licensing paywalls.
 
-👉 **[Get Started with PolyXML →](https://github.com/nth-bailey/PolyXML)**
+👉 **[Get Started with PolyXML →](https://github.com/polyxml/PolyXML)**
 
 ## Changelog: 0.0.0
 
